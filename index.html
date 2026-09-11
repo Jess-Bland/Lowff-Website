@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#004FFF"/><text x="50" y="60" font-family="Space Grotesk, sans-serif" font-size="26" font-weight="600" fill="#FFF" text-anchor="middle">LOWFF</text></svg></template>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  }
+  body { background: #F4F4F2; font-family: 'Inter', system-ui, sans-serif; color: #0B0B0C; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+  *, *::before, *::after { box-sizing: border-box; }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: #004FFF; }
+  button { font-family: inherit; }
+  .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 20px; border-radius: 2px; border: 1px solid transparent; font-weight: 500; font-size: 14px; cursor: pointer; transition: background-color .12s, color .12s, border-color .12s; text-decoration: none; }
+  .btn-primary { background: #0B0B0C; color: #FFF; }
+  .btn-primary:hover { background: #004FFF; color: #FFF; }
+  .btn-primary:disabled { background: #B8B8B4; cursor: not-allowed; }
+  .btn-secondary { background: #FFF; color: #0B0B0C; border-color: #0B0B0C; }
+  .btn-secondary:hover { background: #0B0B0C; color: #FFF; }
+  .btn-onphoto { background: #FFF; color: #0B0B0C; }
+  .btn-onphoto:hover { background: #004FFF; color: #FFF; }
+  .btn-ghost { background: transparent; color: #FFF; border-color: #FFF; }
+  .btn-ghost:hover { background: #FFF; color: #0B0B0C; }
+  .btn-icon { width: 44px; height: 44px; padding: 0; border-radius: 999px; background: transparent; border-color: transparent; color: inherit; }
+  .btn-icon:hover { background: rgba(0,0,0,0.06); }
+  .btn:focus-visible, a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 2px solid #004FFF; outline-offset: 2px; border-radius: 2px; }
+  .skip-link { position: absolute; left: 8px; top: -60px; background: #0B0B0C; color: #FFF; padding: 10px 14px; z-index: 200; font-weight: 500; font-size: 14px; }
+  .skip-link:focus { top: 8px; color: #FFF; }
+  .link-inline { color: #004FFF; text-decoration: underline; text-underline-offset: 3px; }
+
+  /* Header */
+  .hdr { position: sticky; top: 0; z-index: 30; background: #FFF; border-bottom: 1px solid #E6E6E2; display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; gap: 8px; }
+  .hdr-brand { display: flex; align-items: center; gap: 8px; }
+  .hdr-brand img { height: 20px; }
+  .hdr-nav { display: none; gap: 24px; margin-left: 24px; }
+  .hdr-nav a { font-weight: 500; font-size: 14px; padding: 8px 0; border-bottom: 1px solid transparent; }
+  .hdr-nav a:hover, .hdr-nav a.on { border-bottom-color: #0B0B0C; color: #0B0B0C; }
+  .hdr-utils { display: flex; align-items: center; gap: 2px; position: relative; }
+  .hdr-utils .bag-dot { position: absolute; top: 4px; right: 4px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; background: #004FFF; color: #FFF; font-size: 10px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; pointer-events: none; }
+  @media (min-width: 900px) {
+    .hdr { padding: 14px 32px; }
+    .hdr-nav { display: flex; }
+    .hdr-brand img { height: 22px; }
+    .hdr-menu-btn { display: none; }
+  }
+
+  /* Mobile menu drawer */
+  .menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 50; }
+  .menu { position: fixed; top: 0; left: 0; bottom: 0; width: min(88%, 340px); background: #FFF; z-index: 51; display: flex; flex-direction: column; box-shadow: 20px 0 40px rgba(0,0,0,0.16); overflow-y: auto; }
+  .menu-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid #E6E6E2; }
+  .menu-links { padding: 8px 16px; }
+  .menu-links a { display: block; padding: 14px 4px; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 22px; letter-spacing: -0.01em; border-bottom: 1px solid #F4F4F2; }
+  .menu-secondary { padding: 16px; margin-top: auto; border-top: 1px solid #E6E6E2; display: flex; flex-direction: column; gap: 6px; }
+  .menu-secondary a { font-size: 14px; padding: 8px 4px; color: #3A3A3C; }
+
+  /* Search overlay */
+  .search-overlay { position: fixed; inset: 0; background: rgba(11,11,12,0.5); z-index: 60; display: flex; align-items: flex-start; justify-content: center; padding: 60px 16px 16px; }
+  .search-panel { width: 100%; max-width: 640px; background: #FFF; border: 1px solid #E6E6E2; box-shadow: 0 24px 60px rgba(0,0,0,0.24); }
+  .search-input-row { display: flex; align-items: center; padding: 12px 14px; gap: 10px; border-bottom: 1px solid #E6E6E2; }
+  .search-input-row svg { color: #6B6B6E; flex-shrink: 0; }
+  .search-input-row input { flex: 1; border: 0; outline: 0; font: 500 15px 'Inter', sans-serif; background: transparent; min-width: 0; }
+  .search-panel-body { padding: 12px 4px 16px; max-height: 60vh; overflow-y: auto; }
+  .search-hit { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 12px; padding: 8px 14px; align-items: center; }
+  .search-hit:hover { background: #F4F4F2; }
+  .search-hit img { width: 48px; height: 60px; object-fit: cover; }
+
+  /* Layout */
+  main { min-height: calc(100vh - 60px); }
+  .page { padding: 20px 16px 40px; }
+  @media (min-width: 900px) { .page { padding: 32px 40px 64px; } }
+  .breadcrumbs { font-size: 12px; color: #6B6B6E; display: flex; gap: 6px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+
+  /* Hero */
+  .hero { position: relative; overflow: hidden; aspect-ratio: 4/5; margin: 0 0 20px; color: #FFF; }
+  .hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+  .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.75) 100%); }
+  .hero-body { position: absolute; z-index: 2; left: 20px; right: 20px; bottom: 24px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 500; opacity: 0.9; }
+  .hero-title { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(36px, 8vw, 84px); line-height: 0.98; letter-spacing: -0.025em; margin: 0; max-width: 14ch; }
+  .hero-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
+  @media (min-width: 900px) { .hero { margin: 0 0 40px; aspect-ratio: 21/9; } }
+
+  /* Section rhythm */
+  .sec { padding: 40px 0; }
+  @media (min-width: 900px) { .sec { padding: 64px 0; } }
+  .sec-h { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+  .sec-h .eyebrow { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #6B6B6E; font-weight: 500; margin-bottom: 6px; }
+  .sec-h h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(24px, 4vw, 40px); letter-spacing: -0.02em; margin: 0; line-height: 1; }
+  .link-standalone { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; font-size: 14px; padding: 6px 2px; border-bottom: 1px solid #0B0B0C; }
+  .link-standalone:hover { color: #004FFF; border-bottom-color: #004FFF; }
+
+  /* Product grid */
+  .pc-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  @media (min-width: 640px) { .pc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 1100px) { .pc-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  /* Home 3-across rail (Women's New) — 3 equal columns on tablet+ */
+  .pc-grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  @media (max-width: 767px) {
+    .pc-grid-3 { display: grid; grid-auto-flow: column; grid-auto-columns: 78%; grid-template-columns: none; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 4px 12px; margin: 0 -16px; padding-left: 16px; padding-right: 24px; scrollbar-width: none; }
+    .pc-grid-3::-webkit-scrollbar { display: none; }
+    .pc-grid-3 > * { scroll-snap-align: start; }
+  }
+  .pc { display: block; color: inherit; }
+  .pc-media { aspect-ratio: 4/5; background: #F4F4F2; overflow: hidden; }
+  .pc-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+  .pc:hover .pc-media img { transform: scale(1.02); }
+  .pc-body { padding: 10px 2px; }
+  .pc-name { font-weight: 500; font-size: 14px; line-height: 1.3; }
+  .pc-price { font-size: 13px; margin-top: 2px; }
+  .pc-sw { display: flex; gap: 6px; margin-top: 6px; }
+  .pc-sw span { width: 12px; height: 12px; border-radius: 999px; border: 1px solid #E6E6E2; }
+
+  /* Home: Flow State collection feature */
+  .fs-section {
+    margin: 40px -16px 0;
+    padding: 48px 20px 56px;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(70% 60% at 10% 15%, rgba(47, 99, 176, 0.42) 0%, rgba(47, 99, 176, 0) 60%),
+      radial-gradient(75% 60% at 90% 90%, rgba(200, 180, 138, 0.55) 0%, rgba(200, 180, 138, 0) 60%),
+      radial-gradient(50% 40% at 60% 30%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 60%),
+      linear-gradient(160deg, #DDE6F2 0%, #E8DDCA 100%);
+  }
+  .fs-section::before, .fs-section::after {
+    content: ""; position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; z-index: 0;
+  }
+  .fs-section::before { width: 320px; height: 320px; background: #2F63B0; opacity: 0.28; top: -80px; left: -80px; }
+  .fs-section::after  { width: 280px; height: 280px; background: #C8B48A; opacity: 0.45; bottom: -80px; right: -60px; }
+  .fs-inner { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; align-items: center; max-width: 1200px; margin: 0 auto; }
+  .fs-art-col { display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+  .fs-art { width: 100%; height: auto; display: block; }
+  .fs-copy { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+  .fs-copy .fs-eyebrow { font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 500; color: #3A3A3C; }
+  .fs-copy .fs-line { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(20px, 2.4vw, 28px); letter-spacing: -0.02em; line-height: 1.2; margin: 0; color: #0B0B0C; max-width: 22ch; }
+  .fs-photo { aspect-ratio: 4/5; overflow: hidden; background: #0B0B0C; }
+  .fs-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+  @media (min-width: 900px) {
+    .fs-section { margin: 56px -40px 0; padding: 64px 48px; }
+    .fs-inner { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+    .fs-art-col { max-width: 640px; }
+    .fs-art { max-width: 600px; width: 100%; }
+    .fs-photo { aspect-ratio: auto; height: 100%; min-height: 460px; }
+  }
+
+  /* Home: Men's single-product feature */
+  .mens-feature { display: grid; grid-template-columns: 1fr; gap: 20px; color: inherit; align-items: stretch; }
+  .mens-feature-img { background: #F4F4F2; aspect-ratio: 4/5; overflow: hidden; }
+  .mens-feature-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+  .mens-feature:hover .mens-feature-img img { transform: scale(1.02); }
+  .mens-feature-body { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; padding: 8px 2px; }
+  .mens-feature-name { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(24px, 3vw, 34px); letter-spacing: -0.02em; margin: 4px 0 0; line-height: 1.05; }
+  .mens-feature-price { font-size: 18px; font-weight: 500; }
+  .mens-feature-desc { font-size: 14px; color: #3A3A3C; line-height: 1.6; margin: 0; max-width: 40ch; }
+  @media (min-width: 900px) {
+    .mens-feature { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: center; }
+    .mens-feature-img { aspect-ratio: 4/5; max-height: 560px; }
+    .mens-feature-body { padding: 0 8px; }
+  }
+
+  /* Home: Flow State collection feature (legacy — unused) */
+  .collection-feature-legacy { display: none; }
+
+  /* Collection tile */
+  .col-tile { position: relative; overflow: hidden; color: #FFF; display: block; aspect-ratio: 4/5; }
+  @media (min-width: 900px) { .col-tile { aspect-ratio: 3/4; } }
+  .col-tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+  .col-tile:hover img { transform: scale(1.03); }
+  .col-tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.7) 100%); }
+  .col-body { position: absolute; z-index: 2; left: 20px; right: 20px; bottom: 20px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+  .col-title { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(24px, 3vw, 40px); line-height: 1; letter-spacing: -0.02em; margin: 0; }
+  .col-tile .link-standalone { color: #FFF; border-bottom-color: #FFF; }
+  .col-two { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 900px) { .col-two { grid-template-columns: 1.4fr 1fr; } }
+
+  /* Community grid */
+  .comm { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .comm > * { aspect-ratio: 1/1; overflow: hidden; }
+  .comm img { width: 100%; height: 100%; object-fit: cover; }
+  @media (min-width: 900px) { .comm { grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; height: 560px; }
+    .comm > *:first-child { grid-row: span 2; aspect-ratio: auto; } .comm > * { aspect-ratio: auto; } }
+
+  /* Footer */
+  footer.foot { background: #0B0B0C; color: #FFF; padding: 40px 16px 24px; }
+  @media (min-width: 900px) { footer.foot { padding: 56px 40px 28px; } }
+  .foot a { color: #FFF; }
+  .foot a:hover { color: #004FFF; }
+  .foot-top { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+  @media (min-width: 900px) { .foot-top { grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 32px; } }
+  .foot-brand { grid-column: 1 / -1; }
+  @media (min-width: 900px) { .foot-brand { grid-column: auto; } }
+  .foot-brand img { height: 24px; margin-bottom: 12px; }
+  .foot-brand p { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 18px; line-height: 1.15; letter-spacing: -0.01em; max-width: 22ch; margin: 0; }
+  .foot h5 { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; margin: 0 0 12px; color: rgba(255,255,255,0.7); }
+  .foot ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+  .foot-bottom { padding-top: 20px; font-size: 12px; color: rgba(255,255,255,0.6); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+  /* ============ LISTING ============ */
+  .plp-hd { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+  .plp-hd h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(28px, 4vw, 44px); letter-spacing: -0.02em; margin: 0; line-height: 1; }
+  .plp-hd p { margin: 6px 0 0; font-size: 14px; color: #3A3A3C; max-width: 44ch; }
+  .plp-toolbar { display: flex; gap: 8px; justify-content: space-between; align-items: center; padding: 12px 0; border-top: 1px solid #E6E6E2; border-bottom: 1px solid #E6E6E2; margin-bottom: 16px; flex-wrap: wrap; }
+  .tb-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 12px; background: #FFF; border: 1px solid #0B0B0C; border-radius: 2px; font-weight: 500; font-size: 13px; cursor: pointer; }
+  .tb-btn:hover { background: #F4F4F2; }
+  .count { font-size: 13px; color: #6B6B6E; }
+  .chip-filter { display: inline-flex; align-items: center; gap: 6px; padding: 4px 6px 4px 12px; background: #FFF; border: 1px solid #0B0B0C; border-radius: 999px; font-size: 12px; }
+  .chip-filter button { background: transparent; border: 0; cursor: pointer; padding: 4px; display: inline-flex; align-items: center; color: inherit; }
+  .chip-filter button:hover { color: #7A0B0B; }
+  .plp-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+  .plp-clear { font-size: 12px; font-weight: 500; text-decoration: underline; background: transparent; border: 0; cursor: pointer; padding: 4px; color: #0B0B0C; }
+  .plp-clear:hover { color: #004FFF; }
+  .plp-body { display: grid; grid-template-columns: 1fr; gap: 24px; }
+  @media (min-width: 900px) { .plp-body { grid-template-columns: 220px minmax(0, 1fr); gap: 32px; } .plp-toolbar { padding: 14px 0; } .plp-mobile-only { display: none !important; } }
+  @media (max-width: 899px) { .plp-desktop-only { display: none !important; } }
+
+  .facets { display: flex; flex-direction: column; }
+  .facet { border-top: 1px solid #E6E6E2; padding: 12px 0; }
+  .facet:first-child { border-top: 0; padding-top: 0; }
+  .facet:last-child { border-bottom: 1px solid #E6E6E2; }
+  .facet-h { font-weight: 500; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+  .facet-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .facet-check { display: flex; align-items: center; gap: 10px; padding: 8px 2px; font-size: 14px; cursor: pointer; user-select: none; }
+  .facet-check input { position: absolute; opacity: 0; }
+  .facet-check .box { width: 20px; height: 20px; border: 1.5px solid #0B0B0C; background: #FFF; display: inline-flex; align-items: center; justify-content: center; border-radius: 2px; flex-shrink: 0; }
+  .facet-check input:checked + .box { background: #0B0B0C; color: #FFF; }
+  .facet-check input:focus-visible + .box { outline: 2px solid #004FFF; outline-offset: 2px; }
+  .facet-check .box svg { display: none; }
+  .facet-check input:checked + .box svg { display: block; }
+  .facet-check .n { margin-left: auto; color: #6B6B6E; font-size: 13px; }
+
+  .size-chip { min-width: 44px; height: 44px; padding: 0 12px; border: 1px solid #0B0B0C; background: #FFF; font-weight: 500; font-size: 14px; cursor: pointer; border-radius: 2px; }
+  .size-chip:hover { background: #F4F4F2; }
+  .size-chip.on { background: #0B0B0C; color: #FFF; }
+  .swatch-btn { display: inline-flex; flex-direction: column; align-items: center; gap: 4px; background: transparent; border: 0; padding: 4px; cursor: pointer; }
+  .swatch-btn .dot { width: 28px; height: 28px; border-radius: 999px; border: 1px solid #E6E6E2; }
+  .swatch-btn.on .dot { outline: 2px solid #0B0B0C; outline-offset: 2px; }
+  .swatch-btn .lbl { font-size: 11px; color: #3A3A3C; }
+
+  /* Mobile filter drawer */
+  .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 50; }
+  .drawer-r { position: fixed; top: 0; right: 0; bottom: 0; width: min(92%, 380px); background: #FFF; z-index: 51; display: flex; flex-direction: column; box-shadow: -20px 0 40px rgba(0,0,0,0.16); }
+  .drawer-l { position: fixed; top: 0; left: 0; bottom: 0; width: min(92%, 420px); background: #FFF; z-index: 51; display: flex; flex-direction: column; box-shadow: 20px 0 40px rgba(0,0,0,0.16); }
+  .drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid #E6E6E2; }
+  .drawer-head h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 20px; margin: 0; letter-spacing: -0.01em; }
+  .drawer-body { padding: 12px 16px; overflow-y: auto; flex: 1; }
+  .drawer-foot { padding: 16px; border-top: 1px solid #E6E6E2; display: flex; gap: 8px; }
+
+  /* Empty state */
+  .empty { text-align: center; padding: 48px 20px; background: #FFF; border: 1px solid #E6E6E2; }
+  .empty h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 20px; margin: 8px 0 6px; letter-spacing: -0.01em; }
+  .empty p { font-size: 14px; color: #3A3A3C; max-width: 40ch; margin: 0 auto; line-height: 1.55; }
+
+  /* ============ PDP ============ */
+  .pdp { display: grid; grid-template-columns: 1fr; gap: 24px; }
+  @media (min-width: 900px) { .pdp { grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: flex-start; } }
+  .gal { display: flex; flex-direction: column; gap: 10px; }
+  .gal-main { aspect-ratio: 4/5; background: #FFF; overflow: hidden; position: relative; }
+  .gal-main img { width: 100%; height: 100%; object-fit: cover; }
+  .gal-thumbs { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 4px; }
+  .gal-thumbs::-webkit-scrollbar { height: 3px; }
+  .gal-thumbs::-webkit-scrollbar-thumb { background: #E6E6E2; }
+  .gal-thumbs button { flex: 0 0 auto; width: 68px; aspect-ratio: 4/5; background: #FFF; border: 1px solid #E6E6E2; padding: 0; cursor: pointer; scroll-snap-align: start; }
+  .gal-thumbs button.on { outline: 2px solid #0B0B0C; outline-offset: 2px; }
+  .gal-thumbs button img { width: 100%; height: 100%; object-fit: cover; }
+  @media (min-width: 900px) {
+    .gal { flex-direction: row; gap: 12px; }
+    .gal-main { flex: 1; }
+    .gal-thumbs { flex-direction: column; overflow-x: visible; overflow-y: auto; max-height: 620px; padding-bottom: 0; padding-right: 4px; order: -1; }
+    .gal-thumbs button { width: 76px; }
+  }
+
+  .info-name { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(24px, 3vw, 36px); line-height: 1.05; letter-spacing: -0.02em; margin: 4px 0; }
+  .info-price { font-size: 18px; font-weight: 500; }
+  .info-eye { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #6B6B6E; font-weight: 500; }
+  .selector { border-top: 1px solid #E6E6E2; padding-top: 16px; margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+  .selector-h { display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+  .selector-h .val { font-weight: 400; letter-spacing: 0; text-transform: none; color: #3A3A3C; font-size: 14px; }
+  .col-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .col-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 4px; background: transparent; border: 0; cursor: pointer; }
+  .col-btn .dot { width: 32px; height: 32px; border-radius: 999px; border: 1px solid #E6E6E2; }
+  .col-btn.on .dot { outline: 2px solid #0B0B0C; outline-offset: 2px; }
+  .col-btn .lbl { font-size: 11px; color: #3A3A3C; }
+  .size-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .size-row .size-chip { min-width: 56px; height: 44px; font-size: 14px; }
+  .buy-row { display: grid; grid-template-columns: 1fr 44px; gap: 8px; margin-top: 4px; }
+  .buy-primary { min-height: 52px; }
+  .wish { width: 44px; height: 52px; border: 1px solid #0B0B0C; background: #FFF; border-radius: 2px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+  .hint { font-size: 12px; color: #6B6B6E; }
+  .hint.err { color: #7A0B0B; }
+
+  details.acc { border-top: 1px solid #E6E6E2; }
+  details.acc:last-of-type { border-bottom: 1px solid #E6E6E2; }
+  details.acc > summary { list-style: none; padding: 14px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 500; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; }
+  details.acc > summary::-webkit-details-marker { display: none; }
+  details.acc > summary::after { content: "+"; font-size: 18px; }
+  details.acc[open] > summary::after { content: "–"; }
+  .acc-body { padding-bottom: 16px; font-size: 14px; line-height: 1.6; color: #3A3A3C; }
+
+  /* Toast */
+  .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: 16px; background: #0B0B0C; color: #FFF; padding: 12px 16px; border-radius: 2px; display: flex; align-items: center; gap: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.24); z-index: 80; max-width: calc(100% - 32px); font-size: 14px; }
+  .toast a, .toast button { color: #FFF; }
+
+  /* Bag */
+  .bag-body { display: grid; grid-template-columns: 1fr; gap: 24px; }
+  @media (min-width: 900px) { .bag-body { grid-template-columns: minmax(0, 1fr) 340px; gap: 40px; align-items: flex-start; } }
+  .line { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; gap: 12px; padding: 14px 0; border-bottom: 1px solid #E6E6E2; }
+  .line-img { width: 72px; aspect-ratio: 4/5; overflow: hidden; background: #F4F4F2; display: block; }
+  .line-img img { width: 100%; height: 100%; object-fit: cover; }
+  .line-name { font-weight: 500; font-size: 14px; }
+  .line-meta { font-size: 12px; color: #6B6B6E; margin-top: 4px; }
+  .line-controls { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+  .qty { display: inline-flex; border: 1px solid #0B0B0C; border-radius: 2px; height: 36px; }
+  .qty button { width: 36px; height: 36px; background: #FFF; border: 0; cursor: pointer; font-size: 16px; font-weight: 500; }
+  .qty button:hover { background: #F4F4F2; }
+  .qty .n { min-width: 28px; text-align: center; font-weight: 500; height: 36px; display: inline-flex; align-items: center; justify-content: center; border-left: 1px solid #E6E6E2; border-right: 1px solid #E6E6E2; padding: 0 4px; }
+  .line-remove { background: transparent; border: 0; cursor: pointer; color: #6B6B6E; font-size: 12px; padding: 4px 2px; text-decoration: underline; }
+  .line-remove:hover { color: #7A0B0B; }
+  .line-price { text-align: right; font-weight: 500; font-size: 14px; }
+  .summary { background: #FFF; border: 1px solid #E6E6E2; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+  .summary h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 18px; margin: 0 0 4px; }
+  .sum-row { display: flex; justify-content: space-between; font-size: 14px; color: #3A3A3C; }
+  .sum-row .val { color: #0B0B0C; }
+  .sum-total { display: flex; justify-content: space-between; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 20px; padding-top: 12px; border-top: 1px solid #E6E6E2; margin-top: 4px; }
+
+  /* Info pages */
+  .info-page { max-width: 720px; margin: 0 auto; }
+  .info-title { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(32px, 5vw, 56px); letter-spacing: -0.02em; line-height: 1; margin: 8px 0 20px; }
+  .prose { font-size: 15px; line-height: 1.7; color: #3A3A3C; }
+  .prose p { margin: 0 0 1em; }
+  .prose h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 20px; letter-spacing: -0.01em; color: #0B0B0C; margin: 28px 0 8px; }
+  .info-tabs { display: flex; gap: 4px; border-bottom: 1px solid #E6E6E2; margin-bottom: 24px; overflow-x: auto; }
+  .info-tabs button { flex: 0 0 auto; padding: 12px 18px; background: transparent; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; font: 500 14px 'Inter', sans-serif; color: #6B6B6E; cursor: pointer; }
+  .info-tabs button.on { color: #0B0B0C; border-bottom-color: #0B0B0C; }
+  .info-tabs button:hover { color: #0B0B0C; }
+
+  /* Contact form */
+  .form { background: #FFF; border: 1px solid #E6E6E2; padding: 24px; display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
+  .form h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 20px; margin: 0; }
+  .form .ribbon { padding: 10px 12px; background: #FFF3E0; border: 1px solid #F0D9AC; color: #7A4A00; font-size: 12px; line-height: 1.5; border-radius: 2px; }
+  .form .ribbon b { font-weight: 600; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-size: 13px; font-weight: 500; }
+  .field input, .field select, .field textarea { font: 500 14px 'Inter', sans-serif; padding: 12px 14px; border: 1.5px solid #0B0B0C; border-radius: 2px; background: #FFF; min-height: 44px; color: #0B0B0C; }
+  .field input::placeholder, .field textarea::placeholder { color: #6B6B6E; }
+  .field textarea { min-height: 120px; resize: vertical; line-height: 1.5; }
+  .field.err input, .field.err textarea, .field.err select { border-color: #7A0B0B; background: #FDECEC; }
+  .field .helptxt { font-size: 12px; color: #6B6B6E; }
+  .field.err .helptxt { color: #7A0B0B; }
+  .form-alert { padding: 12px 14px; border-radius: 2px; font-size: 13px; line-height: 1.5; }
+  .form-alert.ok { background: #FFF3E0; color: #7A4A00; border: 1px solid #F0D9AC; }
+  .form-alert.err { background: #FDECEC; color: #7A0B0B; border: 1px solid #F3C4C4; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spin { animation: spin 0.9s linear infinite; }
+
+  /* Prototype notice at the very bottom (kept minimal, always outside shopper layouts) */
+  .proto-strip { background: #0B0B0C; color: #FFFFFF; font-size: 11px; text-align: center; padding: 8px 12px; letter-spacing: 0.08em; text-transform: uppercase; border-top: 1px solid rgba(255,255,255,0.15); }
+</style>
+</helmet>
+
+<!-- ============ HEADER ============ -->
+<a class="skip-link" href="#" onClick="{{ skipToMain }}">Skip to content</a>
+<header class="hdr" role="banner">
+  <div class="hdr-brand">
+    <button class="btn btn-icon hdr-menu-btn" type="button" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="{{ menuExpanded }}" onClick="{{ openMenu }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <a href="#/home" aria-label="LOWFF home"><img src="uploads/FULL_BLACK%40300x.png" alt="LOWFF"></a>
+    <nav class="hdr-nav" aria-label="Primary">
+      <a href="#/shop?g=men" class="{{ navMen }}">Men's</a>
+      <a href="#/shop?g=women" class="{{ navWomen }}">Women's</a>
+      <a href="#/collections" class="{{ navCollections }}">Collections</a>
+      <a href="#/follow" class="{{ navFollow }}">Follow</a>
+      <a href="#/contact" class="{{ navContact }}">Contact</a>
+    </nav>
+  </div>
+  <div class="hdr-utils">
+    <button class="btn btn-icon" type="button" aria-label="Open search" aria-haspopup="dialog" aria-expanded="{{ searchExpanded }}" onClick="{{ openSearch }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+    <a class="btn btn-icon" href="#/bag" aria-label="Open bag, {{ bagCountAria }}" style="position: relative;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <sc-if value="{{ hasBag }}" hint-placeholder-val="{{ false }}"><span class="bag-dot" aria-hidden="true">{{ bagCount }}</span></sc-if>
+    </a>
+  </div>
+</header>
+
+<!-- Menu drawer -->
+<sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="menu-overlay" onClick="{{ closeMenu }}"></div>
+  <aside class="menu" role="dialog" aria-modal="true" aria-label="Main menu" ref="{{ menuRef }}">
+    <div class="menu-head">
+      <img src="uploads/FULL_BLACK%40300x.png" alt="LOWFF" style="height: 18px;">
+      <button class="btn btn-icon" type="button" aria-label="Close menu" onClick="{{ closeMenu }}"><svg width="16" height="16" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m2 2 8 8M10 2l-8 8"/></svg></button>
+    </div>
+    <div class="menu-links">
+      <a href="#/home" onClick="{{ closeMenu }}">Home</a>
+      <a href="#/shop?g=men" onClick="{{ closeMenu }}">Men's</a>
+      <a href="#/shop?g=women" onClick="{{ closeMenu }}">Women's</a>
+      <a href="#/collections" onClick="{{ closeMenu }}">Collections</a>
+      <a href="#/follow" onClick="{{ closeMenu }}">Follow</a>
+      <a href="#/about" onClick="{{ closeMenu }}">About</a>
+      <a href="#/contact" onClick="{{ closeMenu }}">Contact</a>
+    </div>
+    <div class="menu-secondary">
+      <a href="#/returns" onClick="{{ closeMenu }}">Delivery &amp; returns</a>
+      <a href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Follow @_lowff_</a>
+      <a href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a>
+    </div>
+  </aside>
+</sc-if>
+
+<!-- Search overlay -->
+<sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="search-overlay" onClick="{{ closeSearch }}">
+    <div class="search-panel" onClick="{{ stopProp }}" role="dialog" aria-modal="true" aria-label="Search" ref="{{ searchPanelRef }}">
+      <div class="search-input-row">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input ref="{{ searchInputRef }}" type="text" placeholder="Search LOWFF — dress, tank, skort…" value="{{ searchQ }}" onInput="{{ onSearchInput }}" onKeyDown="{{ onSearchKey }}" aria-label="Search products">
+        <button class="btn btn-icon" type="button" aria-label="Close" onClick="{{ closeSearch }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m2 2 8 8M10 2l-8 8"/></svg></button>
+      </div>
+      <div class="search-panel-body">
+        <sc-if value="{{ searchHasQ }}" hint-placeholder-val="{{ false }}">
+          <div style="padding: 4px 14px 8px; font-size: 12px; color: #6B6B6E;">{{ searchCountLabel }} — press Enter for full results.</div>
+          <sc-for list="{{ searchHits }}" as="p" hint-placeholder-count="0">
+            <a class="search-hit" href="#/product/{{ p.slug }}" onClick="{{ closeSearch }}">
+              <img src="{{ p.img }}" alt="">
+              <div><div class="line-name">{{ p.name }}</div><div class="line-meta">{{ p.cat }}</div></div>
+              <div class="line-price">{{ p.priceLabel }}</div>
+            </a>
+          </sc-for>
+          <sc-if value="{{ searchEmpty }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 20px 14px; font-size: 14px; color: #3A3A3C;">No products match "{{ searchQ }}". Try "flow", "dress" or "tank".</div>
+          </sc-if>
+        </sc-if>
+        <sc-if value="{{ searchNoQ }}" hint-placeholder-val="{{ true }}">
+          <div style="padding: 12px 14px; font-size: 13px; color: #3A3A3C; line-height: 1.55;">Start typing to search 4 Flow State products.</div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<!-- Toast -->
+<sc-if value="{{ toastShown }}" hint-placeholder-val="{{ false }}">
+  <div class="toast" role="status" aria-live="polite">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m4 12 5 5L20 6"/></svg>
+    <span>{{ toastText }}</span>
+    <a href="#/bag" class="btn btn-onphoto" style="min-height: 32px; padding: 0 10px; font-size: 12px;">View bag</a>
+  </div>
+</sc-if>
+
+<main id="main-content" tabIndex="-1">
+
+<!-- ============ HOME ============ -->
+<sc-if value="{{ showHome }}" hint-placeholder-val="{{ true }}">
+  <div class="page" style="padding: 0;">
+    <section class="hero">
+      <img src="https://lowff.co.uk/wp-content/uploads/2025/11/CARO-PIC-MAIN%40300x-1-scaled.png" alt="LOWFF Flow State campaign photograph">
+      <div class="hero-body">
+        <div class="hero-eyebrow">The Collection · Flow State</div>
+        <h1 class="hero-title">Made for the movement.</h1>
+        <div class="hero-ctas">
+          <a class="btn btn-onphoto" href="#/shop?g=women">Shop Women</a>
+          <a class="btn btn-ghost" href="#/shop?g=men">Shop Men</a>
+        </div>
+      </div>
+    </section>
+
+    <div style="padding: 0 16px;">
+    <section class="sec">
+      <div class="sec-h">
+        <div><div class="eyebrow">Women's · New in</div><h2>New from Flow State</h2></div>
+        <a class="link-standalone" href="#/shop?g=women">View all →</a>
+      </div>
+      <div class="pc-grid-3">
+        <sc-for list="{{ homeWomen }}" as="p" hint-placeholder-count="3">
+          <a class="pc" href="#/product/{{ p.slug }}"><div class="pc-media"><img src="{{ p.homeImg }}" alt="{{ p.name }}"></div><div class="pc-body"><div class="pc-name">{{ p.name }}</div><div class="pc-price">{{ p.priceLabel }}</div><div class="pc-sw" aria-hidden="true"><span style="background: #2F63B0;"></span><span style="background: #0B0B0C;"></span><span style="background: #C8B48A;"></span></div></div></a>
+        </sc-for>
+      </div>
+    </section>
+
+    <section class="sec" style="border-top: 1px solid #E6E6E2; border-bottom: 1px solid #E6E6E2;">
+      <div class="sec-h">
+        <div><div class="eyebrow">Men's · New in</div></div>
+      </div>
+      <a class="mens-feature" href="#/product/flow-state-tee">
+        <div class="mens-feature-img"><img src="https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0920-819x1024.jpg" alt="Flow State Men's T-Shirt"></div>
+        <div class="mens-feature-body">
+          <div class="eyebrow" style="color: #6B6B6E;">Men's · Flow State</div>
+          <h3 class="mens-feature-name">Flow State T-Shirt</h3>
+          <div class="mens-feature-price">£29.50</div>
+          <p class="mens-feature-desc">Stretchy, supportive, breathable — built to move with a bold, dynamic pattern.</p>
+          <span class="btn btn-primary">Shop the T-shirt</span>
+        </div>
+      </a>
+    </section>
+
+    <section class="fs-section">
+      <div class="fs-inner">
+        <div class="fs-art-col">
+          <img class="fs-art" src="uploads/Flow%20State-fc0b57f7.jpg" alt="Flow State collection artwork">
+          <div class="fs-copy">
+            <div class="fs-eyebrow">The Collection · Flow State</div>
+            <p class="fs-line">Four pieces, made for the movement.</p>
+            <a class="btn btn-primary" href="#/shop">Shop Flow State</a>
+          </div>
+        </div>
+        <div class="fs-photo">
+          <img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1282-1-scaled.jpg" alt="LOWFF Flow State campaign photograph">
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" style="border-top: 1px solid #E6E6E2;">
+      <div class="sec-h"><div><div class="eyebrow">Follow</div><h2>The people around LOWFF.</h2></div><a class="btn btn-secondary" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Follow @_lowff_</a></div>
+      <div class="comm">
+        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/11/COLLAGE-IMAGE%40300x-scaled.png" alt="LOWFF campaign collage"></div>
+        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-scaled.jpg" alt="LOWFF photograph"></div>
+        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1282-1-scaled.jpg" alt="LOWFF photograph"></div>
+        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/11/image-1.jpg" alt="LOWFF photograph"></div>
+        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/11/image-2.jpg" alt="LOWFF photograph"></div>
+      </div>
+    </section>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ============ SHOP / LISTING ============ -->
+<sc-if value="{{ showShop }}" hint-placeholder-val="{{ false }}">
+  <div class="page">
+    <div class="breadcrumbs"><a href="#/home">Home</a><span>/</span><span aria-current="page">{{ shopTitle }}</span></div>
+    <div class="plp-hd">
+      <div><h1>{{ shopTitle }}</h1><p>{{ shopIntro }}</p></div>
+    </div>
+
+    <div class="plp-toolbar">
+      <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+        <button class="tb-btn plp-mobile-only" type="button" onClick="{{ openFilters }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M7 12h10M10 18h4"/></svg>Filter <span style="color: #6B6B6E;">({{ filterActiveCount }})</span></button>
+        <span class="count"><b style="color: #0B0B0C; font-weight: 500;">{{ resultsCount }}</b> {{ resultsWord }}</span>
+      </div>
+      <label style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px;">Sort
+        <select class="tb-btn" style="padding-right: 8px;" value="{{ sortVal }}" onChange="{{ onSortChange }}">
+          <option value="newest">Newest</option>
+          <option value="asc">Price · low to high</option>
+          <option value="desc">Price · high to low</option>
+          <option value="az">A–Z</option>
+        </select>
+      </label>
+    </div>
+
+    <sc-if value="{{ hasActiveFilters }}" hint-placeholder-val="{{ false }}">
+      <div class="plp-chips">
+        <sc-for list="{{ activeChips }}" as="c" hint-placeholder-count="0">
+          <span class="chip-filter">{{ c.label }} <button type="button" aria-label="Remove {{ c.label }} filter" onClick="{{ c.remove }}"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m2 2 8 8M10 2l-8 8"/></svg></button></span>
+        </sc-for>
+        <button class="plp-clear" type="button" onClick="{{ clearAll }}">Clear all</button>
+      </div>
+    </sc-if>
+
+    <div class="plp-body">
+      <!-- Desktop facets -->
+      <aside class="facets plp-desktop-only" aria-label="Filters">
+        <div class="facet">
+          <div class="facet-h">Category</div>
+          <label class="facet-check"><input type="checkbox" checked="{{ genderWomenOn }}" onChange="{{ toggleGenderWomen }}"><span class="box"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 6 3 3 5-6"/></svg></span>Women's <span class="n">{{ countWomen }}</span></label>
+          <label class="facet-check"><input type="checkbox" checked="{{ genderMenOn }}" onChange="{{ toggleGenderMen }}"><span class="box"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 6 3 3 5-6"/></svg></span>Men's <span class="n">{{ countMen }}</span></label>
+        </div>
+        <div class="facet">
+          <div class="facet-h">Colour</div>
+          <div class="facet-row">
+            <button class="swatch-btn {{ cBlueOn }}" type="button" aria-pressed="{{ cBlueSel }}" onClick="{{ toggleColBlue }}"><span class="dot" style="background: #2F63B0;"></span><span class="lbl">Blue</span></button>
+            <button class="swatch-btn {{ cBlackOn }}" type="button" aria-pressed="{{ cBlackSel }}" onClick="{{ toggleColBlack }}"><span class="dot" style="background: #0B0B0C;"></span><span class="lbl">Black</span></button>
+            <button class="swatch-btn {{ cBeigeOn }}" type="button" aria-pressed="{{ cBeigeSel }}" onClick="{{ toggleColBeige }}"><span class="dot" style="background: #C8B48A;"></span><span class="lbl">Beige</span></button>
+          </div>
+        </div>
+        <div class="facet">
+          <div class="facet-h">Size</div>
+          <div class="facet-row" role="group" aria-label="Filter by size">
+            <sc-for list="{{ facetSizes }}" as="s" hint-placeholder-count="5">
+              <button class="size-chip {{ s.onClass }}" type="button" aria-pressed="{{ s.pressed }}" onClick="{{ s.toggle }}">{{ s.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Results grid or empty -->
+      <div>
+        <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
+          <div class="pc-grid">
+            <sc-for list="{{ shopResults }}" as="p" hint-placeholder-count="4">
+              <a class="pc" href="#/product/{{ p.slug }}">
+                <div class="pc-media"><img src="{{ p.img }}" alt="{{ p.name }}"></div>
+                <div class="pc-body"><div class="pc-name">{{ p.name }}</div><div class="pc-price">{{ p.priceLabel }}</div><div class="pc-sw"><span style="background: #2F63B0;"></span><span style="background: #0B0B0C;"></span><span style="background: #C8B48A;"></span></div></div>
+              </a>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+          <div class="empty">
+            <h4>Nothing matches those filters.</h4>
+            <p>LOWFF stocks 4 Flow State pieces in Blue, Black and Beige. Try removing a filter, or reset to see everything.</p>
+            <div style="display: inline-flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; justify-content: center;">
+              <button class="btn btn-primary" type="button" onClick="{{ clearAll }}">Clear all filters</button>
+              <a class="btn btn-secondary" href="#/shop">Shop all</a>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile filter drawer -->
+  <sc-if value="{{ filterDrawerOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="drawer-overlay" onClick="{{ closeFilters }}"></div>
+    <aside class="drawer-r" role="dialog" aria-modal="true" aria-label="Filter products" ref="{{ filterDrawerRef }}">
+      <div class="drawer-head">
+        <h2>Filter</h2>
+        <button class="btn btn-icon" type="button" aria-label="Close" onClick="{{ closeFilters }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m2 2 8 8M10 2l-8 8"/></svg></button>
+      </div>
+      <div class="drawer-body">
+        <div class="facet">
+          <div class="facet-h">Category</div>
+          <label class="facet-check"><input type="checkbox" checked="{{ genderWomenOn }}" onChange="{{ toggleGenderWomen }}"><span class="box"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 6 3 3 5-6"/></svg></span>Women's <span class="n">{{ countWomen }}</span></label>
+          <label class="facet-check"><input type="checkbox" checked="{{ genderMenOn }}" onChange="{{ toggleGenderMen }}"><span class="box"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 6 3 3 5-6"/></svg></span>Men's <span class="n">{{ countMen }}</span></label>
+        </div>
+        <div class="facet">
+          <div class="facet-h">Colour</div>
+          <div class="facet-row">
+            <button class="swatch-btn {{ cBlueOn }}" type="button" aria-pressed="{{ cBlueSel }}" onClick="{{ toggleColBlue }}"><span class="dot" style="background: #2F63B0;"></span><span class="lbl">Blue</span></button>
+            <button class="swatch-btn {{ cBlackOn }}" type="button" aria-pressed="{{ cBlackSel }}" onClick="{{ toggleColBlack }}"><span class="dot" style="background: #0B0B0C;"></span><span class="lbl">Black</span></button>
+            <button class="swatch-btn {{ cBeigeOn }}" type="button" aria-pressed="{{ cBeigeSel }}" onClick="{{ toggleColBeige }}"><span class="dot" style="background: #C8B48A;"></span><span class="lbl">Beige</span></button>
+          </div>
+        </div>
+        <div class="facet">
+          <div class="facet-h">Size</div>
+          <div class="facet-row">
+            <sc-for list="{{ facetSizes }}" as="s" hint-placeholder-count="5">
+              <button class="size-chip {{ s.onClass }}" type="button" onClick="{{ s.toggle }}">{{ s.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      <div class="drawer-foot">
+        <button class="btn btn-secondary" type="button" style="flex: 1;" onClick="{{ clearAll }}">Clear</button>
+        <button class="btn btn-primary" type="button" style="flex: 2;" onClick="{{ closeFilters }}">Show {{ resultsCount }} {{ resultsWord }}</button>
+      </div>
+    </aside>
+  </sc-if>
+</sc-if>
+
+<!-- ============ PRODUCT ============ -->
+<sc-if value="{{ showProduct }}" hint-placeholder-val="{{ false }}">
+  <div class="page">
+    <div class="breadcrumbs"><a href="#/home">Home</a><span>/</span><a href="#/shop?g={{ pdpGenderSlug }}">{{ pdpGenderLabel }}</a><span>/</span><span aria-current="page">{{ pdpName }}</span></div>
+    <div class="pdp">
+      <div class="gal">
+        <div class="gal-thumbs" role="tablist" aria-label="Product images">
+          <sc-for list="{{ pdpThumbs }}" as="t" hint-placeholder-count="4">
+            <button class="{{ t.onClass }}" type="button" role="tab" aria-selected="{{ t.pressed }}" onClick="{{ t.pick }}"><img src="{{ t.img }}" alt=""></button>
+          </sc-for>
+        </div>
+        <div class="gal-main"><img src="{{ pdpMainImg }}" alt="{{ pdpName }} — image {{ pdpImgIndexLabel }}"></div>
+      </div>
+
+      <div>
+        <div class="info-eye">{{ pdpCollectionLabel }}</div>
+        <h1 class="info-name">{{ pdpName }}</h1>
+        <div class="info-price">{{ pdpPriceLabel }}</div>
+        <div style="font-size: 12px; color: #6B6B6E;">Tax included per lowff.co.uk. <a class="link-inline" href="#/returns">Delivery &amp; returns</a></div>
+
+        <div class="selector">
+          <div class="selector-h"><span id="pdp-col-label">Colour</span><span class="val">{{ pdpColourLabel }}</span></div>
+          <div class="col-row" role="radiogroup" aria-labelledby="pdp-col-label">
+            <sc-for list="{{ pdpColours }}" as="c" hint-placeholder-count="3">
+              <button class="col-btn {{ c.onClass }}" type="button" role="radio" aria-checked="{{ c.pressed }}" onClick="{{ c.pick }}"><span class="dot" style="background: {{ c.hex }};"></span><span class="lbl">{{ c.label }}</span></button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div class="selector">
+          <div class="selector-h"><span id="pdp-size-label">Size</span><span class="val">{{ pdpSizeLabel }}</span></div>
+          <div class="size-row" role="radiogroup" aria-labelledby="pdp-size-label">
+            <sc-for list="{{ pdpSizes }}" as="s" hint-placeholder-count="5">
+              <button class="size-chip {{ s.onClass }}" type="button" role="radio" aria-checked="{{ s.pressed }}" onClick="{{ s.pick }}">{{ s.label }}</button>
+            </sc-for>
+          </div>
+          <sc-if value="{{ pdpSizeErr }}" hint-placeholder-val="{{ false }}">
+            <div class="hint err" role="alert">Please choose a size to continue.</div>
+          </sc-if>
+        </div>
+
+        <div class="selector" style="padding-top: 20px;">
+          <div class="buy-row" style="grid-template-columns: 1fr;">
+            <button class="btn btn-primary buy-primary" type="button" onClick="{{ pdpAdd }}" disabled="{{ pdpAddDisabled }}">
+              <sc-if value="{{ pdpAdding }}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.2-8.6"/></svg> Adding…</sc-if>
+              <sc-if value="{{ pdpNotAdding }}" hint-placeholder-val="{{ true }}">Add to bag · {{ pdpPriceLabel }}</sc-if>
+            </button>
+          </div>
+        </div>
+
+        <div style="margin-top: 20px;">
+          <details class="acc" open="true"><summary>Description</summary><div class="acc-body">{{ pdpDesc }}</div></details>
+          <details class="acc"><summary>Fit &amp; fabric</summary><div class="acc-body">{{ pdpFit }}</div></details>
+          <details class="acc"><summary>Delivery &amp; returns</summary><div class="acc-body"><p>14-day return window from receipt. Items must be unused, in original packaging. Return shipping is the customer's responsibility unless the item is defective.</p><p><a class="link-inline" href="#/returns">Full policy</a>.</p></div></details>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related -->
+    <section class="sec" style="border-top: 1px solid #E6E6E2; margin-top: 40px;">
+      <div class="sec-h"><h2 style="font-size: 24px;">You might also like</h2></div>
+      <div class="pc-grid">
+        <sc-for list="{{ pdpRelated }}" as="p" hint-placeholder-count="3">
+          <a class="pc" href="#/product/{{ p.slug }}"><div class="pc-media"><img src="{{ p.img }}" alt="{{ p.name }}"></div><div class="pc-body"><div class="pc-name">{{ p.name }}</div><div class="pc-price">{{ p.priceLabel }}</div></div></a>
+        </sc-for>
+      </div>
+    </section>
+  </div>
+</sc-if>
+
+<!-- ============ BAG ============ -->
+<sc-if value="{{ showBag }}" hint-placeholder-val="{{ false }}">
+  <div class="page">
+    <div class="breadcrumbs"><a href="#/home">Home</a><span>/</span><span aria-current="page">Bag</span></div>
+    <h1 class="info-title">Your bag</h1>
+    <sc-if value="{{ hasBag }}" hint-placeholder-val="{{ true }}">
+      <div class="bag-body">
+        <div>
+          <sc-for list="{{ bagLines }}" as="item" hint-placeholder-count="2">
+            <div class="line">
+              <a class="line-img" href="#/product/{{ item.slug }}"><img src="{{ item.img }}" alt="{{ item.name }}"></a>
+              <div style="min-width: 0;">
+                <a href="#/product/{{ item.slug }}" class="line-name">{{ item.name }}</a>
+                <div class="line-meta">{{ item.colour }} · {{ item.size }} · £{{ item.priceLabel }} each</div>
+                <div class="line-controls">
+                  <div class="qty" role="group" aria-label="Quantity">
+                    <button type="button" aria-label="Decrease" onClick="{{ item.dec }}">−</button>
+                    <span class="n" aria-live="polite">{{ item.qty }}</span>
+                    <button type="button" aria-label="Increase" onClick="{{ item.inc }}">+</button>
+                  </div>
+                  <button class="line-remove" type="button" onClick="{{ item.remove }}">Remove</button>
+                </div>
+              </div>
+              <div class="line-price">{{ item.lineTotal }}</div>
+            </div>
+          </sc-for>
+          <div style="margin-top: 20px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+            <a href="#/shop" class="btn btn-secondary">← Continue shopping</a>
+            <div style="font-size: 12px; color: #6B6B6E; align-self: center;">Prices in GBP · tax included.</div>
+          </div>
+        </div>
+        <aside class="summary">
+          <h3>Order summary</h3>
+          <div class="sum-row"><span>Subtotal ({{ bagCountLabel }})</span><span class="val">{{ bagSubtotal }}</span></div>
+          <div class="sum-row"><span>Delivery</span><span class="val" style="color: #6B6B6E;">Calculated at checkout</span></div>
+          <div class="sum-total"><span>Total excluding delivery</span><span>{{ bagSubtotal }}</span></div>
+          <button class="btn btn-primary" type="button" style="width: 100%; min-height: 52px; margin-top: 8px;" onClick="{{ bagCheckout }}">Checkout · prototype</button>
+          <div style="font-size: 12px; color: #6B6B6E; text-align: center;">Continues to LOWFF's existing secure checkout. No live payment in this prototype.</div>
+        </aside>
+      </div>
+    </sc-if>
+    <sc-if value="{{ bagEmpty }}" hint-placeholder-val="{{ false }}">
+      <div class="empty">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#6B6B6E" stroke-width="1.4" style="margin: 0 auto;"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <h4>Your bag is empty.</h4>
+        <p>Start with the Flow State collection.</p>
+        <div style="display: inline-flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; justify-content: center;">
+          <a class="btn btn-primary" href="#/shop">Shop the collection</a>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+</sc-if>
+
+<!-- ============ INFO PAGES ============ -->
+<sc-if value="{{ showAbout }}" hint-placeholder-val="{{ false }}">
+  <div class="page"><div class="info-page">
+    <div class="breadcrumbs"><a href="#/home">Home</a><span>/</span><span aria-current="page">About</span></div>
+    <div class="info-tabs">
+      <a href="#/about"><button class="on" type="button">About</button></a>
+      <a href="#/contact"><button type="button">Contact</button></a>
+      <a href="#/returns"><button type="button">Delivery &amp; returns</button></a>
+    </div>
+    <h1 class="info-title">Sport is more than a game.</h1>
+    <div class="prose">
+      <p style="font-size: 17px; color: #0B0B0C;">At Lowff, we believe that every athlete deserves a partner who's with them through every moment of their journey. Whether you're training for your next big competition, pushing through the grind, celebrating a victory, or recovering from a setback, Lowff is here to support you. We are more than just a sportswear brand — we're a community, built by athletes, for athletes.</p>
+      <p>Lowff specializes in high-performance sportswear, with a unique focus on racket sports. However, our mission goes beyond a single discipline. We are here for athletes of all kinds, championing their efforts to reach their peak potential.</p>
+      <h3>Built for the highs and the lows</h3>
+      <p>We know that an athlete's journey is far from linear. That's why Lowff is committed to supporting you through it all. Lowff is about empowering you to become the best athlete you can be, no matter where you are in your journey. Our products are made to help you rise to every challenge and celebrate every success.</p>
+      <p style="font-weight: 500; color: #0B0B0C;">Welcome to the Lowff community.</p>
+    </div>
+    <div style="display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap;">
+      <a class="btn btn-primary" href="#/shop">Shop the collection</a>
+      <a class="btn btn-secondary" href="#/contact">Get in touch</a>
+    </div>
+  </div></div>
+</sc-if>
+
+<sc-if value="{{ showContact }}" hint-placeholder-val="{{ false }}">
+  <div class="page"><div class="info-page">
+    <div class="breadcrumbs"><a href="#/home">Home</a><span>/</span><span aria-current="page">Contact</span></div>
+    <div class="info-tabs">
+      <a href="#/about"><button type="button">About</button></a>
+      <a href="#/contact"><button class="on" type="button">Contact</button></a>
+      <a href="#/returns"><button type="button">Delivery &amp; returns</button></a>
+    </div>
+    <h1 class="info-title">Get in touch.</h1>
+    <div class="prose">
+      <p>Questions about a product, an order or a return — please email <a class="link-inline" href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a>. The form below is a prototype and does not send messages.</p>
+    </div>
+
+    <form class="form" onSubmit="{{ contactSubmit }}" noValidate="true">
+      <h3>Send a message</h3>
+      <div class="ribbon"><b>Prototype form</b> — submissions are not delivered to LOWFF. For a real reply, email <a href="mailto:lowri@lowff.co.uk" style="color: inherit; text-decoration: underline;">lowri@lowff.co.uk</a>.</div>
+      <sc-if value="{{ contactAlertShown }}" hint-placeholder-val="{{ false }}">
+        <div class="form-alert {{ contactAlertClass }}" role="{{ contactAlertRole }}">{{ contactAlertText }}</div>
+      </sc-if>
+      <div class="field {{ contactNameErrClass }}">
+        <label>Name *</label>
+        <input type="text" placeholder="Your name" value="{{ contactName }}" onInput="{{ setContactName }}">
+        <div class="helptxt">{{ contactNameHelp }}</div>
+      </div>
+      <div class="field {{ contactEmailErrClass }}">
+        <label>Email *</label>
+        <input type="email" placeholder="you@email.com" value="{{ contactEmail }}" onInput="{{ setContactEmail }}">
+        <div class="helptxt">{{ contactEmailHelp }}</div>
+      </div>
+      <div class="field">
+        <label>Subject</label>
+        <select><option>General enquiry</option><option>Order or delivery</option><option>Returns</option></select>
+      </div>
+      <div class="field {{ contactMsgErrClass }}">
+        <label>Message *</label>
+        <textarea placeholder="How can we help?" onInput="{{ setContactMsg }}">{{ contactMsg }}</textarea>
+        <div class="helptxt">{{ contactMsgHelp }}</div>
+      </div>
+      <button class="btn btn-primary" type="submit">Submit prototype form</button>
+    </form>
+  </div></div>
+</sc-if>
+
+<sc-if value="{{ showReturns }}" hint-placeholder-val="{{ false }}">
+  <div class="page"><div class="info-page">
+    <div class="breadcrumbs"><a href="#/home">Home</a><span>/</span><span aria-current="page">Delivery &amp; returns</span></div>
+    <div class="info-tabs">
+      <a href="#/about"><button type="button">About</button></a>
+      <a href="#/contact"><button type="button">Contact</button></a>
+      <a href="#/returns"><button class="on" type="button">Delivery &amp; returns</button></a>
+    </div>
+    <h1 class="info-title">Delivery &amp; returns.</h1>
+    <div class="prose">
+      <h3 style="margin-top: 0;">Delivery</h3>
+      <p>Delivery for lowff.co.uk orders is handled by the checkout at time of purchase.</p>
+      <p>For questions about a specific order — cut-off, carrier, tracking, late or missing parcel — please email <a class="link-inline" href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a> with your order number.</p>
+
+      <h3>Returns policy</h3>
+      <p style="font-weight: 500; color: #0B0B0C;">Thank you for supporting our small business.</p>
+      <p>We are committed to providing high-quality products and excellent customer service. If you're not completely satisfied with your purchase, we're here to help.</p>
+
+      <h3>Eligibility for returns</h3>
+      <p>We accept returns within <b>14 days</b> of receiving your order. Items must be unused, in their original packaging, and in the same condition that you received them.</p>
+
+      <h3>Exchanges</h3>
+      <p>As a small business, we cannot guarantee an exchange for returned items. If you'd like to exchange a product, we suggest initiating a return and placing a new order.</p>
+
+      <h3>How to return</h3>
+      <p>To initiate a return, please email <a class="link-inline" href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a> with your order number and the reason for the return. We will provide instructions for returning your item.</p>
+
+      <h3>Return shipping</h3>
+      <p>You are responsible for return shipping costs unless the item is defective or damaged. Shipping costs are non-refundable.</p>
+
+      <h3>Refunds</h3>
+      <p>Once your return is received and inspected, we will notify you of the approval or rejection of your refund. If approved, please allow up to <b>30 days</b> for the refund to be processed back to your original method of payment.</p>
+    </div>
+    <div style="margin-top: 24px;"><a class="btn btn-primary" href="mailto:lowri@lowff.co.uk?subject=Return%20request">Start a return by email</a></div>
+  </div></div>
+</sc-if>
+
+<!-- ============ COLLECTIONS ============ -->
+<sc-if value="{{ showCollections }}" hint-placeholder-val="{{ false }}">
+  <div class="page">
+    <div class="breadcrumbs"><a href="#/home">Home</a><span>/</span><span aria-current="page">Collections</span></div>
+    <div class="plp-hd">
+      <div>
+        <h1>Collections</h1>
+        <p>LOWFF releases small, considered edits — one collection at a time. Flow State is the current release.</p>
+      </div>
+    </div>
+
+    <section class="sec" style="padding-top: 8px;">
+      <div class="col-two">
+        <a class="col-tile" href="#/shop" style="aspect-ratio: 4/5;">
+          <img src="https://lowff.co.uk/wp-content/uploads/2025/11/CARO-PIC-MAIN%40300x-1-scaled.png" alt="Flow State campaign photograph">
+          <div class="col-body">
+            <div class="hero-eyebrow">Current release</div>
+            <h2 class="col-title">Flow State</h2>
+            <span class="link-standalone">Shop the collection →</span>
+          </div>
+        </a>
+        <div style="background: #F4F4F2; padding: 24px; display: flex; flex-direction: column; gap: 20px; justify-content: space-between;">
+          <div>
+            <div class="eyebrow" style="color: #6B6B6E;">About the collection</div>
+            <h3 style="font-family: 'Space Grotesk'; font-weight: 500; font-size: clamp(20px, 3vw, 28px); letter-spacing: -0.02em; margin: 8px 0 0;">Made for the movement.</h3>
+            <p style="font-size: 14px; color: #3A3A3C; line-height: 1.6; margin: 12px 0 0;">Four Flow State pieces — dress, tank, skort and men's tee — built from stretchy, supportive fabric that carries structure without giving up freedom of movement.</p>
+          </div>
+          <img src="uploads/Flow%20State-fc0b57f7.jpg" alt="Flow State collection artwork" style="width: 100%; max-width: 520px; margin: 0 auto;">
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <a class="btn btn-primary" href="#/shop">Shop Flow State</a>
+            <a class="btn btn-secondary" href="#/shop?g=women">Women's</a>
+            <a class="btn btn-secondary" href="#/shop?g=men">Men's</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</sc-if>
+
+<!-- ============ FOLLOW / COMMUNITY ============ -->
+<sc-if value="{{ showFollow }}" hint-placeholder-val="{{ false }}">
+  <div class="page">
+    <div class="breadcrumbs"><a href="#/home">Home</a><span>/</span><span aria-current="page">Follow</span></div>
+    <div class="plp-hd">
+      <div>
+        <h1>The people around LOWFF.</h1>
+        <p>Athletes, training, and the moments in between — shared on Instagram. Follow along, or reach out directly.</p>
+      </div>
+      <a class="btn btn-primary" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Follow @_lowff_</a>
+    </div>
+    <section class="sec" style="padding-top: 8px;">
+      <div class="comm">
+        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/11/COLLAGE-IMAGE%40300x-scaled.png" alt="LOWFF campaign collage"></div>
+        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-scaled.jpg" alt="LOWFF photograph"></div>
+        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1282-1-scaled.jpg" alt="LOWFF photograph"></div>
+        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/11/image-1.jpg" alt="LOWFF photograph"></div>
+        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/11/image-2.jpg" alt="LOWFF photograph"></div>
+      </div>
+    </section>
+    <div style="margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap;">
+      <a class="btn btn-secondary" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Instagram →</a>
+      <a class="btn btn-secondary" href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ============ SEARCH RESULTS PAGE ============ -->
+<sc-if value="{{ showSearch }}" hint-placeholder-val="{{ false }}">
+  <div class="page">
+    <div class="breadcrumbs"><a href="#/home">Home</a><span>/</span><span aria-current="page">Search</span></div>
+    <h1 class="info-title" style="margin-bottom: 12px;">Search</h1>
+    <form onSubmit="{{ searchSubmit }}" style="display: grid; grid-template-columns: 1fr auto; gap: 8px; max-width: 640px;">
+      <label style="display: flex; align-items: center; gap: 10px; padding: 0 14px; height: 48px; border: 1px solid #0B0B0C; border-radius: 2px; background: #FFF;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="text" placeholder="Search LOWFF" value="{{ searchPageQ }}" onInput="{{ onSearchPageInput }}" aria-label="Search products" style="flex: 1; border: 0; outline: 0; font: 500 15px 'Inter', sans-serif; background: transparent;">
+      </label>
+      <button class="btn btn-primary" type="submit" style="height: 48px;">Search</button>
+    </form>
+    <div style="margin: 24px 0 16px; padding-bottom: 12px; border-bottom: 1px solid #E6E6E2;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <h2 style="font-family: 'Space Grotesk'; font-weight: 500; font-size: 20px; margin: 0;">Results for "{{ searchPageQ }}"</h2>
+        <div class="count">{{ searchPageCount }}</div>
+      </div>
+    </div>
+    <sc-if value="{{ searchPageHas }}" hint-placeholder-val="{{ true }}">
+      <div class="pc-grid">
+        <sc-for list="{{ searchPageResults }}" as="p" hint-placeholder-count="4">
+          <a class="pc" href="#/product/{{ p.slug }}"><div class="pc-media"><img src="{{ p.img }}" alt="{{ p.name }}"></div><div class="pc-body"><div class="pc-name">{{ p.name }}</div><div class="pc-price">{{ p.priceLabel }}</div></div></a>
+        </sc-for>
+      </div>
+    </sc-if>
+    <sc-if value="{{ searchPageNone }}" hint-placeholder-val="{{ false }}">
+      <div class="empty">
+        <h4>No matches for "{{ searchPageQ }}".</h4>
+        <p>The catalogue is small — 4 Flow State products. Try "flow", "dress", "tank", "skort" or "t-shirt".</p>
+        <a class="btn btn-primary" href="#/shop" style="margin-top: 16px;">Shop all</a>
+      </div>
+    </sc-if>
+    <sc-if value="{{ searchPageEmpty }}" hint-placeholder-val="{{ false }}">
+      <div class="empty">
+        <h4>Type something to search.</h4>
+        <p>Search across the 4 Flow State products.</p>
+      </div>
+    </sc-if>
+  </div>
+</sc-if>
+
+</main>
+
+<!-- ============ CHECKOUT PROTOTYPE HANDOFF ============ -->
+<sc-if value="{{ handoffOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="menu-overlay" style="z-index: 90;" onClick="{{ closeHandoff }}"></div>
+  <div role="dialog" aria-modal="true" aria-labelledby="handoff-title" style="position: fixed; z-index: 91; inset: 0; display: flex; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: #FFF; max-width: 480px; width: 100%; border: 1px solid #E6E6E2; box-shadow: 0 24px 60px rgba(0,0,0,0.24); padding: 28px;">
+      <div style="display: inline-block; background: #FFF3E0; color: #7A4A00; border: 1px solid #F0D9AC; padding: 4px 10px; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; border-radius: 2px;">Prototype handoff</div>
+      <h2 id="handoff-title" style="font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 24px; letter-spacing: -0.02em; margin: 14px 0 8px;">Checkout is not built in this prototype.</h2>
+      <p style="font-size: 14px; line-height: 1.6; color: #3A3A3C; margin: 0 0 16px;">In production, this button hands the bag over to LOWFF's existing secure checkout on <b>lowff.co.uk</b>. That flow is out of scope for this design package — no live payment, no order is placed.</p>
+      <ul style="font-size: 13px; color: #3A3A3C; line-height: 1.6; padding-left: 18px; margin: 0 0 20px;">
+        <li>Bag contents and totals would transfer intact.</li>
+        <li>Delivery is calculated on the live checkout.</li>
+        <li>Return to the bag to continue reviewing the prototype.</li>
+      </ul>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="btn btn-primary" type="button" onClick="{{ closeHandoff }}" ref="{{ handoffCloseRef }}" style="flex: 1; min-height: 48px;">Return to bag</button>
+        <a class="btn btn-secondary" href="https://lowff.co.uk" target="_blank" rel="noopener" style="min-height: 48px;">Visit lowff.co.uk</a>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="foot-top">
+    <div class="foot-brand">
+      <img src="uploads/FULL_WHITE%40300x.png" alt="LOWFF">
+      <p>Sport is more than a game.</p>
+    </div>
+    <div><h5>Shop</h5><ul><li><a href="#/shop?g=men">Men's</a></li><li><a href="#/shop?g=women">Women's</a></li><li><a href="#/collections">Collections</a></li></ul></div>
+    <div><h5>Support</h5><ul><li><a href="#/about">About</a></li><li><a href="#/contact">Contact</a></li><li><a href="#/returns">Delivery &amp; returns</a></li></ul></div>
+    <div><h5>Follow</h5><ul><li><a href="#/follow">Community</a></li><li><a href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Instagram</a></li><li><a href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a></li></ul></div>
+  </div>
+  <div class="foot-bottom">
+    <div>© LOWFF Ltd</div>
+    <div>Design prototype · not connected to live commerce</div>
+  </div>
+</footer>
+<div class="proto-strip">Prototype build — no live payment. Bag state is shared across pages via this browser.</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  CATALOGUE = [
+      {
+        slug: 'flow-state-dress', name: 'Flow State Dress', price: 65, gender: 'women', category: 'Dresses',
+        sizes: ['UK 6','UK 8','UK 10','UK 12','UK 14'], colours: ['Blue','Black','Beige'],
+        imgs: [
+          'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1074-819x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_0056-819x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-819x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9949-819x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9895-819x1024.jpg',
+        ],
+        desc: "The iconic Flow State dress, a perfectly fitted dress. Made with a stretchy and supportive fabric, allowing structure and freedom of movement. Shorts are not included with this purchase.",
+        fit: "Stretchy and supportive fabric, structured for freedom of movement.",
+        url: 'https://lowff.co.uk/products/lowff-flowstate-dress/',
+      },
+      {
+        slug: 'flow-state-tank', name: 'Flow State Tank Top', price: 32.5, gender: 'women', category: 'Tops',
+        sizes: ['UK 6','UK 8','UK 10','UK 12','UK 14'], colours: ['Blue','Black','Beige'],
+        imgs: [
+          'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1180-819x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1286-819x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1230-819x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1247-819x1024.jpg',
+        ],
+        desc: "The Flow State Tank is made from a unique fabric that is both stretchy and super soft. With comfort and support as the primary features, the Flow State Tank is incredibly flattering, allowing for unrestricted movement always.",
+        fit: "Stretchy and super soft; comfort and support the primary features.",
+        url: 'https://lowff.co.uk/products/lowff-flowstate-tanktop/',
+      },
+      {
+        slug: 'flow-state-skort', name: 'Flow State Skort', price: 40, gender: 'women', category: 'Skorts',
+        sizes: ['UK 8','UK 10','UK 12','UK 14'], colours: ['Blue','Black','Beige'],
+        imgs: [
+          'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1331-819x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1318-819x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1347-819x1024.jpg',
+        ],
+        desc: "Designed to move with power and grace. Crafted from high-performing fabrics, the cyclone skirt provides style and functionality, offering an aerodynamic fit that moves with you. This dynamic skirt allows you to pivot, stretch and sprint with ease. Featuring thick, supportive shorts underneath and a lightweight skirt.",
+        fit: "High-performing fabric with an aerodynamic fit; thick supportive shorts underneath.",
+        url: 'https://lowff.co.uk/products/lowff-flowstate-skort/',
+      },
+      {
+        slug: 'flow-state-tee', name: "Flow State Men's T-Shirt", price: 29.5, gender: 'men', category: 'Tops',
+        sizes: ['Small','Medium','Large','X-Large'], colours: ['Blue','Black','Beige'],
+        imgs: [
+          'https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0920-819x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0941-819x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0924-731x1024.jpg',
+        ],
+        desc: "The Flow State T-Shirt is made with a stretchy and supportive fabric, allowing structure and freedom of movement. It incorporates a bold and dynamic pattern that is both stylish and comfortable, designed with a unique breathable fabric.",
+        fit: "Stretchy, supportive and breathable — bold, dynamic pattern.",
+        url: 'https://lowff.co.uk/products/lowff-flowstate-tshirt/',
+      },
+    ];
+  COLOUR_HEX = { Blue: '#2F63B0', Black: '#0B0B0C', Beige: '#C8B48A' };
+
+  HOME_IMG = {
+    // Prefer full-product shots on the homepage rail; detail crops stay on the PDP
+    'flow-state-dress': 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1074-819x1024.jpg',
+    'flow-state-tank':  'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1180-819x1024.jpg',
+    'flow-state-skort': 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1318-819x1024.jpg',
+  };
+
+  state = {
+    route: 'home', routeParams: {}, routeQuery: {},
+    menuOpen: false, searchOpen: false, filterDrawerOpen: false,
+    searchQ: '', searchPageQ: '',
+    bag: [],
+    pdp: {}, // {slug: {img, colour, size, adding, err}}
+    toast: null,
+    filters: { g: null, colours: [], sizes: [] },
+    sort: 'newest',
+    contact: { name: '', email: '', msg: '', state: 'default' },
+    handoffOpen: false,
+  };
+
+  componentDidMount() {
+    this._loadBag();
+    this._onHash = () => this._readHash();
+    window.addEventListener('hashchange', this._onHash);
+    window.addEventListener('storage', (e) => { if (e.key === 'lowff_bag') this._loadBag(); });
+    if (!location.hash || location.hash === '#') location.hash = '#/home';
+    this._readHash();
+    this._onKey = (e) => {
+      if (e.key === 'Escape') {
+        if (this.state.handoffOpen) { this.setState({ handoffOpen: false }); this._returnFocus(); return; }
+        if (this.state.menuOpen || this.state.searchOpen || this.state.filterDrawerOpen) {
+          this._closeAllOverlays();
+        }
+      }
+      if (e.key === 'Tab') this._trapFocus(e);
+    };
+    window.addEventListener('keydown', this._onKey);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('hashchange', this._onHash);
+    window.removeEventListener('keydown', this._onKey);
+  }
+
+  _openerEl = null;
+  _rememberOpener() { this._openerEl = document.activeElement; }
+  _returnFocus() {
+    const el = this._openerEl;
+    this._openerEl = null;
+    if (el && el.focus) setTimeout(() => { try { el.focus(); } catch (e) {} }, 20);
+  }
+  _closeAllOverlays() {
+    const wasOpen = this.state.menuOpen || this.state.searchOpen || this.state.filterDrawerOpen;
+    this.setState({ menuOpen: false, searchOpen: false, filterDrawerOpen: false });
+    if (wasOpen) this._returnFocus();
+  }
+  _activePanel() {
+    if (this.state.menuOpen) return this._menuEl;
+    if (this.state.searchOpen) return this._searchPanelEl;
+    if (this.state.filterDrawerOpen) return this._filterDrawerEl;
+    return null;
+  }
+  _focusables(root) {
+    if (!root) return [];
+    return Array.from(root.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'))
+      .filter(el => el.offsetParent !== null || el === document.activeElement);
+  }
+  _trapFocus(e) {
+    const panel = this._activePanel();
+    if (!panel) return;
+    const items = this._focusables(panel);
+    if (!items.length) return;
+    const first = items[0], last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    else if (!panel.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+  }
+  _focusFirst(panel) {
+    if (!panel) return;
+    const items = this._focusables(panel);
+    if (items.length) setTimeout(() => { try { items[0].focus(); } catch (e) {} }, 40);
+  }
+
+  _loadBag() {
+    let bag = [];
+    try { bag = JSON.parse(localStorage.getItem('lowff_bag') || '[]'); } catch (e) {}
+    this.setState({ bag });
+  }
+  _saveBag(bag) {
+    this.setState({ bag });
+    try { localStorage.setItem('lowff_bag', JSON.stringify(bag)); } catch (e) {}
+  }
+
+  _readHash() {
+    const raw = (location.hash || '#/home').replace(/^#/, '');
+    const [pathPart, qs] = raw.split('?');
+    const parts = pathPart.split('/').filter(Boolean);
+    let route = parts[0] || 'home', routeParams = {};
+    if (route === 'product' && parts[1]) routeParams.slug = parts[1];
+    if (route === 'shop') route = 'shop';
+    const routeQuery = {};
+    if (qs) qs.split('&').forEach(kv => { const [k, v] = kv.split('='); if (k) routeQuery[k] = decodeURIComponent(v || ''); });
+    // Apply query filters
+    const filters = { ...this.state.filters };
+    if (route === 'shop') {
+      filters.g = routeQuery.g || null;
+    }
+    this.setState({ route, routeParams, routeQuery, filters, filterDrawerOpen: false });
+    window.scrollTo(0, 0);
+  }
+
+  fmt(n) { return '£' + (Math.round(n * 100) / 100).toFixed(n % 1 ? 2 : 0).replace(/\.00$/, ''); }
+  fmtPlain(n) { return (Math.round(n * 100) / 100).toFixed(n % 1 ? 2 : 0).replace(/\.00$/, ''); }
+
+  // ---- Bag ops
+  addToBag(product, colour, size) {
+    const key = product.slug + '|' + colour + '|' + size;
+    const bag = this.state.bag.slice();
+    const existing = bag.find(it => it.key === key);
+    if (existing) existing.qty += 1;
+    else bag.push({ key, slug: product.slug, name: product.name, colour, size, price: product.price, qty: 1, img: product.imgs[0] });
+    this._saveBag(bag);
+  }
+  qtyChange(key, delta) {
+    const bag = this.state.bag.map(it => it.key === key ? { ...it, qty: Math.max(1, it.qty + delta) } : it);
+    this._saveBag(bag);
+  }
+  removeLine(key) { this._saveBag(this.state.bag.filter(it => it.key !== key)); }
+
+  // ---- Filters
+  toggleFilter(key, val) {
+    const f = { ...this.state.filters };
+    if (key === 'g') {
+      // gender toggles between single-select or clear
+      if (f.g === val) f.g = null;
+      else if (f.g && f.g !== val) f.g = 'both';
+      else f.g = val;
+    } else {
+      const list = new Set(f[key] || []);
+      if (list.has(val)) list.delete(val); else list.add(val);
+      f[key] = [...list];
+    }
+    this.setState({ filters: f });
+  }
+  clearAllFilters() { this.setState({ filters: { g: null, colours: [], sizes: [] } }); }
+
+  applyFilters(list) {
+    const f = this.state.filters;
+    let out = list.filter(p => {
+      if (f.g && f.g !== 'both' && p.gender !== f.g) return false;
+      if (f.colours && f.colours.length && !f.colours.some(c => p.colours.includes(c))) return false;
+      if (f.sizes && f.sizes.length && !f.sizes.some(s => p.sizes.includes(s))) return false;
+      return true;
+    });
+    const sort = this.state.sort;
+    if (sort === 'asc') out = out.slice().sort((a,b) => a.price - b.price);
+    else if (sort === 'desc') out = out.slice().sort((a,b) => b.price - a.price);
+    else if (sort === 'az') out = out.slice().sort((a,b) => a.name.localeCompare(b.name));
+    return out;
+  }
+
+  matches(q) {
+    const s = (q || '').trim().toLowerCase();
+    if (!s) return [];
+    return this.CATALOGUE.filter(p => (p.name + ' ' + p.category + ' ' + p.gender).toLowerCase().includes(s));
+  }
+
+  _pdpState(slug) {
+    const cur = this.state.pdp[slug] || {};
+    const p = this.CATALOGUE.find(x => x.slug === slug);
+    if (!p) return null;
+    return {
+      product: p,
+      img: cur.img != null ? cur.img : 0,
+      colour: cur.colour || p.colours[0],
+      size: cur.size || null,
+      adding: !!cur.adding,
+      err: !!cur.err,
+    };
+  }
+  _pdpSet(slug, patch) {
+    const cur = this.state.pdp[slug] || {};
+    this.setState({ pdp: { ...this.state.pdp, [slug]: { ...cur, ...patch } } });
+  }
+
+  // ---- Contact
+  _contactValidate() {
+    const c = this.state.contact;
+    const errs = { name: !c.name.trim(), email: !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c.email), msg: c.msg.trim().length < 3 };
+    return errs;
+  }
+
+  renderVals() {
+    const s = this.state;
+    const bagCount = s.bag.reduce((a, it) => a + it.qty, 0);
+    const bagLines = s.bag.map(it => ({
+      ...it,
+      priceLabel: this.fmtPlain(it.price),
+      lineTotal: this.fmt(it.price * it.qty),
+      inc: () => this.qtyChange(it.key, 1),
+      dec: () => this.qtyChange(it.key, -1),
+      remove: () => this.removeLine(it.key),
+    }));
+    const bagSubtotal = this.fmt(s.bag.reduce((a, it) => a + it.price * it.qty, 0));
+
+    // Search overlay results
+    const searchHits = this.matches(s.searchQ).map(p => ({ slug: p.slug, name: p.name, cat: p.gender === 'women' ? "Women's · " + p.category : "Men's · " + p.category, img: p.imgs[0], priceLabel: this.fmt(p.price) }));
+
+    // Shop results
+    const shopResults = this.applyFilters(this.CATALOGUE).map(p => ({ slug: p.slug, name: p.name, img: p.imgs[0], priceLabel: this.fmt(p.price) }));
+
+    // Active filter chips
+    const chips = [];
+    if (s.filters.g && s.filters.g !== 'both') chips.push({ label: s.filters.g === 'women' ? "Women's" : "Men's", remove: () => this.toggleFilter('g', s.filters.g) });
+    (s.filters.colours || []).forEach(c => chips.push({ label: c, remove: () => this.toggleFilter('colours', c) }));
+    (s.filters.sizes || []).forEach(sz => chips.push({ label: sz, remove: () => this.toggleFilter('sizes', sz) }));
+
+    // Facet sizes: union of all sizes across catalogue, ordered
+    const allSizesOrdered = ['UK 6','UK 8','UK 10','UK 12','UK 14','Small','Medium','Large','X-Large'];
+    const catSizes = new Set(this.CATALOGUE.flatMap(p => p.sizes));
+    const facetSizes = allSizesOrdered.filter(sz => catSizes.has(sz)).map(sz => {
+      const on = (s.filters.sizes || []).includes(sz);
+      return { label: sz, onClass: on ? 'on' : '', pressed: on ? 'true' : 'false', toggle: () => this.toggleFilter('sizes', sz) };
+    });
+
+    // Category counts
+    const countWomen = this.CATALOGUE.filter(p => p.gender === 'women').length;
+    const countMen = this.CATALOGUE.filter(p => p.gender === 'men').length;
+
+    // Shop header title
+    let shopTitle = 'Shop all', shopIntro = 'Every Flow State piece, one place.';
+    if (s.filters.g === 'women') { shopTitle = "Women's"; shopIntro = "Pieces from the Flow State collection, cut for training that shifts between sports."; }
+    if (s.filters.g === 'men') { shopTitle = "Men's"; shopIntro = "Flow State pieces for men."; }
+
+    // PDP state
+    let pdp = null;
+    if (s.route === 'product' && s.routeParams.slug) pdp = this._pdpState(s.routeParams.slug);
+
+    const pdpThumbs = pdp ? pdp.product.imgs.map((src, i) => ({ img: src, onClass: i === pdp.img ? 'on' : '', pressed: i === pdp.img ? 'true' : 'false', pick: () => this._pdpSet(pdp.product.slug, { img: i }) })) : [];
+    const pdpColours = pdp ? pdp.product.colours.map(c => ({ label: c, hex: this.COLOUR_HEX[c] || '#999', onClass: c === pdp.colour ? 'on' : '', pressed: c === pdp.colour ? 'true' : 'false', pick: () => this._pdpSet(pdp.product.slug, { colour: c }) })) : [];
+    const pdpSizes = pdp ? pdp.product.sizes.map(sz => ({ label: sz, onClass: sz === pdp.size ? 'on' : '', pressed: sz === pdp.size ? 'true' : 'false', pick: () => this._pdpSet(pdp.product.slug, { size: sz, err: false }) })) : [];
+    const pdpRelated = pdp ? this.CATALOGUE.filter(p => p.slug !== pdp.product.slug).slice(0, 3).map(p => ({ slug: p.slug, name: p.name, img: p.imgs[0], priceLabel: this.fmt(p.price) })) : [];
+
+    // Search page
+    const searchPageResults = this.matches(s.searchPageQ).map(p => ({ slug: p.slug, name: p.name, img: p.imgs[0], priceLabel: this.fmt(p.price) }));
+
+    // Contact validity
+    const cErrs = this._contactValidate();
+    const cAlert = s.contact.state;
+    const contactAlertShown = cAlert === 'ok' || cAlert === 'err';
+    const contactAlertClass = cAlert === 'ok' ? 'ok' : 'err';
+    const contactAlertText = cAlert === 'ok'
+      ? "Prototype submission captured — this form is not connected to email yet. To reach LOWFF now, please email lowri@lowff.co.uk directly."
+      : (cAlert === 'err' ? "Please fix the highlighted fields." : '');
+
+    return {
+      // header nav + search + menu + bag
+      openMenu: () => { this._rememberOpener(); this.setState({ menuOpen: true }, () => this._focusFirst(this._menuEl)); },
+      closeMenu: () => { this.setState({ menuOpen: false }); this._returnFocus(); },
+      menuOpen: s.menuOpen,
+      menuExpanded: s.menuOpen ? 'true' : 'false',
+      menuRef: (el) => { this._menuEl = el; if (el) this._focusFirst(el); },
+      openSearch: () => { this._rememberOpener(); this.setState({ searchOpen: true }, () => setTimeout(() => this._searchInput && this._searchInput.focus(), 40)); },
+      closeSearch: () => { this.setState({ searchOpen: false }); this._returnFocus(); },
+      searchOpen: s.searchOpen,
+      searchExpanded: s.searchOpen ? 'true' : 'false',
+      searchPanelRef: (el) => { this._searchPanelEl = el; },
+      searchInputRef: (el) => { this._searchInput = el; },
+      searchQ: s.searchQ,
+      onSearchInput: (e) => this.setState({ searchQ: e.target.value }),
+      onSearchKey: (e) => { if (e.key === 'Enter') { location.hash = '#/search?q=' + encodeURIComponent(s.searchQ); this.setState({ searchPageQ: s.searchQ, searchOpen: false }); this._returnFocus(); } },
+      searchHasQ: !!s.searchQ.trim(),
+      searchNoQ: !s.searchQ.trim(),
+      searchEmpty: !!s.searchQ.trim() && searchHits.length === 0,
+      searchCountLabel: searchHits.length + ' result' + (searchHits.length === 1 ? '' : 's'),
+      searchHits,
+      stopProp: (e) => { e && e.stopPropagation && e.stopPropagation(); },
+
+      hasBag: bagCount > 0,
+      bagCount,
+      bagCountAria: bagCount === 0 ? 'empty' : (bagCount + (bagCount === 1 ? ' item' : ' items')),
+
+      navWomen: (s.route === 'shop' && s.filters.g === 'women') ? 'on' : '',
+      navMen: (s.route === 'shop' && s.filters.g === 'men') ? 'on' : '',
+      navShop: (s.route === 'shop' && !s.filters.g) ? 'on' : '',
+      navCollections: s.route === 'collections' ? 'on' : '',
+      navFollow: s.route === 'follow' ? 'on' : '',
+      navContact: (s.route === 'contact') ? 'on' : '',
+
+      skipToMain: (e) => { e && e.preventDefault && e.preventDefault(); const el = document.getElementById('main-content'); if (el) { el.focus(); el.scrollIntoView && el.scrollIntoView({ block: 'start' }); } },
+      handoffOpen: !!s.handoffOpen,
+      closeHandoff: () => { this.setState({ handoffOpen: false }); this._returnFocus(); },
+      handoffCloseRef: (el) => { this._handoffClose = el; },
+
+      // route flags
+      showHome: s.route === 'home',
+      showShop: s.route === 'shop',
+      showCollections: s.route === 'collections',
+      showFollow: s.route === 'follow',
+      showProduct: s.route === 'product' && !!pdp,
+      showBag: s.route === 'bag',
+      showAbout: s.route === 'about',
+      showContact: s.route === 'contact',
+      showReturns: s.route === 'returns',
+      showSearch: s.route === 'search',
+
+      // home rails
+      homeWomen: this.CATALOGUE.filter(p => p.gender === 'women').map(p => ({ slug: p.slug, name: p.name, img: p.imgs[0], homeImg: this.HOME_IMG[p.slug] || p.imgs[0], priceLabel: this.fmt(p.price) })),
+      homeMen: this.CATALOGUE.filter(p => p.gender === 'men').map(p => ({ slug: p.slug, name: p.name, img: p.imgs[0], homeImg: this.HOME_IMG[p.slug] || p.imgs[0], priceLabel: this.fmt(p.price) })),
+
+      // shop
+      shopTitle, shopIntro,
+      resultsCount: shopResults.length,
+      resultsWord: shopResults.length === 1 ? 'result' : 'results',
+      hasResults: shopResults.length > 0,
+      noResults: shopResults.length === 0,
+      shopResults,
+      hasActiveFilters: chips.length > 0,
+      activeChips: chips,
+      clearAll: () => this.clearAllFilters(),
+      filterActiveCount: chips.length,
+      openFilters: () => { this._rememberOpener(); this.setState({ filterDrawerOpen: true }, () => this._focusFirst(this._filterDrawerEl)); },
+      closeFilters: () => { this.setState({ filterDrawerOpen: false }); this._returnFocus(); },
+      filterDrawerOpen: s.filterDrawerOpen,
+      filterDrawerRef: (el) => { this._filterDrawerEl = el; },
+      genderWomenOn: (s.filters.g === 'women' || s.filters.g === 'both') ? 'true' : null,
+      genderMenOn: (s.filters.g === 'men' || s.filters.g === 'both') ? 'true' : null,
+      toggleGenderWomen: () => this.toggleFilter('g', 'women'),
+      toggleGenderMen: () => this.toggleFilter('g', 'men'),
+      cBlueOn: (s.filters.colours || []).includes('Blue') ? 'on' : '',
+      cBlueSel: (s.filters.colours || []).includes('Blue') ? 'true' : 'false',
+      cBlackOn: (s.filters.colours || []).includes('Black') ? 'on' : '',
+      cBlackSel: (s.filters.colours || []).includes('Black') ? 'true' : 'false',
+      cBeigeOn: (s.filters.colours || []).includes('Beige') ? 'on' : '',
+      cBeigeSel: (s.filters.colours || []).includes('Beige') ? 'true' : 'false',
+      toggleColBlue: () => this.toggleFilter('colours', 'Blue'),
+      toggleColBlack: () => this.toggleFilter('colours', 'Black'),
+      toggleColBeige: () => this.toggleFilter('colours', 'Beige'),
+      facetSizes,
+      countWomen, countMen,
+      sortVal: s.sort,
+      onSortChange: (e) => this.setState({ sort: e.target.value }),
+
+      // pdp
+      pdpName: pdp ? pdp.product.name : '',
+      pdpPriceLabel: pdp ? this.fmt(pdp.product.price) : '',
+      pdpMainImg: pdp ? pdp.product.imgs[pdp.img] : '',
+      pdpImgIndexLabel: pdp ? (pdp.img + 1) + ' of ' + pdp.product.imgs.length : '',
+      pdpThumbs,
+      pdpColours, pdpSizes,
+      pdpColourLabel: pdp ? pdp.colour : '',
+      pdpSizeLabel: pdp ? (pdp.size || 'Choose a size') : '',
+      pdpSizeErr: pdp ? pdp.err : false,
+      pdpCollectionLabel: pdp ? (pdp.product.gender === 'women' ? "Women's · Flow State" : "Men's · Flow State") : '',
+      pdpGenderSlug: pdp ? pdp.product.gender : 'women',
+      pdpGenderLabel: pdp ? (pdp.product.gender === 'women' ? "Women's" : "Men's") : '',
+      pdpDesc: pdp ? pdp.product.desc : '',
+      pdpFit: pdp ? pdp.product.fit : '',
+      pdpUrl: pdp ? pdp.product.url : '#',
+      pdpRelated,
+      pdpAdding: pdp ? pdp.adding : false,
+      pdpNotAdding: pdp ? !pdp.adding : true,
+      pdpAddDisabled: pdp && pdp.adding ? 'true' : null,
+      pdpAdd: () => {
+        if (!pdp) return;
+        if (!pdp.size) { this._pdpSet(pdp.product.slug, { err: true }); return; }
+        this._pdpSet(pdp.product.slug, { adding: true });
+        setTimeout(() => {
+          this.addToBag(pdp.product, pdp.colour, pdp.size);
+          this._pdpSet(pdp.product.slug, { adding: false });
+          this.setState({ toast: pdp.product.name + ' · ' + pdp.colour + ' · ' + pdp.size });
+          clearTimeout(this._toastT);
+          this._toastT = setTimeout(() => this.setState({ toast: null }), 3200);
+        }, 500);
+      },
+
+      // bag page
+      bagLines,
+      bagSubtotal,
+      bagCountLabel: bagCount + (bagCount === 1 ? ' item' : ' items'),
+      bagEmpty: bagCount === 0,
+      bagCheckout: () => this.setState({ handoffOpen: true }, () => { this._rememberOpener(); setTimeout(() => this._handoffClose && this._handoffClose.focus(), 40); }),
+
+      // toast
+      toastShown: !!s.toast,
+      toastText: s.toast ? ('Added to bag · ' + s.toast) : '',
+
+      // search page
+      searchPageQ: s.searchPageQ,
+      onSearchPageInput: (e) => this.setState({ searchPageQ: e.target.value }),
+      searchSubmit: (e) => { e && e.preventDefault && e.preventDefault(); },
+      searchPageCount: searchPageResults.length + ' result' + (searchPageResults.length === 1 ? '' : 's'),
+      searchPageResults,
+      searchPageHas: !!s.searchPageQ.trim() && searchPageResults.length > 0,
+      searchPageNone: !!s.searchPageQ.trim() && searchPageResults.length === 0,
+      searchPageEmpty: !s.searchPageQ.trim(),
+
+      // contact
+      contactName: s.contact.name, contactEmail: s.contact.email, contactMsg: s.contact.msg,
+      setContactName: (e) => this.setState({ contact: { ...s.contact, name: e.target.value, state: 'default' } }),
+      setContactEmail: (e) => this.setState({ contact: { ...s.contact, email: e.target.value, state: 'default' } }),
+      setContactMsg: (e) => this.setState({ contact: { ...s.contact, msg: e.target.value, state: 'default' } }),
+      contactSubmit: (e) => {
+        e && e.preventDefault && e.preventDefault();
+        const errs = this._contactValidate();
+        if (errs.name || errs.email || errs.msg) { this.setState({ contact: { ...s.contact, state: 'err' } }); return; }
+        this.setState({ contact: { name: '', email: '', msg: '', state: 'ok' } });
+      },
+      contactNameErrClass: cAlert === 'err' && cErrs.name ? 'err' : '',
+      contactEmailErrClass: cAlert === 'err' && cErrs.email ? 'err' : '',
+      contactMsgErrClass: cAlert === 'err' && cErrs.msg ? 'err' : '',
+      contactNameHelp: cAlert === 'err' && cErrs.name ? 'Name is required.' : '',
+      contactEmailHelp: cAlert === 'err' && cErrs.email ? 'Enter a valid email address.' : '',
+      contactMsgHelp: cAlert === 'err' && cErrs.msg ? 'Add a short message.' : '',
+      contactAlertShown, contactAlertClass, contactAlertRole: cAlert === 'err' ? 'alert' : 'status', contactAlertText,
+    };
+  }
+}
+</script>
+</body>
+</html>
