@@ -105,7 +105,7 @@
   .page.home-page { padding-top: 0; }
   .breadcrumbs { font-size: 12px; color: #6B6B6E; display: flex; gap: 6px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
 
-  /* Hero — full-width photograph fits within the first screen */
+  /* Hero, full-width photograph fits within the first screen */
   .hero { position: relative; overflow: hidden; margin: 0 calc(-1 * var(--page-x)) var(--sec-y); background: #EAEAE6; aspect-ratio: 4/5; max-height: calc(100svh - 76px); }
   .hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 68% 22%; }
   .hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 45%; background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.7) 100%); pointer-events: none; z-index: 1; }
@@ -125,12 +125,12 @@
   .hero-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
 
 
-  /* Shared content container — the ONE horizontal rail used across every page.
+  /* Shared content container, the ONE horizontal rail used across every page.
      Full-bleed panels escape via `margin: 0 calc(-1 * var(--page-x))`;
      their internal content boxes cap at the same --content-max. */
   .container, .sec, .sec-h, .plp-hd, .plp-toolbar, .plp-chips, .plp-body, .rd-tabs { max-width: var(--content-max); margin-left: auto; margin-right: auto; }
 
-  /* Section rhythm — one scale for every in-page section */
+  /* Section rhythm, one scale for every in-page section */
   .sec { padding: var(--sec-y) 0; }
   .sec-h { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: var(--stack-lg); flex-wrap: wrap; }
   .sec-h .eyebrow { font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: #3A3A3C; font-weight: 500; margin: 0 0 var(--stack-sm); }
@@ -145,7 +145,7 @@
   .pc-grid-shop { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
   @media (min-width: 900px) { .pc-grid-shop { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; } }
   @media (min-width: 1100px) { .pc-grid-shop { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; } }
-  /* Home 3-across rail (Women's New) — 3 equal columns on tablet+ */
+  /* Home 3-across rail (Women's New), 3 equal columns on tablet+ */
   .pc-grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
   @media (max-width: 767px) {
     .pc-grid-3 { display: grid; grid-auto-flow: column; grid-auto-columns: 78%; grid-template-columns: none; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 4px 12px; margin: 0 -16px; padding-left: 16px; padding-right: 24px; scrollbar-width: none; }
@@ -167,24 +167,25 @@
   .lowffers-title .accent-dark { color: #004FFF; }
   .comm-editorial { display: grid; gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .comm-editorial > div { overflow: hidden; background: #F4F4F2; aspect-ratio: 3/4; }
-  .comm-editorial img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s; }
+  .comm-editorial img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; display: block; transition: transform .6s; }
   .comm-editorial > div:hover img { transform: scale(1.03); }
-  .comm-editorial .ce-a { grid-column: 1 / -1; aspect-ratio: 16/10; }
+  .comm-editorial .ce-a { grid-column: 1 / -1; aspect-ratio: 4/5; }
   @media (min-width: 780px) {
     .comm-editorial {
-      grid-template-columns: 1.4fr 1fr 1fr;
-      grid-template-rows: 260px 240px;
+      grid-template-columns: 1.3fr 1fr 1fr;
+      grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
       grid-template-areas: "a b c" "a d d";
       gap: 14px;
+      aspect-ratio: 16/10;
     }
     .comm-editorial > div { aspect-ratio: auto; }
     .comm-editorial .ce-a { grid-area: a; aspect-ratio: auto; }
     .comm-editorial .ce-b { grid-area: b; }
     .comm-editorial .ce-c { grid-area: c; }
-    .comm-editorial .ce-d { grid-area: d; margin-top: -32px; position: relative; z-index: 2; box-shadow: 0 20px 40px rgba(11,11,12,0.12); }
+    .comm-editorial .ce-d { grid-area: d; }
   }
 
-  /* Global eyebrow token — same spacing to its following heading everywhere */
+  /* Global eyebrow token, same spacing to its following heading everywhere */
   .eyebrow { font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: #3A3A3C; font-weight: 500; display: block; margin: 0 0 var(--stack-sm); }
 
   /* Home: electric-blue brand statement strip */
@@ -223,6 +224,23 @@
   .fs-strip > div { aspect-ratio: 1/1; overflow: hidden; background: #F4F4F2; }
   .fs-strip img { width: 100%; height: 100%; object-fit: cover; display: block; }
   @media (min-width: 900px) { .fs-strip { gap: 10px; } }
+
+  /* Home: Flow State editorial collage, dominant photo + smaller supporting tiles */
+  .fs-collage { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 8px;
+    grid-template-areas: "a a" "b c" "d e"; }
+  .fs-collage > div { overflow: hidden; background: #F4F4F2; }
+  .fs-collage img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .fs-collage .fc-a { grid-area: a; aspect-ratio: 4/3; }
+  .fs-collage .fc-b { grid-area: b; aspect-ratio: 1/1; }
+  .fs-collage .fc-c { grid-area: c; aspect-ratio: 1/1; }
+  .fs-collage .fc-d { grid-area: d; aspect-ratio: 1/1; }
+  .fs-collage .fc-e { grid-area: e; aspect-ratio: 1/1; }
+  @media (min-width: 900px) {
+    .fs-collage { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); gap: 14px;
+      grid-template-areas: "a b c" "a d e"; }
+    .fs-collage .fc-a { aspect-ratio: auto; min-height: 620px; }
+    .fs-collage .fc-b, .fs-collage .fc-c, .fs-collage .fc-d, .fs-collage .fc-e { aspect-ratio: auto; }
+  }
   .fs-inner { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; align-items: stretch; max-width: var(--content-max); margin: 0 auto; }
   .fs-art-col { display: flex; flex-direction: column; gap: var(--stack-md); align-items: flex-start; }
   .fs-art { width: 100%; height: auto; display: block; }
@@ -256,7 +274,7 @@
     .mens-feature-body { padding: 0 8px; }
   }
 
-  /* Home: Flow State collection feature (legacy — unused) */
+  /* Home: Flow State collection feature (legacy, unused) */
   .collection-feature-legacy { display: none; }
 
   /* Collection tile */
@@ -461,7 +479,7 @@
   }
   .fs-row .pc-varied { display: none; }
 
-  /* Shop hero — compact photographic intro */
+  /* Shop hero, compact photographic intro */
   .shop-hero { display: grid; grid-template-columns: 1fr; gap: 0; background: #F4F4F2; margin: 0 calc(-1 * var(--page-x)) var(--sec-y); overflow: hidden; }
   .shop-hero-photo { aspect-ratio: 5/4; overflow: hidden; background: #EAEAE6; order: -1; }
   .shop-hero-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -514,7 +532,7 @@
   .rd-benefit p { font-size: 14px; line-height: 1.6; color: #3A3A3C; margin: 0; max-width: 46ch; }
   .rd-cta { margin-top: 24px; }
 
-  /* About page — campaign layout */
+  /* About page, campaign layout */
   .about-hero { position: relative; overflow: hidden; aspect-ratio: 16/10; margin: 0 calc(-1 * var(--page-x)) var(--sec-y); color: #FFF; }
   .about-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
   .about-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.75) 100%); }
@@ -553,7 +571,7 @@
     .about-community-strip { grid-template-columns: repeat(3, 1fr); gap: 10px; }
   }
 
-  /* Follow page — editorial */
+  /* Follow page, editorial */
   .follow-hero { background: #0B0B0C; color: #FFF; padding: var(--sec-y-lg) var(--page-x); margin: 0 calc(-1 * var(--page-x)) var(--sec-y); }
   .follow-hero-inner { max-width: var(--content-max); margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 24px; align-items: end; }
   .follow-hero .about-hero-eyebrow { margin-bottom: 20px; }
@@ -574,7 +592,7 @@
   @media (min-width: 780px) { .follow-strip { grid-template-columns: repeat(4, 1fr); gap: 12px; } }
   .follow-caption { font-size: 13px; color: #6B6B6E; margin: 8px 0 0; }
 
-  /* Collections — Flow State campaign */
+  /* Collections, Flow State campaign */
   .col-fs { margin: 0 calc(-1 * var(--page-x)) var(--sec-y); position: relative; overflow: hidden; padding: var(--sec-y-lg) var(--page-x);
     background:
       radial-gradient(ellipse at 15% 30%, rgba(0,79,255,0.35) 0%, transparent 55%),
@@ -660,12 +678,12 @@
     <div class="search-panel" onClick="{{ stopProp }}" role="dialog" aria-modal="true" aria-label="Search" ref="{{ searchPanelRef }}">
       <div class="search-input-row">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input ref="{{ searchInputRef }}" type="text" placeholder="Search LOWFF — dress, tank, skort…" value="{{ searchQ }}" onInput="{{ onSearchInput }}" onKeyDown="{{ onSearchKey }}" aria-label="Search products">
+        <input ref="{{ searchInputRef }}" type="text" placeholder="Search LOWFF, dress, tank, skort…" value="{{ searchQ }}" onInput="{{ onSearchInput }}" onKeyDown="{{ onSearchKey }}" aria-label="Search products">
         <button class="btn btn-icon" type="button" aria-label="Close" onClick="{{ closeSearch }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m2 2 8 8M10 2l-8 8"/></svg></button>
       </div>
       <div class="search-panel-body">
         <sc-if value="{{ searchHasQ }}" hint-placeholder-val="{{ false }}">
-          <div style="padding: 4px 14px 8px; font-size: 12px; color: #6B6B6E;">{{ searchCountLabel }} — press Enter for full results.</div>
+          <div style="padding: 4px 14px 8px; font-size: 12px; color: #6B6B6E;">{{ searchCountLabel }}, press Enter for full results.</div>
           <sc-for list="{{ searchHits }}" as="p" hint-placeholder-count="0">
             <a class="search-hit" href="#/product/{{ p.slug }}" onClick="{{ closeSearch }}">
               <img src="{{ p.img }}" alt="">
@@ -742,15 +760,12 @@
         <div class="fs-eyebrow">The Collection · Flow State</div>
         <p class="fs-line">Bold in colour. Free to move.</p>
       </div>
-      <div class="fs-strip fs-strip-8" role="list" aria-label="Flow State — colourways and on athletes">
-        <div role="listitem"><img src="uploads/FLOW%20STATE-03-488f7a62.png" alt="Flow State — blue photographic colourway"></div>
-        <div role="listitem"><img src="uploads/FLOW%20STATE-04-f3dc3c75.png" alt="Flow State — blue bubble on photographic ground colourway"></div>
-        <div role="listitem"><img src="uploads/FLOW%20STATE-05-f57730b5.png" alt="Flow State — warm red colourway"></div>
-        <div role="listitem"><img src="uploads/FLOW%20STATE-09-0b058515.png" alt="Flow State — blue on photographic ground colourway"></div>
-        <div role="listitem"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1074-819x1024.jpg" alt="Athlete wearing the Flow State Dress"></div>
-        <div role="listitem"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1286-819x1024.jpg" alt="Athlete wearing the Flow State Tank"></div>
-        <div role="listitem"><img src="https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0941-819x1024.jpg" alt="Athlete wearing the Flow State Men's T-Shirt"></div>
-        <div role="listitem"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9895-819x1024.jpg" alt="Athlete wearing Flow State"></div>
+      <div class="fs-collage" role="list" aria-label="Flow State, campaign moments">
+        <div class="fc-a" role="listitem"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1074-819x1024.jpg" alt="Athlete wearing the Flow State Dress"></div>
+        <div class="fc-b" role="listitem"><img src="uploads/FLOW%20STATE-05-f57730b5.png" alt="Flow State, warm red colourway"></div>
+        <div class="fc-c" role="listitem"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1286-819x1024.jpg" alt="Athlete wearing the Flow State Tank"></div>
+        <div class="fc-d" role="listitem"><img src="https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0941-819x1024.jpg" alt="Athlete wearing the Flow State Men's T-Shirt"></div>
+        <div class="fc-e" role="listitem"><img src="uploads/FLOW%20STATE-09-0b058515.png" alt="Flow State, blue photographic colourway"></div>
       </div>
       <div style="max-width: 1200px; margin: 28px auto 0;">
         <a class="btn btn-primary" href="#/shop">Shop Flow State</a>
@@ -948,7 +963,7 @@
             <button class="{{ t.onClass }}" type="button" role="tab" aria-selected="{{ t.pressed }}" onClick="{{ t.pick }}"><img src="{{ t.img }}" alt=""></button>
           </sc-for>
         </div>
-        <div class="gal-main"><img src="{{ pdpMainImg }}" alt="{{ pdpName }} — image {{ pdpImgIndexLabel }}"></div>
+        <div class="gal-main"><img src="{{ pdpMainImg }}" alt="{{ pdpName }}, image {{ pdpImgIndexLabel }}"></div>
       </div>
 
       <div>
@@ -1076,7 +1091,7 @@
 
     <div class="about-wrap">
       <p class="about-tagline">Sport is more than <span class="accent">a game.</span></p>
-      <p class="about-lede">At LOWFF, we believe every athlete deserves a partner who's with them through every moment of their journey. Whether you're training for your next big competition, pushing through the grind, celebrating a victory, or recovering from a setback — LOWFF is here to support you.</p>
+      <p class="about-lede">At LOWFF, we believe every athlete deserves a partner who's with them through every moment of their journey. Whether you're training for your next big competition, pushing through the grind, celebrating a victory, or recovering from a setback, LOWFF is here to support you.</p>
       <p class="about-lede-sub">More than a sportswear brand. A community, built by athletes, for athletes.</p>
 
       <section class="about-block">
@@ -1084,7 +1099,7 @@
         <div>
           <h2>Racket sports, <span class="accent">and beyond.</span></h2>
           <p>LOWFF specialises in high-performance sportswear, with a unique focus on racket sports.</p>
-          <p>Our mission goes beyond a single discipline — we're here for athletes of all kinds, championing the work it takes to reach peak potential.</p>
+          <p>Our mission goes beyond a single discipline, we're here for athletes of all kinds, championing the work it takes to reach peak potential.</p>
         </div>
       </section>
 
@@ -1092,8 +1107,8 @@
         <div class="about-block-img"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1286-819x1024.jpg" alt="LOWFF athlete in focus"></div>
         <div>
           <h2>Built for the highs <span class="accent">and the lows.</span></h2>
-          <p>We know an athlete's journey is far from linear. That's why LOWFF is committed to supporting you through it all — empowering you to become the best athlete you can be, no matter where you are on your journey.</p>
-          <p>Our products are made to help you rise to every challenge and celebrate every success — and to help you feel part of the community around every session.</p>
+          <p>We know an athlete's journey is far from linear. That's why LOWFF is committed to supporting you through it all, empowering you to become the best athlete you can be, no matter where you are on your journey.</p>
+          <p>Our products are made to help you rise to every challenge and celebrate every success, and to help you feel part of the community around every session.</p>
         </div>
       </section>
     </div>
@@ -1102,7 +1117,7 @@
       <div class="about-community-inner">
         <div>
           <h2>Welcome to the <span class="accent">LOWFFERS.</span></h2>
-          <p>The people who move with us. Athletes, training partners, and the moments in between — meet the community.</p>
+          <p>The people who move with us. Athletes, training partners, and the moments in between, meet the community.</p>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             <a class="btn btn-onphoto" href="#/follow">Meet the LOWFFERS</a>
             <a class="btn btn-ghost" href="#/shop">Shop the range</a>
@@ -1128,12 +1143,12 @@
     </div>
     <h1 class="info-title">Get in touch.</h1>
     <div class="prose">
-      <p>Questions about a product, an order or a return — please email <a class="link-inline" href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a>. The form below is a prototype and does not send messages.</p>
+      <p>Questions about a product, an order or a return, please email <a class="link-inline" href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a>. The form below is a prototype and does not send messages.</p>
     </div>
 
     <form class="form" onSubmit="{{ contactSubmit }}" noValidate="true">
       <h3>Send a message</h3>
-      <div class="ribbon"><b>Prototype form</b> — submissions are not delivered to LOWFF. For a real reply, email <a href="mailto:lowri@lowff.co.uk" style="color: inherit; text-decoration: underline;">lowri@lowff.co.uk</a>.</div>
+      <div class="ribbon"><b>Prototype form</b>, submissions are not delivered to LOWFF. For a real reply, email <a href="mailto:lowri@lowff.co.uk" style="color: inherit; text-decoration: underline;">lowri@lowff.co.uk</a>.</div>
       <sc-if value="{{ contactAlertShown }}" hint-placeholder-val="{{ false }}">
         <div class="form-alert {{ contactAlertClass }}" role="{{ contactAlertRole }}">{{ contactAlertText }}</div>
       </sc-if>
@@ -1173,7 +1188,7 @@
     <div class="prose">
       <h3 style="margin-top: 0;">Delivery</h3>
       <p>Delivery for lowff.co.uk orders is handled by the checkout at time of purchase.</p>
-      <p>For questions about a specific order — cut-off, carrier, tracking, late or missing parcel — please email <a class="link-inline" href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a> with your order number.</p>
+      <p>For questions about a specific order, cut-off, carrier, tracking, late or missing parcel, please email <a class="link-inline" href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a> with your order number.</p>
 
       <h3>Returns policy</h3>
       <p style="font-weight: 500; color: #0B0B0C;">Thank you for supporting our small business.</p>
@@ -1208,7 +1223,7 @@
         <div>
           <div class="col-fs-eyebrow">The current release</div>
           <h1 class="col-fs-title">Flow <span class="accent">State.</span></h1>
-          <p class="col-fs-lede">Four pieces. One collection. A dress, a tank, a skort, and a men's tee — built from stretchy, supportive fabric that gives structure without holding you back.</p>
+          <p class="col-fs-lede">Four pieces. One collection. A dress, a tank, a skort, and a men's tee, built from stretchy, supportive fabric that gives structure without holding you back.</p>
           <div class="col-fs-ctas">
             <a class="btn btn-primary" href="#/shop">Shop the collection</a>
             <a class="btn btn-secondary" href="#/shop?g=women">Women's</a>
@@ -1234,11 +1249,11 @@
       <div class="col-info">
         <div>
           <h3>Made to move.</h3>
-          <p>The Flow State fabric is stretchy and supportive at once — dynamic pattern, breathable feel, structure that follows you through the session.</p>
+          <p>The Flow State fabric is stretchy and supportive at once, dynamic pattern, breathable feel, structure that follows you through the session.</p>
         </div>
         <div>
           <h3>Small, considered edits.</h3>
-          <p>LOWFF releases one collection at a time. Flow State is the current chapter — new work is on the way.</p>
+          <p>LOWFF releases one collection at a time. Flow State is the current chapter, new work is on the way.</p>
         </div>
       </div>
     </section>
@@ -1257,7 +1272,7 @@
           <h1>Meet the <span class="accent">LOWFFERS.</span></h1>
         </div>
         <div>
-          <p>Athletes, training, and the moments in between. A curated look at the people who move with us — for the full feed, follow along on Instagram.</p>
+          <p>Athletes, training, and the moments in between. A curated look at the people who move with us, for the full feed, follow along on Instagram.</p>
           <div class="follow-hero-cta">
             <a class="btn btn-onphoto" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Follow @_lowff_</a>
             <a class="btn btn-ghost" href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a>
@@ -1286,7 +1301,7 @@
       <div style="margin: 48px 0 8px; padding: 32px 24px; background: #F4F4F2; display: grid; grid-template-columns: 1fr; gap: 16px; align-items: center;">
         <div>
           <div class="eyebrow" style="color: #6B6B6E; margin-bottom: 8px;">Say hello</div>
-          <p style="font-size: 15px; line-height: 1.6; color: #3A3A3C; margin: 0; max-width: 46ch;">Working with LOWFF, shooting with us, or want to be part of the next drop? Send a note — we read every one.</p>
+          <p style="font-size: 15px; line-height: 1.6; color: #3A3A3C; margin: 0; max-width: 46ch;">Working with LOWFF, shooting with us, or want to be part of the next drop? Send a note, we read every one.</p>
         </div>
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
           <a class="btn btn-primary" href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a>
@@ -1325,7 +1340,7 @@
     <sc-if value="{{ searchPageNone }}" hint-placeholder-val="{{ false }}">
       <div class="empty">
         <h4>No matches for "{{ searchPageQ }}".</h4>
-        <p>The catalogue is small — 4 Flow State products. Try "flow", "dress", "tank", "skort" or "t-shirt".</p>
+        <p>The catalogue is small, 4 Flow State products. Try "flow", "dress", "tank", "skort" or "t-shirt".</p>
         <a class="btn btn-primary" href="#/shop" style="margin-top: 16px;">Shop all</a>
       </div>
     </sc-if>
@@ -1347,7 +1362,7 @@
     <div style="background: #FFF; max-width: 480px; width: 100%; border: 1px solid #E6E6E2; box-shadow: 0 24px 60px rgba(0,0,0,0.24); padding: 28px;">
       <div style="display: inline-block; background: #FFF3E0; color: #7A4A00; border: 1px solid #F0D9AC; padding: 4px 10px; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; border-radius: 2px;">Prototype handoff</div>
       <h2 id="handoff-title" style="font-family: 'Anton', sans-serif; font-weight: 400; font-size: 26px; letter-spacing: -0.005em; text-transform: uppercase; margin: 14px 0 8px;">Checkout is not built in this prototype.</h2>
-      <p style="font-size: 14px; line-height: 1.6; color: #3A3A3C; margin: 0 0 16px;">In production, this button hands the bag over to LOWFF's existing secure checkout on <b>lowff.co.uk</b>. That flow is out of scope for this design package — no live payment, no order is placed.</p>
+      <p style="font-size: 14px; line-height: 1.6; color: #3A3A3C; margin: 0 0 16px;">In production, this button hands the bag over to LOWFF's existing secure checkout on <b>lowff.co.uk</b>. That flow is out of scope for this design package, no live payment, no order is placed.</p>
       <ul style="font-size: 13px; color: #3A3A3C; line-height: 1.6; padding-left: 18px; margin: 0 0 20px;">
         <li>Bag contents and totals would transfer intact.</li>
         <li>Delivery is calculated on the live checkout.</li>
@@ -1377,7 +1392,7 @@
     <div>Design prototype · not connected to live commerce</div>
   </div>
 </footer>
-<div class="proto-strip">Prototype build — no live payment. Bag state is shared across pages via this browser.</div>
+<div class="proto-strip">Prototype build, no live payment. Bag state is shared across pages via this browser.</div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
@@ -1430,7 +1445,7 @@ class Component extends DCLogic {
           'https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0924-731x1024.jpg',
         ],
         desc: "The Flow State T-Shirt is made with a stretchy and supportive fabric, allowing structure and freedom of movement. It incorporates a bold and dynamic pattern that is both stylish and comfortable, designed with a unique breathable fabric.",
-        fit: "Stretchy, supportive and breathable — bold, dynamic pattern.",
+        fit: "Stretchy, supportive and breathable, bold, dynamic pattern.",
         url: 'https://lowff.co.uk/products/lowff-flowstate-tshirt/',
       },
     ];
@@ -1463,7 +1478,7 @@ class Component extends DCLogic {
       img: 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9895-819x1024.jpg',
       imgAlt: 'Athlete wearing the Flow State Dress',
       benefits: [
-        { title: 'Open back', text: 'An open-back slit boosts breathability and adds a sleek, athletic look — keeping you cool through intense play.' },
+        { title: 'Open back', text: 'An open-back slit boosts breathability and adds a sleek, athletic look, keeping you cool through intense play.' },
         { title: 'Range of motion pleat', text: 'A side pleat boosts mobility, offering unrestricted movement for fast direction changes and dynamic performance.' },
         { title: 'Supportive & ultra soft', text: 'High-performance fabric balances support and softness, offering a lightweight feel and lasting comfort.' },
       ],
@@ -1474,7 +1489,7 @@ class Component extends DCLogic {
       imgAlt: 'Athlete wearing the Flow State Tank Top',
       benefits: [
         { title: 'Comfort', text: 'A soft, thick fabric with the perfect hint of spandex gives structure, stretch and comfort that lasts through every training session.' },
-        { title: 'A LOWFF essential', text: 'Bold design meets soft, supportive fabric — the Flow State tank is an elevated essential piece.' },
+        { title: 'A LOWFF essential', text: 'Bold design meets soft, supportive fabric, the Flow State tank is an elevated essential piece.' },
         { title: 'Functional fit', text: 'A secure, modest fit that keeps a naturally free and relaxed feel.' },
       ],
     },
@@ -1483,7 +1498,7 @@ class Component extends DCLogic {
       img: 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1347-819x1024.jpg',
       imgAlt: 'Athlete wearing the Flow State Skort',
       benefits: [
-        { title: 'Lightweight outer skirt', text: 'A lightweight, fluid outer skirt moves freely with your body — effortless freedom through every movement.' },
+        { title: 'Lightweight outer skirt', text: 'A lightweight, fluid outer skirt moves freely with your body, effortless freedom through every movement.' },
         { title: 'Supportive shorts & waistband', text: 'Built-in shorts and a wide waistband in a thicker stretch fabric hold a secure, comfortable fit that stays in place.' },
         { title: 'Engineered for motion', text: "Adapts to your body's natural movement for a smooth, flattering fit with zero restrictions." },
       ],
@@ -1717,7 +1732,7 @@ class Component extends DCLogic {
     }
     if (s.filters.g === 'men') {
       shopTitle = "Men's";
-      shopIntro = "Flow State for men — one piece, made to move.";
+      shopIntro = "Flow State for men, one piece, made to move.";
       shopHero = { show: true, img: 'https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0941-819x1024.jpg', alt: "The Flow State Men's T-Shirt" };
     }
     // Men's single-product feature (only when Men's-only filter yields the tee)
@@ -1726,7 +1741,7 @@ class Component extends DCLogic {
       const p = this.CATALOGUE.find(x => x.slug === shopResults[0].slug);
       return {
         slug: p.slug, name: p.name, img: p.imgs[0], priceLabel: this.fmt(p.price),
-        desc: 'Flow State cut for men — stretchy, supportive fabric with the collection\'s dynamic pattern. One piece, made to move.',
+        desc: 'Flow State cut for men, stretchy, supportive fabric with the collection\'s dynamic pattern. One piece, made to move.',
         colourLabel: (p.colours || []).length + ' colour' + ((p.colours || []).length === 1 ? '' : 's'),
       };
     })() : null;
@@ -1749,7 +1764,7 @@ class Component extends DCLogic {
     const contactAlertShown = cAlert === 'ok' || cAlert === 'err';
     const contactAlertClass = cAlert === 'ok' ? 'ok' : 'err';
     const contactAlertText = cAlert === 'ok'
-      ? "Prototype submission captured — this form is not connected to email yet. To reach LOWFF now, please email lowri@lowff.co.uk directly."
+      ? "Prototype submission captured, this form is not connected to email yet. To reach LOWFF now, please email lowri@lowff.co.uk directly."
       : (cAlert === 'err' ? "Please fix the highlighted fields." : '');
 
     return {
