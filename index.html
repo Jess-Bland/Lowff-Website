@@ -11,7 +11,7 @@
 <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#004FFF"/><text x="50" y="60" font-family="Space Grotesk, sans-serif" font-size="26" font-weight="600" fill="#FFF" text-anchor="middle">LOWFF</text></svg></template>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   html, body { margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -66,7 +66,7 @@
   .menu { position: fixed; top: 0; left: 0; bottom: 0; width: min(88%, 340px); background: #FFF; z-index: 51; display: flex; flex-direction: column; box-shadow: 20px 0 40px rgba(0,0,0,0.16); overflow-y: auto; }
   .menu-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid #E6E6E2; }
   .menu-links { padding: 8px 16px; }
-  .menu-links a { display: block; padding: 14px 4px; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 22px; letter-spacing: -0.01em; border-bottom: 1px solid #F4F4F2; }
+  .menu-links a { display: block; padding: 14px 4px; font-family: 'Anton', sans-serif; font-weight: 400; font-size: 26px; letter-spacing: -0.005em; text-transform: uppercase; border-bottom: 1px solid #F4F4F2; }
   .menu-secondary { padding: 16px; margin-top: auto; border-top: 1px solid #E6E6E2; display: flex; flex-direction: column; gap: 6px; }
   .menu-secondary a { font-size: 14px; padding: 8px 4px; color: #3A3A3C; }
 
@@ -87,22 +87,31 @@
   @media (min-width: 900px) { .page { padding: 32px 40px 64px; } }
   .breadcrumbs { font-size: 12px; color: #6B6B6E; display: flex; gap: 6px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
 
-  /* Hero */
-  .hero { position: relative; overflow: hidden; aspect-ratio: 4/5; margin: 0 0 20px; color: #FFF; }
-  .hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
-  .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.75) 100%); }
-  .hero-body { position: absolute; z-index: 2; left: 20px; right: 20px; bottom: 24px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
-  .hero-eyebrow { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 500; opacity: 0.9; }
-  .hero-title { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(36px, 8vw, 84px); line-height: 0.98; letter-spacing: -0.025em; margin: 0; max-width: 14ch; }
+  /* Hero — full-width photograph with overlaid headline */
+  .hero { position: relative; overflow: hidden; margin: 0 -16px 32px; aspect-ratio: 4/5; background: #EAEAE6; }
+  .hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 68% 20%; }
+  .hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 45%; background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.7) 100%); pointer-events: none; z-index: 1; }
+  @media (min-width: 900px) { .hero::after { height: 50%; } }
+  .hero-body { position: absolute; z-index: 2; left: 24px; right: 16px; bottom: 24px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }  .hero-eyebrow { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 500; color: rgba(255,255,255,0.9); margin: 0; }
+  @media (min-width: 900px) {
+    .hero { margin: 0 -40px 48px; aspect-ratio: 16/9; }
+    .hero > img { object-position: 72% 22%; }
+    .hero-body { left: 72px; right: 40px; bottom: 48px; max-width: none; gap: 20px; }
+  }
+  .hero-title { font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(24px, 5.4vw, 84px); line-height: 0.95; letter-spacing: -0.01em; margin: 0; max-width: none; text-transform: uppercase; padding-bottom: 4px; color: #FFFFFF; white-space: nowrap; }
+  .hero-title .lb { display: inline; }
+  .hero-title .lb + .lb { margin-left: 0.28em; }
+  .hero-title .accent { color: #D6FF3B; }
+  .hero-title .accent { color: #D6FF3B; }
   .hero-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
-  @media (min-width: 900px) { .hero { margin: 0 0 40px; aspect-ratio: 21/9; } }
+
 
   /* Section rhythm */
   .sec { padding: 40px 0; }
   @media (min-width: 900px) { .sec { padding: 64px 0; } }
   .sec-h { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
   .sec-h .eyebrow { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #6B6B6E; font-weight: 500; margin-bottom: 6px; }
-  .sec-h h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(24px, 4vw, 40px); letter-spacing: -0.02em; margin: 0; line-height: 1; }
+  .sec-h h2 { font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(24px, 3.5vw, 40px); letter-spacing: -0.005em; text-transform: uppercase; margin: 0; line-height: 0.95; padding-bottom: 2px; }
   .link-standalone { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; font-size: 14px; padding: 6px 2px; border-bottom: 1px solid #0B0B0C; }
   .link-standalone:hover { color: #004FFF; border-bottom-color: #004FFF; }
 
@@ -110,6 +119,9 @@
   .pc-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
   @media (min-width: 640px) { .pc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (min-width: 1100px) { .pc-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .pc-grid-shop { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  @media (min-width: 900px) { .pc-grid-shop { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; } }
+  @media (min-width: 1100px) { .pc-grid-shop { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; } }
   /* Home 3-across rail (Women's New) — 3 equal columns on tablet+ */
   .pc-grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
   @media (max-width: 767px) {
@@ -127,10 +139,49 @@
   .pc-sw { display: flex; gap: 6px; margin-top: 6px; }
   .pc-sw span { width: 12px; height: 12px; border-radius: 999px; border: 1px solid #E6E6E2; }
 
+  /* Home: Meet the LOWFFERS editorial grid */
+  .lowffers-title { font-family: 'Anton', 'Space Grotesk', sans-serif !important; font-weight: 400 !important; font-size: clamp(36px, 6vw, 64px) !important; letter-spacing: 0 !important; line-height: 0.9 !important; text-transform: uppercase; }
+  .lowffers-title .accent-dark { color: #004FFF; }
+  .comm-editorial { display: grid; gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .comm-editorial > div { overflow: hidden; background: #F4F4F2; aspect-ratio: 3/4; }
+  .comm-editorial img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s; }
+  .comm-editorial > div:hover img { transform: scale(1.03); }
+  .comm-editorial .ce-a { grid-column: 1 / -1; aspect-ratio: 16/10; }
+  @media (min-width: 780px) {
+    .comm-editorial {
+      grid-template-columns: 1.4fr 1fr 1fr;
+      grid-template-rows: 260px 240px;
+      grid-template-areas: "a b c" "a d d";
+      gap: 14px;
+    }
+    .comm-editorial > div { aspect-ratio: auto; }
+    .comm-editorial .ce-a { grid-area: a; aspect-ratio: auto; }
+    .comm-editorial .ce-b { grid-area: b; }
+    .comm-editorial .ce-c { grid-area: c; }
+    .comm-editorial .ce-d { grid-area: d; margin-top: -32px; position: relative; z-index: 2; box-shadow: 0 20px 40px rgba(11,11,12,0.12); }
+  }
+
+  /* Home: electric-blue brand statement strip */
+  .brand-strip { margin: 0 -16px; background: #004FFF url('uploads/Background.png') center / cover no-repeat; color: #FFF; padding: 40px 20px; overflow: hidden; }
+  .brand-strip-inner { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 28px; align-items: stretch; }
+  .brand-strip-text { display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+  .brand-strip-mark img { height: 32px; width: auto; display: block; filter: brightness(0) invert(1); }
+  .brand-strip-title { font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(44px, 9vw, 112px); line-height: 0.92; letter-spacing: -0.005em; text-transform: uppercase; margin: 0 0 8px; padding-bottom: 4px; }
+  .brand-strip-title .accent { color: #D6FF3B; }
+  .brand-strip-sub { font-size: 15px; line-height: 1.5; margin: 0; opacity: 0.92; max-width: 42ch; }
+  .brand-strip-photo { position: relative; aspect-ratio: 4/5; overflow: hidden; background: rgba(255,255,255,0.06); }
+  .brand-strip-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .brand-strip-photo::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 8px; background: #D6FF3B; }
+  @media (min-width: 900px) {
+    .brand-strip { margin: 8px -40px 0; padding: 72px 48px; }
+    .brand-strip-inner { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 56px; align-items: center; }
+    .brand-strip-photo { aspect-ratio: 4/5; max-height: 520px; }
+  }
+
   /* Home: Flow State collection feature */
   .fs-section {
     margin: 40px -16px 0;
-    padding: 48px 20px 56px;
+    padding: 40px 20px 48px;
     position: relative;
     overflow: hidden;
     background:
@@ -139,39 +190,43 @@
       radial-gradient(50% 40% at 60% 30%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 60%),
       linear-gradient(160deg, #DDE6F2 0%, #E8DDCA 100%);
   }
-  .fs-section::before, .fs-section::after {
-    content: ""; position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; z-index: 0;
-  }
-  .fs-section::before { width: 320px; height: 320px; background: #2F63B0; opacity: 0.28; top: -80px; left: -80px; }
-  .fs-section::after  { width: 280px; height: 280px; background: #C8B48A; opacity: 0.45; bottom: -80px; right: -60px; }
-  .fs-inner { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; align-items: center; max-width: 1200px; margin: 0 auto; }
+  /* Home: Flow State horizontal colourway strip */
+  .fs-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 0; }
+  .fs-strip.fs-strip-8 { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  @media (min-width: 900px) { .fs-strip.fs-strip-8 { gap: 10px; } }
+  .fs-strip > div { aspect-ratio: 1/1; overflow: hidden; background: #F4F4F2; }
+  .fs-strip img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  @media (min-width: 900px) { .fs-strip { gap: 10px; } }
+  .fs-inner { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; align-items: stretch; max-width: 1200px; margin: 0 auto; }
   .fs-art-col { display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
   .fs-art { width: 100%; height: auto; display: block; }
   .fs-copy { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
   .fs-copy .fs-eyebrow { font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 500; color: #3A3A3C; }
-  .fs-copy .fs-line { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(20px, 2.4vw, 28px); letter-spacing: -0.02em; line-height: 1.2; margin: 0; color: #0B0B0C; max-width: 22ch; }
-  .fs-photo { aspect-ratio: 4/5; overflow: hidden; background: #0B0B0C; }
-  .fs-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+  .fs-copy .fs-line { font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(20px, 4.4vw, 56px); letter-spacing: -0.005em; line-height: 0.95; margin: 0; color: #0B0B0C; white-space: nowrap; text-transform: uppercase; max-width: 22ch; }
+  .fs-art-panel { background: #FFF; padding: 24px; display: flex; align-items: center; justify-content: center; aspect-ratio: 4/5; }
+  .fs-art-panel img { max-width: 100%; max-height: 100%; width: auto; height: auto; display: block; }
+  .fs-photo { aspect-ratio: 4/5; overflow: hidden; background: #EAEAE6; }
+  .fs-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
   @media (min-width: 900px) {
-    .fs-section { margin: 56px -40px 0; padding: 64px 48px; }
-    .fs-inner { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 40px; align-items: center; }
-    .fs-art-col { max-width: 640px; }
-    .fs-art { max-width: 600px; width: 100%; }
-    .fs-photo { aspect-ratio: auto; height: 100%; min-height: 460px; }
+    .fs-section { margin: 56px -40px 0; padding: 72px 48px 80px; }
+    .fs-inner { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: stretch; }
+    .fs-art-col { max-width: none; }
+    .fs-art-panel { aspect-ratio: 4/5; padding: 40px; height: 100%; }
+    .fs-photo { aspect-ratio: 4/5; height: 100%; }
   }
 
   /* Home: Men's single-product feature */
   .mens-feature { display: grid; grid-template-columns: 1fr; gap: 20px; color: inherit; align-items: stretch; }
   .mens-feature-img { background: #F4F4F2; aspect-ratio: 4/5; overflow: hidden; }
-  .mens-feature-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+  .mens-feature-img img { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; transition: transform .5s; }
   .mens-feature:hover .mens-feature-img img { transform: scale(1.02); }
   .mens-feature-body { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; padding: 8px 2px; }
-  .mens-feature-name { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(24px, 3vw, 34px); letter-spacing: -0.02em; margin: 4px 0 0; line-height: 1.05; }
+  .mens-feature-name { font-family: 'Inter', sans-serif; font-weight: 600; font-size: clamp(20px, 2.6vw, 28px); letter-spacing: -0.01em; margin: 4px 0 0; line-height: 1.15; }
   .mens-feature-price { font-size: 18px; font-weight: 500; }
   .mens-feature-desc { font-size: 14px; color: #3A3A3C; line-height: 1.6; margin: 0; max-width: 40ch; }
   @media (min-width: 900px) {
     .mens-feature { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: center; }
-    .mens-feature-img { aspect-ratio: 4/5; max-height: 560px; }
+    .mens-feature-img { aspect-ratio: 4/5; max-height: 460px; }
     .mens-feature-body { padding: 0 8px; }
   }
 
@@ -185,7 +240,7 @@
   .col-tile:hover img { transform: scale(1.03); }
   .col-tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.7) 100%); }
   .col-body { position: absolute; z-index: 2; left: 20px; right: 20px; bottom: 20px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
-  .col-title { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(24px, 3vw, 40px); line-height: 1; letter-spacing: -0.02em; margin: 0; }
+  .col-title { font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(28px, 4vw, 48px); line-height: 0.95; letter-spacing: -0.005em; text-transform: uppercase; margin: 0; }
   .col-tile .link-standalone { color: #FFF; border-bottom-color: #FFF; }
   .col-two { display: grid; grid-template-columns: 1fr; gap: 12px; }
   @media (min-width: 900px) { .col-two { grid-template-columns: 1.4fr 1fr; } }
@@ -207,14 +262,14 @@
   .foot-brand { grid-column: 1 / -1; }
   @media (min-width: 900px) { .foot-brand { grid-column: auto; } }
   .foot-brand img { height: 24px; margin-bottom: 12px; }
-  .foot-brand p { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 18px; line-height: 1.15; letter-spacing: -0.01em; max-width: 22ch; margin: 0; }
+  .foot-brand p { font-family: 'Anton', sans-serif; font-weight: 400; font-size: 22px; line-height: 1.05; letter-spacing: -0.005em; text-transform: uppercase; max-width: 22ch; margin: 0; }
   .foot h5 { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; margin: 0 0 12px; color: rgba(255,255,255,0.7); }
   .foot ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
   .foot-bottom { padding-top: 20px; font-size: 12px; color: rgba(255,255,255,0.6); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
 
   /* ============ LISTING ============ */
   .plp-hd { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
-  .plp-hd h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(28px, 4vw, 44px); letter-spacing: -0.02em; margin: 0; line-height: 1; }
+  .plp-hd h1 { font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(36px, 6vw, 72px); letter-spacing: -0.005em; text-transform: uppercase; margin: 0; line-height: 0.95; padding-bottom: 2px; }
   .plp-hd p { margin: 6px 0 0; font-size: 14px; color: #3A3A3C; max-width: 44ch; }
   .plp-toolbar { display: flex; gap: 8px; justify-content: space-between; align-items: center; padding: 12px 0; border-top: 1px solid #E6E6E2; border-bottom: 1px solid #E6E6E2; margin-bottom: 16px; flex-wrap: wrap; }
   .tb-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 12px; background: #FFF; border: 1px solid #0B0B0C; border-radius: 2px; font-weight: 500; font-size: 13px; cursor: pointer; }
@@ -227,8 +282,8 @@
   .plp-clear { font-size: 12px; font-weight: 500; text-decoration: underline; background: transparent; border: 0; cursor: pointer; padding: 4px; color: #0B0B0C; }
   .plp-clear:hover { color: #004FFF; }
   .plp-body { display: grid; grid-template-columns: 1fr; gap: 24px; }
-  @media (min-width: 900px) { .plp-body { grid-template-columns: 220px minmax(0, 1fr); gap: 32px; } .plp-toolbar { padding: 14px 0; } .plp-mobile-only { display: none !important; } }
-  @media (max-width: 899px) { .plp-desktop-only { display: none !important; } }
+  @media (min-width: 900px) { .plp-toolbar { padding: 14px 0; } .plp-mobile-only { display: inline-flex !important; } }
+  .plp-desktop-only { display: none !important; }
 
   .facets { display: flex; flex-direction: column; }
   .facet { border-top: 1px solid #E6E6E2; padding: 12px 0; }
@@ -258,13 +313,13 @@
   .drawer-r { position: fixed; top: 0; right: 0; bottom: 0; width: min(92%, 380px); background: #FFF; z-index: 51; display: flex; flex-direction: column; box-shadow: -20px 0 40px rgba(0,0,0,0.16); }
   .drawer-l { position: fixed; top: 0; left: 0; bottom: 0; width: min(92%, 420px); background: #FFF; z-index: 51; display: flex; flex-direction: column; box-shadow: 20px 0 40px rgba(0,0,0,0.16); }
   .drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid #E6E6E2; }
-  .drawer-head h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 20px; margin: 0; letter-spacing: -0.01em; }
+  .drawer-head h2 { font-family: 'Anton', sans-serif; font-weight: 400; font-size: 24px; margin: 0; letter-spacing: -0.005em; text-transform: uppercase; }
   .drawer-body { padding: 12px 16px; overflow-y: auto; flex: 1; }
   .drawer-foot { padding: 16px; border-top: 1px solid #E6E6E2; display: flex; gap: 8px; }
 
   /* Empty state */
   .empty { text-align: center; padding: 48px 20px; background: #FFF; border: 1px solid #E6E6E2; }
-  .empty h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 20px; margin: 8px 0 6px; letter-spacing: -0.01em; }
+  .empty h4 { font-family: 'Anton', sans-serif; font-weight: 400; font-size: 26px; margin: 8px 0 8px; letter-spacing: -0.005em; text-transform: uppercase; }
   .empty p { font-size: 14px; color: #3A3A3C; max-width: 40ch; margin: 0 auto; line-height: 1.55; }
 
   /* ============ PDP ============ */
@@ -286,7 +341,7 @@
     .gal-thumbs button { width: 76px; }
   }
 
-  .info-name { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(24px, 3vw, 36px); line-height: 1.05; letter-spacing: -0.02em; margin: 4px 0; }
+  .info-name { font-family: 'Inter', sans-serif; font-weight: 600; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.15; letter-spacing: -0.01em; margin: 4px 0; }
   .info-price { font-size: 18px; font-weight: 500; }
   .info-eye { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #6B6B6E; font-weight: 500; }
   .selector { border-top: 1px solid #E6E6E2; padding-top: 16px; margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
@@ -334,17 +389,17 @@
   .line-remove:hover { color: #7A0B0B; }
   .line-price { text-align: right; font-weight: 500; font-size: 14px; }
   .summary { background: #FFF; border: 1px solid #E6E6E2; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-  .summary h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 18px; margin: 0 0 4px; }
+  .summary h3 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 16px; letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 4px; }
   .sum-row { display: flex; justify-content: space-between; font-size: 14px; color: #3A3A3C; }
   .sum-row .val { color: #0B0B0C; }
-  .sum-total { display: flex; justify-content: space-between; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 20px; padding-top: 12px; border-top: 1px solid #E6E6E2; margin-top: 4px; }
+  .sum-total { display: flex; justify-content: space-between; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 18px; padding-top: 12px; border-top: 1px solid #E6E6E2; margin-top: 4px; }
 
   /* Info pages */
   .info-page { max-width: 720px; margin: 0 auto; }
-  .info-title { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(32px, 5vw, 56px); letter-spacing: -0.02em; line-height: 1; margin: 8px 0 20px; }
+  .info-title { font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(36px, 6vw, 72px); letter-spacing: -0.005em; text-transform: uppercase; line-height: 0.95; margin: 8px 0 20px; padding-bottom: 2px; }
   .prose { font-size: 15px; line-height: 1.7; color: #3A3A3C; }
   .prose p { margin: 0 0 1em; }
-  .prose h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 20px; letter-spacing: -0.01em; color: #0B0B0C; margin: 28px 0 8px; }
+  .prose h3 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: #0B0B0C; margin: 28px 0 8px; }
   .info-tabs { display: flex; gap: 4px; border-bottom: 1px solid #E6E6E2; margin-bottom: 24px; overflow-x: auto; }
   .info-tabs button { flex: 0 0 auto; padding: 12px 18px; background: transparent; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; font: 500 14px 'Inter', sans-serif; color: #6B6B6E; cursor: pointer; }
   .info-tabs button.on { color: #0B0B0C; border-bottom-color: #0B0B0C; }
@@ -352,7 +407,7 @@
 
   /* Contact form */
   .form { background: #FFF; border: 1px solid #E6E6E2; padding: 24px; display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
-  .form h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 20px; margin: 0; }
+  .form h3 { font-family: 'Anton', sans-serif; font-weight: 400; font-size: 22px; text-transform: uppercase; letter-spacing: -0.005em; margin: 0; }
   .form .ribbon { padding: 10px 12px; background: #FFF3E0; border: 1px solid #F0D9AC; color: #7A4A00; font-size: 12px; line-height: 1.5; border-radius: 2px; }
   .form .ribbon b { font-weight: 600; }
   .field { display: flex; flex-direction: column; gap: 6px; }
@@ -370,6 +425,155 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   .spin { animation: spin 0.9s linear infinite; }
 
+  /* Home: Flow State combined product row */
+  .fs-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  @media (min-width: 640px) { .fs-row { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; } }
+  @media (max-width: 639px) {
+    .fs-row { display: grid; grid-auto-flow: column; grid-auto-columns: 72%; grid-template-columns: none; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 4px 12px; margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
+    .fs-row::-webkit-scrollbar { display: none; }
+    .fs-row > * { scroll-snap-align: start; }
+  }
+  .fs-row .pc-varied { display: none; }
+
+  /* Shop hero — compact photographic intro */
+  .shop-hero { display: grid; grid-template-columns: 1fr; gap: 0; background: #F4F4F2; margin: 0 -16px 24px; overflow: hidden; }
+  .shop-hero-photo { aspect-ratio: 5/4; overflow: hidden; background: #EAEAE6; order: -1; }
+  .shop-hero-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .shop-hero-body { padding: 24px 20px 28px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+  .shop-hero-body h1 { font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(36px, 6vw, 68px); letter-spacing: -0.005em; text-transform: uppercase; line-height: 0.95; margin: 0; padding-bottom: 2px; }
+  .shop-hero-body p { margin: 0; font-size: 15px; line-height: 1.6; color: #3A3A3C; max-width: 44ch; }
+  @media (min-width: 900px) {
+    .shop-hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); align-items: stretch; margin: 0 -40px 32px; }
+    .shop-hero-photo { aspect-ratio: auto; order: 1; min-height: 420px; }
+    .shop-hero-body { padding: 56px 48px; justify-content: center; gap: 16px; }
+  }
+
+  /* Men's single-product feature layout */
+  .mfeat { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: stretch; margin: 0 0 40px; color: inherit; }
+  .mfeat-media { aspect-ratio: 4/5; overflow: hidden; background: #F4F4F2; }
+  .mfeat-media img { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; display: block; transition: transform .5s; }
+  .mfeat:hover .mfeat-media img { transform: scale(1.02); }
+  .mfeat-body { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; padding: 8px 2px; }
+  .mfeat-name { font-family: 'Inter', sans-serif; font-weight: 600; font-size: clamp(22px, 2.6vw, 30px); letter-spacing: -0.01em; line-height: 1.15; margin: 4px 0 0; }
+  .mfeat-price { font-weight: 500; font-size: 18px; margin: 0; }
+  .mfeat-desc { font-size: 15px; line-height: 1.6; color: #3A3A3C; margin: 4px 0; max-width: 44ch; }
+  .mfeat-swatches { display: flex; gap: 6px; align-items: center; }
+  .mfeat-swatches span { width: 16px; height: 16px; border-radius: 50%; border: 1px solid #E6E6E2; display: inline-block; }
+  .mfeat-swatches em { font-style: normal; font-size: 13px; color: #6B6B6E; margin-left: 4px; }
+  @media (min-width: 900px) {
+    .mfeat { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+    .mfeat-media { aspect-ratio: 4/5; max-height: 620px; }
+    .mfeat-body { padding: 0 8px; gap: 16px; }
+  }
+
+  /* Home: Meet the collection rundown */
+  .rd { margin: 40px -16px 0; padding: 40px 16px 48px; background: #FFF; }
+  @media (min-width: 900px) { .rd { margin: 56px -40px 0; padding: 64px 48px 72px; } }
+  .rd-h { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; flex-wrap: wrap; gap: 16px; }
+  .rd-h h2 { font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(28px, 4vw, 44px); letter-spacing: -0.005em; text-transform: uppercase; margin: 0; line-height: 0.95; padding-bottom: 2px; }
+  .rd-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin: 4px 0 28px; scrollbar-width: none; }
+  .rd-tabs::-webkit-scrollbar { display: none; }
+  .rd-tab { flex: 0 0 auto; padding: 10px 18px; background: #FFF; border: 1px solid #0B0B0C; color: #0B0B0C; font: 500 12px 'Inter', sans-serif; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; border-radius: 999px; transition: background-color .12s, color .12s, border-color .12s; min-height: 40px; }
+  .rd-tab:hover { background: #F4F4F2; }
+  .rd-tab.on { background: #0B0B0C; color: #FFF; border-color: #0B0B0C; }
+  .rd-tab:focus-visible { outline: 2px solid #004FFF; outline-offset: 2px; }
+  .rd-panel { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: center; max-width: 1200px; margin: 0 auto; }
+  @media (min-width: 900px) { .rd-panel { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; } }
+  .rd-img { aspect-ratio: 4/5; overflow: hidden; background: #F4F4F2; }
+  .rd-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .rd-name { font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(32px, 5vw, 56px); text-transform: uppercase; letter-spacing: -0.005em; line-height: 0.95; margin: 0 0 22px; padding-bottom: 2px; color: #0B0B0C; }
+  .rd-benefit { border-top: 1px solid #E6E6E2; padding: 16px 0; }
+  .rd-benefit:first-of-type { border-top: 0; padding-top: 0; }
+  .rd-benefit h4 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 15px; letter-spacing: 0; margin: 0 0 6px; color: #0B0B0C; }
+  .rd-benefit p { font-size: 14px; line-height: 1.6; color: #3A3A3C; margin: 0; max-width: 46ch; }
+  .rd-cta { margin-top: 24px; }
+
+  /* About page — campaign layout */
+  .about-hero { position: relative; overflow: hidden; aspect-ratio: 16/10; margin: 0 -16px 40px; color: #FFF; }
+  .about-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+  .about-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.75) 100%); }
+  .about-hero-body { position: absolute; z-index: 2; left: 20px; right: 20px; bottom: 28px; }
+  .about-hero-eyebrow { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 500; margin-bottom: 12px; opacity: 0.92; }
+  .about-hero-title { font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(36px, 6vw, 72px); line-height: 0.95; letter-spacing: -0.005em; margin: 0; text-transform: uppercase; max-width: 14ch; padding-bottom: 2px; }
+  .about-hero-title .accent { color: #D6FF3B; }
+  .about-tagline { font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(44px, 9vw, 108px); line-height: 0.95; letter-spacing: -0.005em; text-transform: uppercase; margin: 0 0 28px; padding-bottom: 4px; color: #0B0B0C; max-width: 14ch; }
+  .about-tagline .accent { color: #004FFF; }
+  .about-lede-sub { max-width: 640px; font-size: 16px; line-height: 1.7; color: #3A3A3C; margin: 0 0 56px; }
+  .about-hero-title .accent { color: #D6FF3B; }
+  @media (min-width: 900px) { .about-hero { margin: 0 -40px 56px; aspect-ratio: 21/9; } .about-hero-body { left: 48px; right: 48px; bottom: 56px; } }
+  .about-wrap { max-width: 1100px; margin: 0 auto; }
+  .about-lede { max-width: 760px; font-size: clamp(18px, 2vw, 22px); line-height: 1.55; color: #0B0B0C; margin: 8px 0 56px; font-weight: 500; }
+  .about-block { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: center; margin: 0 0 64px; }
+  .about-block-img { aspect-ratio: 4/5; overflow: hidden; background: #F4F4F2; }
+  .about-block-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .about-block h2 { font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(32px, 6vw, 72px); line-height: 0.9; letter-spacing: -0.005em; text-transform: uppercase; margin: 0 0 16px; color: #0B0B0C; }
+  .about-block h2 .accent { color: #004FFF; }
+  .about-block p { font-size: 16px; line-height: 1.7; color: #3A3A3C; margin: 0 0 14px; max-width: 44ch; }
+  @media (min-width: 900px) {
+    .about-block { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; margin-bottom: 88px; }
+    .about-block.reverse .about-block-img { order: 2; }
+  }
+  .about-community { margin: 0 -16px; background: #004FFF url('uploads/Background.png') center / cover no-repeat; color: #FFF; padding: 56px 20px; overflow: hidden; }
+  .about-community h2 { font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(44px, 10vw, 120px); line-height: 0.9; letter-spacing: -0.005em; text-transform: uppercase; margin: 0 0 16px; }
+  .about-community h2 .accent { color: #D6FF3B; }
+  .about-community p { font-size: 15px; line-height: 1.6; margin: 0 0 24px; max-width: 46ch; opacity: 0.92; }
+  .about-community-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 32px; align-items: end; }
+  .about-community-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .about-community-strip > div { aspect-ratio: 3/4; overflow: hidden; background: rgba(255,255,255,0.06); }
+  .about-community-strip img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  @media (min-width: 900px) {
+    .about-community { margin: 0 -40px; padding: 96px 48px; }
+    .about-community-inner { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; }
+    .about-community-strip { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  }
+
+  /* Follow page — editorial */
+  .follow-hero { background: #0B0B0C; color: #FFF; padding: 64px 20px 56px; margin: 0 -16px 40px; }
+  .follow-hero-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 24px; align-items: end; }
+  .follow-hero .about-hero-eyebrow { margin-bottom: 20px; }
+  .follow-hero h1 { font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(48px, 10vw, 120px); line-height: 0.92; letter-spacing: -0.005em; text-transform: uppercase; margin: 0; padding-bottom: 4px; }
+  .follow-hero h1 .accent { color: #D6FF3B; }
+  .follow-hero p { font-size: 16px; line-height: 1.6; opacity: 0.9; max-width: 44ch; margin: 0 0 20px; }
+  .follow-hero-cta { display: flex; gap: 10px; flex-wrap: wrap; }
+  @media (min-width: 900px) {
+    .follow-hero { padding: 96px 48px 72px; margin: 0 -40px 56px; }
+    .follow-hero-inner { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 56px; align-items: end; }
+  }
+  .follow-section-h { font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(28px, 4.5vw, 48px); text-transform: uppercase; letter-spacing: 0; line-height: 0.95; margin: 56px 0 20px; }
+  .follow-section-h .accent { color: #004FFF; }
+  .follow-strip { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .follow-strip > div { overflow: hidden; background: #F4F4F2; aspect-ratio: 3/4; }
+  .follow-strip img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s; }
+  .follow-strip > div:hover img { transform: scale(1.03); }
+  @media (min-width: 780px) { .follow-strip { grid-template-columns: repeat(4, 1fr); gap: 12px; } }
+  .follow-caption { font-size: 13px; color: #6B6B6E; margin: 8px 0 0; }
+
+  /* Collections — Flow State campaign */
+  .col-fs { margin: 0 -16px 32px; position: relative; overflow: hidden; padding: 56px 20px 72px;
+    background:
+      radial-gradient(ellipse at 15% 30%, rgba(0,79,255,0.35) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 75%, rgba(200,180,138,0.6) 0%, transparent 55%),
+      linear-gradient(160deg, #DDE6F2 0%, #E8DDCA 100%);
+  }
+  .col-fs-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; display: grid; grid-template-columns: 1fr; gap: 32px; align-items: center; }
+  .col-fs-eyebrow { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 500; color: #3A3A3C; margin-bottom: 14px; }
+  .col-fs-title { font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(52px, 10vw, 128px); line-height: 0.92; letter-spacing: -0.005em; text-transform: uppercase; margin: 0 0 18px; color: #0B0B0C; padding-bottom: 4px; }
+  .col-fs-title .accent { color: #004FFF; }
+  .col-fs-lede { font-size: clamp(16px, 1.6vw, 19px); line-height: 1.55; color: #0B0B0C; max-width: 46ch; margin: 0 0 24px; font-weight: 500; }
+  .col-fs-ctas { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+  .col-fs-art { width: 100%; max-width: 640px; margin: 0 auto; }
+  @media (min-width: 900px) {
+    .col-fs { padding: 96px 48px 112px; margin: 0 -40px 56px; }
+    .col-fs-inner { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 40px; }
+    .col-fs-art { max-width: 620px; margin: 0; margin-right: -60px; }
+  }
+  .col-products { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  @media (min-width: 720px) { .col-products { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; } }
+  .col-info { display: grid; grid-template-columns: 1fr; gap: 24px; margin: 56px 0 0; padding: 40px 0 0; border-top: 1px solid #E6E6E2; }
+  @media (min-width: 900px) { .col-info { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; } }
+  .col-info h3 { font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(28px, 4vw, 44px); text-transform: uppercase; letter-spacing: 0; line-height: 0.95; margin: 0 0 12px; }
+  .col-info p { font-size: 15px; line-height: 1.6; color: #3A3A3C; margin: 0 0 12px; max-width: 44ch; }
+
   /* Prototype notice at the very bottom (kept minimal, always outside shopper layouts) */
   .proto-strip { background: #0B0B0C; color: #FFFFFF; font-size: 11px; text-align: center; padding: 8px 12px; letter-spacing: 0.08em; text-transform: uppercase; border-top: 1px solid rgba(255,255,255,0.15); }
 </style>
@@ -385,6 +589,7 @@
       <a href="#/shop?g=men" class="{{ navMen }}">Men's</a>
       <a href="#/shop?g=women" class="{{ navWomen }}">Women's</a>
       <a href="#/collections" class="{{ navCollections }}">Collections</a>
+      <a href="#/about" class="{{ navAbout }}">About</a>
       <a href="#/follow" class="{{ navFollow }}">Follow</a>
       <a href="#/contact" class="{{ navContact }}">Contact</a>
     </nav>
@@ -411,8 +616,8 @@
       <a href="#/shop?g=men" onClick="{{ closeMenu }}">Men's</a>
       <a href="#/shop?g=women" onClick="{{ closeMenu }}">Women's</a>
       <a href="#/collections" onClick="{{ closeMenu }}">Collections</a>
-      <a href="#/follow" onClick="{{ closeMenu }}">Follow</a>
       <a href="#/about" onClick="{{ closeMenu }}">About</a>
+      <a href="#/follow" onClick="{{ closeMenu }}">Follow</a>
       <a href="#/contact" onClick="{{ closeMenu }}">Contact</a>
     </div>
     <div class="menu-secondary">
@@ -472,10 +677,10 @@
       <img src="https://lowff.co.uk/wp-content/uploads/2025/11/CARO-PIC-MAIN%40300x-1-scaled.png" alt="LOWFF Flow State campaign photograph">
       <div class="hero-body">
         <div class="hero-eyebrow">The Collection · Flow State</div>
-        <h1 class="hero-title">Made for the movement.</h1>
+        <h1 class="hero-title"><span class="lb">Boldness</span><span class="lb">has no</span><span class="lb accent">borders.</span></h1>
         <div class="hero-ctas">
-          <a class="btn btn-onphoto" href="#/shop?g=women">Shop Women</a>
-          <a class="btn btn-ghost" href="#/shop?g=men">Shop Men</a>
+          <a class="btn btn-primary" href="#/shop?g=women">Shop Women</a>
+          <a class="btn btn-secondary" href="#/shop?g=men">Shop Men</a>
         </div>
       </div>
     </section>
@@ -483,56 +688,78 @@
     <div style="padding: 0 16px;">
     <section class="sec">
       <div class="sec-h">
-        <div><div class="eyebrow">Women's · New in</div><h2>New from Flow State</h2></div>
-        <a class="link-standalone" href="#/shop?g=women">View all →</a>
+        <div><div class="eyebrow">New collection · Flow State</div><h2>Shop Flow State</h2></div>
+        <a class="link-standalone" href="#/shop">View all →</a>
       </div>
-      <div class="pc-grid-3">
-        <sc-for list="{{ homeWomen }}" as="p" hint-placeholder-count="3">
-          <a class="pc" href="#/product/{{ p.slug }}"><div class="pc-media"><img src="{{ p.homeImg }}" alt="{{ p.name }}"></div><div class="pc-body"><div class="pc-name">{{ p.name }}</div><div class="pc-price">{{ p.priceLabel }}</div><div class="pc-sw" aria-hidden="true"><span style="background: #2F63B0;"></span><span style="background: #0B0B0C;"></span><span style="background: #C8B48A;"></span></div></div></a>
+      <div class="fs-row">
+        <sc-for list="{{ shopFsRow }}" as="p" hint-placeholder-count="4">
+          <a class="pc" href="#/product/{{ p.slug }}"><div class="pc-media"><img src="{{ p.img }}" alt="{{ p.name }}"></div><div class="pc-body"><div class="pc-name">{{ p.name }}</div><div class="pc-price">{{ p.priceLabel }}</div><div class="pc-sw" aria-hidden="true"><span style="background: #2F63B0;"></span><span style="background: #0B0B0C;"></span><span style="background: #C8B48A;"></span></div></div></a>
         </sc-for>
       </div>
     </section>
 
-    <section class="sec" style="border-top: 1px solid #E6E6E2; border-bottom: 1px solid #E6E6E2;">
-      <div class="sec-h">
-        <div><div class="eyebrow">Men's · New in</div></div>
-      </div>
-      <a class="mens-feature" href="#/product/flow-state-tee">
-        <div class="mens-feature-img"><img src="https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0920-819x1024.jpg" alt="Flow State Men's T-Shirt"></div>
-        <div class="mens-feature-body">
-          <div class="eyebrow" style="color: #6B6B6E;">Men's · Flow State</div>
-          <h3 class="mens-feature-name">Flow State T-Shirt</h3>
-          <div class="mens-feature-price">£29.50</div>
-          <p class="mens-feature-desc">Stretchy, supportive, breathable — built to move with a bold, dynamic pattern.</p>
-          <span class="btn btn-primary">Shop the T-shirt</span>
+    <section class="brand-strip" aria-label="LOWFF brand statement">
+      <div class="brand-strip-inner">
+        <div class="brand-strip-text">
+          <div class="brand-strip-mark" aria-hidden="true"><img src="uploads/FULL_WHITE%40300x.png" alt=""></div>
+          <h3 class="brand-strip-title">Move <span class="accent">boldly.</span></h3>
+          <p class="brand-strip-sub">Performance wear for those who move boldly.</p>
+          <a class="btn btn-onphoto" href="#/shop">Shop the range</a>
         </div>
-      </a>
+        <div class="brand-strip-photo">
+          <img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9895-819x1024.jpg" alt="LOWFF athlete mid-movement">
+        </div>
+      </div>
     </section>
 
     <section class="fs-section">
-      <div class="fs-inner">
-        <div class="fs-art-col">
-          <img class="fs-art" src="uploads/Flow%20State-fc0b57f7.jpg" alt="Flow State collection artwork">
-          <div class="fs-copy">
-            <div class="fs-eyebrow">The Collection · Flow State</div>
-            <p class="fs-line">Four pieces, made for the movement.</p>
-            <a class="btn btn-primary" href="#/shop">Shop Flow State</a>
-          </div>
-        </div>
-        <div class="fs-photo">
-          <img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1282-1-scaled.jpg" alt="LOWFF Flow State campaign photograph">
+      <div class="fs-copy" style="max-width: 1200px; margin: 0 auto 32px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start;">
+        <div class="fs-eyebrow">The Collection · Flow State</div>
+        <p class="fs-line">Bold in colour. Free to move.</p>
+      </div>
+      <div class="fs-strip fs-strip-8" role="list" aria-label="Flow State — colourways and on athletes">
+        <div role="listitem"><img src="uploads/FLOW%20STATE-03-488f7a62.png" alt="Flow State — blue photographic colourway"></div>
+        <div role="listitem"><img src="uploads/FLOW%20STATE-04-f3dc3c75.png" alt="Flow State — blue bubble on photographic ground colourway"></div>
+        <div role="listitem"><img src="uploads/FLOW%20STATE-05-f57730b5.png" alt="Flow State — warm red colourway"></div>
+        <div role="listitem"><img src="uploads/FLOW%20STATE-09-0b058515.png" alt="Flow State — blue on photographic ground colourway"></div>
+        <div role="listitem"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1074-819x1024.jpg" alt="Athlete wearing the Flow State Dress"></div>
+        <div role="listitem"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1286-819x1024.jpg" alt="Athlete wearing the Flow State Tank"></div>
+        <div role="listitem"><img src="https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0941-819x1024.jpg" alt="Athlete wearing the Flow State Men's T-Shirt"></div>
+        <div role="listitem"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9895-819x1024.jpg" alt="Athlete wearing Flow State"></div>
+      </div>
+      <div style="max-width: 1200px; margin: 28px auto 0;">
+        <a class="btn btn-primary" href="#/shop">Shop Flow State</a>
+      </div>
+    </section>
+
+    <section class="rd" aria-labelledby="rd-title">
+      <div class="rd-h">
+        <div><div class="eyebrow">The Collection · Flow State</div><h2 id="rd-title">Meet the collection</h2></div>
+      </div>
+      <div class="rd-tabs" role="tablist" aria-label="Flow State product selector">
+        <sc-for list="{{ rundownTabs }}" as="t" hint-placeholder-count="4">
+          <button class="rd-tab {{ t.on }}" type="button" role="tab" aria-selected="{{ t.selected }}" aria-controls="rd-panel" onClick="{{ t.select }}">{{ t.label }}</button>
+        </sc-for>
+      </div>
+      <div class="rd-panel" role="tabpanel" id="rd-panel" aria-live="polite">
+        <div class="rd-img"><img src="{{ rundown.img }}" alt="{{ rundown.imgAlt }}"></div>
+        <div>
+          <h3 class="rd-name">{{ rundown.name }}</h3>
+          <sc-for list="{{ rundown.benefits }}" as="b" hint-placeholder-count="3">
+            <div class="rd-benefit"><h4>{{ b.title }}</h4><p>{{ b.text }}</p></div>
+          </sc-for>
+          <a class="btn btn-primary rd-cta" href="#/product/{{ rundown.slug }}">{{ rundown.ctaLabel }}</a>
         </div>
       </div>
     </section>
 
     <section class="sec" style="border-top: 1px solid #E6E6E2;">
-      <div class="sec-h"><div><div class="eyebrow">Follow</div><h2>The people around LOWFF.</h2></div><a class="btn btn-secondary" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Follow @_lowff_</a></div>
-      <div class="comm">
-        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/11/COLLAGE-IMAGE%40300x-scaled.png" alt="LOWFF campaign collage"></div>
-        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-scaled.jpg" alt="LOWFF photograph"></div>
-        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1282-1-scaled.jpg" alt="LOWFF photograph"></div>
-        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/11/image-1.jpg" alt="LOWFF photograph"></div>
-        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/11/image-2.jpg" alt="LOWFF photograph"></div>
+      <div class="sec-h"><div><div class="eyebrow">Follow</div><h2 class="lowffers-title">Meet the <span class="accent-dark">LOWFFERS.</span></h2></div><a class="btn btn-secondary" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Follow @_lowff_</a></div>
+      <div class="comm-editorial">
+        <div class="ce-a"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-scaled.jpg" alt="LOWFF athlete portrait"></div>
+        <div class="ce-b"><img src="https://lowff.co.uk/wp-content/uploads/2025/11/COLLAGE-IMAGE%40300x-scaled.png" alt="LOWFF campaign collage"></div>
+        <div class="ce-c"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9949-819x1024.jpg" alt="Athlete moving in Flow State"></div>
+        <div class="ce-d"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1247-819x1024.jpg" alt="Athletes together in the Flow State Tank"></div>
       </div>
     </section>
     </div>
@@ -543,7 +770,18 @@
 <sc-if value="{{ showShop }}" hint-placeholder-val="{{ false }}">
   <div class="page">
     <div class="breadcrumbs"><a href="#/home">Home</a><span>/</span><span aria-current="page">{{ shopTitle }}</span></div>
-    <div class="plp-hd">
+    <sc-if value="{{ shopHeroShow }}" hint-placeholder-val="{{ false }}">
+      <section class="shop-hero">
+        <div class="shop-hero-body">
+          <div class="eyebrow" style="color: #6B6B6E;">The Collection · Flow State</div>
+          <h1>{{ shopTitle }}</h1>
+          <p>{{ shopIntro }}</p>
+        </div>
+        <div class="shop-hero-photo"><img src="{{ shopHeroImg }}" alt="{{ shopHeroAlt }}"></div>
+      </section>
+    </sc-if>
+    <sc-if value="{{ shopHeroShow }}" hint-placeholder-val="{{ true }}"></sc-if>
+    <div class="plp-hd" style="display: none;">
       <div><h1>{{ shopTitle }}</h1><p>{{ shopIntro }}</p></div>
     </div>
 
@@ -599,9 +837,22 @@
 
       <!-- Results grid or empty -->
       <div>
-        <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
-          <div class="pc-grid">
-            <sc-for list="{{ shopResults }}" as="p" hint-placeholder-count="4">
+        <sc-if value="{{ menFeatOn }}" hint-placeholder-val="{{ false }}">
+          <a class="mfeat" href="#/product/{{ menFeat.slug }}">
+            <div class="mfeat-media"><img src="{{ menFeat.img }}" alt="{{ menFeat.name }}"></div>
+            <div class="mfeat-body">
+              <div class="eyebrow" style="color: #6B6B6E;">Men's · Flow State</div>
+              <h2 class="mfeat-name">{{ menFeat.name }}</h2>
+              <p class="mfeat-price">{{ menFeat.priceLabel }}</p>
+              <p class="mfeat-desc">{{ menFeat.desc }}</p>
+              <div class="mfeat-swatches" aria-label="Available colours"><span style="background: #2F63B0;"></span><span style="background: #0B0B0C;"></span><span style="background: #C8B48A;"></span><em>{{ menFeat.colourLabel }}</em></div>
+              <span class="btn btn-primary" style="margin-top: 8px;">View product →</span>
+            </div>
+          </a>
+        </sc-if>
+        <sc-if value="{{ menFeatOff }}" hint-placeholder-val="{{ true }}">
+          <div class="pc-grid pc-grid-shop">
+            <sc-for list="{{ shopResults }}" as="p" hint-placeholder-count="3">
               <a class="pc" href="#/product/{{ p.slug }}">
                 <div class="pc-media"><img src="{{ p.img }}" alt="{{ p.name }}"></div>
                 <div class="pc-body"><div class="pc-name">{{ p.name }}</div><div class="pc-price">{{ p.priceLabel }}</div><div class="pc-sw"><span style="background: #2F63B0;"></span><span style="background: #0B0B0C;"></span><span style="background: #C8B48A;"></span></div></div>
@@ -788,26 +1039,59 @@
 
 <!-- ============ INFO PAGES ============ -->
 <sc-if value="{{ showAbout }}" hint-placeholder-val="{{ false }}">
-  <div class="page"><div class="info-page">
-    <div class="breadcrumbs"><a href="#/home">Home</a><span>/</span><span aria-current="page">About</span></div>
-    <div class="info-tabs">
-      <a href="#/about"><button class="on" type="button">About</button></a>
-      <a href="#/contact"><button type="button">Contact</button></a>
-      <a href="#/returns"><button type="button">Delivery &amp; returns</button></a>
+  <div class="page" style="padding: 0 16px;">
+    <div class="breadcrumbs" style="margin-bottom: 12px;"><a href="#/home">Home</a><span>/</span><span aria-current="page">About</span></div>
+
+    <section class="about-hero">
+      <img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1230-819x1024.jpg" alt="LOWFF athlete portrait">
+      <div class="about-hero-body">
+        <div class="about-hero-eyebrow">Brand</div>
+        <h1 class="about-hero-title">About <span class="accent">LOWFF.</span></h1>
+      </div>
+    </section>
+
+    <div class="about-wrap">
+      <p class="about-tagline">Sport is more than <span class="accent">a game.</span></p>
+      <p class="about-lede">At LOWFF, we believe every athlete deserves a partner who's with them through every moment of their journey. Whether you're training for your next big competition, pushing through the grind, celebrating a victory, or recovering from a setback — LOWFF is here to support you.</p>
+      <p class="about-lede-sub">More than a sportswear brand. A community, built by athletes, for athletes.</p>
+
+      <section class="about-block">
+        <div class="about-block-img"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9895-819x1024.jpg" alt="LOWFF athlete in training"></div>
+        <div>
+          <h2>Racket sports, <span class="accent">and beyond.</span></h2>
+          <p>LOWFF specialises in high-performance sportswear, with a unique focus on racket sports.</p>
+          <p>Our mission goes beyond a single discipline — we're here for athletes of all kinds, championing the work it takes to reach peak potential.</p>
+        </div>
+      </section>
+
+      <section class="about-block reverse">
+        <div class="about-block-img"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1286-819x1024.jpg" alt="LOWFF athlete in focus"></div>
+        <div>
+          <h2>Built for the highs <span class="accent">and the lows.</span></h2>
+          <p>We know an athlete's journey is far from linear. That's why LOWFF is committed to supporting you through it all — empowering you to become the best athlete you can be, no matter where you are on your journey.</p>
+          <p>Our products are made to help you rise to every challenge and celebrate every success — and to help you feel part of the community around every session.</p>
+        </div>
+      </section>
     </div>
-    <h1 class="info-title">Sport is more than a game.</h1>
-    <div class="prose">
-      <p style="font-size: 17px; color: #0B0B0C;">At Lowff, we believe that every athlete deserves a partner who's with them through every moment of their journey. Whether you're training for your next big competition, pushing through the grind, celebrating a victory, or recovering from a setback, Lowff is here to support you. We are more than just a sportswear brand — we're a community, built by athletes, for athletes.</p>
-      <p>Lowff specializes in high-performance sportswear, with a unique focus on racket sports. However, our mission goes beyond a single discipline. We are here for athletes of all kinds, championing their efforts to reach their peak potential.</p>
-      <h3>Built for the highs and the lows</h3>
-      <p>We know that an athlete's journey is far from linear. That's why Lowff is committed to supporting you through it all. Lowff is about empowering you to become the best athlete you can be, no matter where you are in your journey. Our products are made to help you rise to every challenge and celebrate every success.</p>
-      <p style="font-weight: 500; color: #0B0B0C;">Welcome to the Lowff community.</p>
-    </div>
-    <div style="display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap;">
-      <a class="btn btn-primary" href="#/shop">Shop the collection</a>
-      <a class="btn btn-secondary" href="#/contact">Get in touch</a>
-    </div>
-  </div></div>
+
+    <section class="about-community">
+      <div class="about-community-inner">
+        <div>
+          <h2>Welcome to the <span class="accent">LOWFFERS.</span></h2>
+          <p>The people who move with us. Athletes, training partners, and the moments in between — meet the community.</p>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <a class="btn btn-onphoto" href="#/follow">Meet the LOWFFERS</a>
+            <a class="btn btn-ghost" href="#/shop">Shop the range</a>
+          </div>
+        </div>
+        <div class="about-community-strip">
+          <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-scaled.jpg" alt="LOWFF athlete portrait"></div>
+          <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1247-819x1024.jpg" alt="Athletes together"></div>
+          <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1180-819x1024.jpg" alt="LOWFF athlete portrait"></div>
+        </div>
+      </div>
+    </section>
+  </div>
 </sc-if>
 
 <sc-if value="{{ showContact }}" hint-placeholder-val="{{ false }}">
@@ -892,37 +1176,45 @@
 
 <!-- ============ COLLECTIONS ============ -->
 <sc-if value="{{ showCollections }}" hint-placeholder-val="{{ false }}">
-  <div class="page">
-    <div class="breadcrumbs"><a href="#/home">Home</a><span>/</span><span aria-current="page">Collections</span></div>
-    <div class="plp-hd">
-      <div>
-        <h1>Collections</h1>
-        <p>LOWFF releases small, considered edits — one collection at a time. Flow State is the current release.</p>
-      </div>
-    </div>
+  <div class="page" style="padding: 0 16px;">
+    <div class="breadcrumbs" style="margin-bottom: 12px;"><a href="#/home">Home</a><span>/</span><span aria-current="page">Collections</span></div>
 
-    <section class="sec" style="padding-top: 8px;">
-      <div class="col-two">
-        <a class="col-tile" href="#/shop" style="aspect-ratio: 4/5;">
-          <img src="https://lowff.co.uk/wp-content/uploads/2025/11/CARO-PIC-MAIN%40300x-1-scaled.png" alt="Flow State campaign photograph">
-          <div class="col-body">
-            <div class="hero-eyebrow">Current release</div>
-            <h2 class="col-title">Flow State</h2>
-            <span class="link-standalone">Shop the collection →</span>
-          </div>
-        </a>
-        <div style="background: #F4F4F2; padding: 24px; display: flex; flex-direction: column; gap: 20px; justify-content: space-between;">
-          <div>
-            <div class="eyebrow" style="color: #6B6B6E;">About the collection</div>
-            <h3 style="font-family: 'Space Grotesk'; font-weight: 500; font-size: clamp(20px, 3vw, 28px); letter-spacing: -0.02em; margin: 8px 0 0;">Made for the movement.</h3>
-            <p style="font-size: 14px; color: #3A3A3C; line-height: 1.6; margin: 12px 0 0;">Four Flow State pieces — dress, tank, skort and men's tee — built from stretchy, supportive fabric that carries structure without giving up freedom of movement.</p>
-          </div>
-          <img src="uploads/Flow%20State-fc0b57f7.jpg" alt="Flow State collection artwork" style="width: 100%; max-width: 520px; margin: 0 auto;">
-          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <a class="btn btn-primary" href="#/shop">Shop Flow State</a>
+    <section class="col-fs">
+      <div class="col-fs-inner">
+        <div>
+          <div class="col-fs-eyebrow">The current release</div>
+          <h1 class="col-fs-title">Flow <span class="accent">State.</span></h1>
+          <p class="col-fs-lede">Four pieces. One collection. A dress, a tank, a skort, and a men's tee — built from stretchy, supportive fabric that gives structure without holding you back.</p>
+          <div class="col-fs-ctas">
+            <a class="btn btn-primary" href="#/shop">Shop the collection</a>
             <a class="btn btn-secondary" href="#/shop?g=women">Women's</a>
             <a class="btn btn-secondary" href="#/shop?g=men">Men's</a>
           </div>
+        </div>
+        <img class="col-fs-art" src="uploads/Flow%20State-fc0b57f7.jpg" alt="Flow State collection artwork">
+      </div>
+    </section>
+
+    <section style="margin: 0 auto 40px; max-width: 1200px;">
+      <div class="sec-h">
+        <div><div class="eyebrow">Shop the collection</div><h2 style="font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(28px, 4vw, 44px); letter-spacing: 0; text-transform: uppercase; line-height: 0.95;">Four pieces.</h2></div>
+        <a class="link-standalone" href="#/shop">View all →</a>
+      </div>
+      <div class="col-products">
+        <a class="pc" href="#/product/flow-state-dress"><div class="pc-media"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1074-819x1024.jpg" alt="Flow State Dress"></div><div class="pc-body"><div class="pc-name">Flow State Dress</div><div class="pc-price">£65.00</div></div></a>
+        <a class="pc" href="#/product/flow-state-tank"><div class="pc-media"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1180-819x1024.jpg" alt="Flow State Tank Top"></div><div class="pc-body"><div class="pc-name">Flow State Tank Top</div><div class="pc-price">£32.50</div></div></a>
+        <a class="pc" href="#/product/flow-state-skort"><div class="pc-media"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1331-819x1024.jpg" alt="Flow State Skort"></div><div class="pc-body"><div class="pc-name">Flow State Skort</div><div class="pc-price">£40.00</div></div></a>
+        <a class="pc" href="#/product/flow-state-tee"><div class="pc-media"><img src="https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0920-819x1024.jpg" alt="Flow State T-Shirt"></div><div class="pc-body"><div class="pc-name">Flow State T-Shirt</div><div class="pc-price">£29.50</div></div></a>
+      </div>
+
+      <div class="col-info">
+        <div>
+          <h3>Made to move.</h3>
+          <p>The Flow State fabric is stretchy and supportive at once — dynamic pattern, breathable feel, structure that follows you through the session.</p>
+        </div>
+        <div>
+          <h3>Small, considered edits.</h3>
+          <p>LOWFF releases one collection at a time. Flow State is the current chapter — new work is on the way.</p>
         </div>
       </div>
     </section>
@@ -931,27 +1223,52 @@
 
 <!-- ============ FOLLOW / COMMUNITY ============ -->
 <sc-if value="{{ showFollow }}" hint-placeholder-val="{{ false }}">
-  <div class="page">
-    <div class="breadcrumbs"><a href="#/home">Home</a><span>/</span><span aria-current="page">Follow</span></div>
-    <div class="plp-hd">
-      <div>
-        <h1>The people around LOWFF.</h1>
-        <p>Athletes, training, and the moments in between — shared on Instagram. Follow along, or reach out directly.</p>
-      </div>
-      <a class="btn btn-primary" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Follow @_lowff_</a>
-    </div>
-    <section class="sec" style="padding-top: 8px;">
-      <div class="comm">
-        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/11/COLLAGE-IMAGE%40300x-scaled.png" alt="LOWFF campaign collage"></div>
-        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-scaled.jpg" alt="LOWFF photograph"></div>
-        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1282-1-scaled.jpg" alt="LOWFF photograph"></div>
-        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/11/image-1.jpg" alt="LOWFF photograph"></div>
-        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/11/image-2.jpg" alt="LOWFF photograph"></div>
+  <div class="page" style="padding: 0 16px;">
+    <div class="breadcrumbs" style="margin-bottom: 12px;"><a href="#/home">Home</a><span>/</span><span aria-current="page">Follow</span></div>
+
+    <section class="follow-hero">
+      <div class="follow-hero-inner">
+        <div>
+          <div class="about-hero-eyebrow">The community</div>
+          <h1>Meet the <span class="accent">LOWFFERS.</span></h1>
+        </div>
+        <div>
+          <p>Athletes, training, and the moments in between. A curated look at the people who move with us — for the full feed, follow along on Instagram.</p>
+          <div class="follow-hero-cta">
+            <a class="btn btn-onphoto" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Follow @_lowff_</a>
+            <a class="btn btn-ghost" href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a>
+          </div>
+        </div>
       </div>
     </section>
-    <div style="margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap;">
-      <a class="btn btn-secondary" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Instagram →</a>
-      <a class="btn btn-secondary" href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a>
+
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <h2 class="follow-section-h">In <span class="accent">motion.</span></h2>
+      <div class="comm-editorial">
+        <div class="ce-a"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-scaled.jpg" alt="LOWFF athlete portrait"></div>
+        <div class="ce-b"><img src="https://lowff.co.uk/wp-content/uploads/2025/11/COLLAGE-IMAGE%40300x-scaled.png" alt="LOWFF campaign collage"></div>
+        <div class="ce-c"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9949-819x1024.jpg" alt="Athlete moving in Flow State"></div>
+        <div class="ce-d"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1247-819x1024.jpg" alt="Athletes together in the Flow State Tank"></div>
+      </div>
+
+      <h2 class="follow-section-h">Behind the <span class="accent">scenes.</span></h2>
+      <div class="follow-strip">
+        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1180-819x1024.jpg" alt="Flow State tank on-model"></div>
+        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1286-819x1024.jpg" alt="Flow State tank on-model"></div>
+        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1074-819x1024.jpg" alt="Flow State dress on-model"></div>
+        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9895-819x1024.jpg" alt="Athlete in training"></div>
+      </div>
+
+      <div style="margin: 48px 0 8px; padding: 32px 24px; background: #F4F4F2; display: grid; grid-template-columns: 1fr; gap: 16px; align-items: center;">
+        <div>
+          <div class="eyebrow" style="color: #6B6B6E; margin-bottom: 8px;">Say hello</div>
+          <p style="font-size: 15px; line-height: 1.6; color: #3A3A3C; margin: 0; max-width: 46ch;">Working with LOWFF, shooting with us, or want to be part of the next drop? Send a note — we read every one.</p>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <a class="btn btn-primary" href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a>
+          <a class="btn btn-secondary" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Instagram →</a>
+        </div>
+      </div>
     </div>
   </div>
 </sc-if>
@@ -970,7 +1287,7 @@
     </form>
     <div style="margin: 24px 0 16px; padding-bottom: 12px; border-bottom: 1px solid #E6E6E2;">
       <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <h2 style="font-family: 'Space Grotesk'; font-weight: 500; font-size: 20px; margin: 0;">Results for "{{ searchPageQ }}"</h2>
+        <h2 style="font-family: 'Anton', sans-serif; font-weight: 400; font-size: 22px; text-transform: uppercase; letter-spacing: -0.005em; margin: 0;">Results for "{{ searchPageQ }}"</h2>
         <div class="count">{{ searchPageCount }}</div>
       </div>
     </div>
@@ -1005,7 +1322,7 @@
   <div role="dialog" aria-modal="true" aria-labelledby="handoff-title" style="position: fixed; z-index: 91; inset: 0; display: flex; align-items: center; justify-content: center; padding: 20px;">
     <div style="background: #FFF; max-width: 480px; width: 100%; border: 1px solid #E6E6E2; box-shadow: 0 24px 60px rgba(0,0,0,0.24); padding: 28px;">
       <div style="display: inline-block; background: #FFF3E0; color: #7A4A00; border: 1px solid #F0D9AC; padding: 4px 10px; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; border-radius: 2px;">Prototype handoff</div>
-      <h2 id="handoff-title" style="font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 24px; letter-spacing: -0.02em; margin: 14px 0 8px;">Checkout is not built in this prototype.</h2>
+      <h2 id="handoff-title" style="font-family: 'Anton', sans-serif; font-weight: 400; font-size: 26px; letter-spacing: -0.005em; text-transform: uppercase; margin: 14px 0 8px;">Checkout is not built in this prototype.</h2>
       <p style="font-size: 14px; line-height: 1.6; color: #3A3A3C; margin: 0 0 16px;">In production, this button hands the bag over to LOWFF's existing secure checkout on <b>lowff.co.uk</b>. That flow is out of scope for this design package — no live payment, no order is placed.</p>
       <ul style="font-size: 13px; color: #3A3A3C; line-height: 1.6; padding-left: 18px; margin: 0 0 20px;">
         <li>Bag contents and totals would transfer intact.</li>
@@ -1099,7 +1416,7 @@ class Component extends DCLogic {
     // Prefer full-product shots on the homepage rail; detail crops stay on the PDP
     'flow-state-dress': 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1074-819x1024.jpg',
     'flow-state-tank':  'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1180-819x1024.jpg',
-    'flow-state-skort': 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1318-819x1024.jpg',
+    'flow-state-skort': 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1331-819x1024.jpg',
   };
 
   state = {
@@ -1113,7 +1430,50 @@ class Component extends DCLogic {
     sort: 'newest',
     contact: { name: '', email: '', msg: '', state: 'default' },
     handoffOpen: false,
+    rundown: 'flow-state-tank',
   };
+
+  RUNDOWN = [
+    {
+      slug: 'flow-state-dress', name: 'Flow State Dress', label: 'Dress',
+      img: 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9895-819x1024.jpg',
+      imgAlt: 'Athlete wearing the Flow State Dress',
+      benefits: [
+        { title: 'Open back', text: 'An open-back slit boosts breathability and adds a sleek, athletic look — keeping you cool through intense play.' },
+        { title: 'Range of motion pleat', text: 'A side pleat boosts mobility, offering unrestricted movement for fast direction changes and dynamic performance.' },
+        { title: 'Supportive & ultra soft', text: 'High-performance fabric balances support and softness, offering a lightweight feel and lasting comfort.' },
+      ],
+    },
+    {
+      slug: 'flow-state-tank', name: 'Flow State Tank Top', label: 'Tank',
+      img: 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1286-819x1024.jpg',
+      imgAlt: 'Athlete wearing the Flow State Tank Top',
+      benefits: [
+        { title: 'Comfort', text: 'A soft, thick fabric with the perfect hint of spandex gives structure, stretch and comfort that lasts through every training session.' },
+        { title: 'A LOWFF essential', text: 'Bold design meets soft, supportive fabric — the Flow State tank is an elevated essential piece.' },
+        { title: 'Functional fit', text: 'A secure, modest fit that keeps a naturally free and relaxed feel.' },
+      ],
+    },
+    {
+      slug: 'flow-state-skort', name: 'Flow State Skort', label: 'Skort',
+      img: 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1347-819x1024.jpg',
+      imgAlt: 'Athlete wearing the Flow State Skort',
+      benefits: [
+        { title: 'Lightweight outer skirt', text: 'A lightweight, fluid outer skirt moves freely with your body — effortless freedom through every movement.' },
+        { title: 'Supportive shorts & waistband', text: 'Built-in shorts and a wide waistband in a thicker stretch fabric hold a secure, comfortable fit that stays in place.' },
+        { title: 'Engineered for motion', text: "Adapts to your body's natural movement for a smooth, flattering fit with zero restrictions." },
+      ],
+    },
+    {
+      slug: 'flow-state-tee', name: 'Flow State T-Shirt', label: "Men's T-Shirt",
+      img: 'https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0941-819x1024.jpg',
+      imgAlt: "The Flow State Men's T-Shirt",
+      benefits: [
+        { title: 'Stretch & support', text: 'Made with a stretchy, supportive fabric that carries structure with freedom of movement.' },
+        { title: 'Bold, dynamic pattern', text: "A bold, dynamic pattern that carries the Flow State signature into the men's edit." },
+      ],
+    },
+  ];
 
   componentDidMount() {
     this._loadBag();
@@ -1325,8 +1685,27 @@ class Component extends DCLogic {
 
     // Shop header title
     let shopTitle = 'Shop all', shopIntro = 'Every Flow State piece, one place.';
-    if (s.filters.g === 'women') { shopTitle = "Women's"; shopIntro = "Pieces from the Flow State collection, cut for training that shifts between sports."; }
-    if (s.filters.g === 'men') { shopTitle = "Men's"; shopIntro = "Flow State pieces for men."; }
+    let shopHero = { show: false, img: '', alt: '' };
+    if (s.filters.g === 'women') {
+      shopTitle = "Women's";
+      shopIntro = "Pieces from the Flow State collection, cut for training that shifts between sports.";
+      shopHero = { show: true, img: 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1247-819x1024.jpg', alt: 'Athletes in the Flow State collection' };
+    }
+    if (s.filters.g === 'men') {
+      shopTitle = "Men's";
+      shopIntro = "Flow State for men — one piece, made to move.";
+      shopHero = { show: true, img: 'https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0941-819x1024.jpg', alt: "The Flow State Men's T-Shirt" };
+    }
+    // Men's single-product feature (only when Men's-only filter yields the tee)
+    const menFeatOn = s.filters.g === 'men' && shopResults.length === 1;
+    const menFeatProduct = menFeatOn ? (() => {
+      const p = this.CATALOGUE.find(x => x.slug === shopResults[0].slug);
+      return {
+        slug: p.slug, name: p.name, img: p.imgs[0], priceLabel: this.fmt(p.price),
+        desc: 'Flow State cut for men — stretchy, supportive fabric with the collection\'s dynamic pattern. One piece, made to move.',
+        colourLabel: (p.colours || []).length + ' colour' + ((p.colours || []).length === 1 ? '' : 's'),
+      };
+    })() : null;
 
     // PDP state
     let pdp = null;
@@ -1382,6 +1761,7 @@ class Component extends DCLogic {
       navCollections: s.route === 'collections' ? 'on' : '',
       navFollow: s.route === 'follow' ? 'on' : '',
       navContact: (s.route === 'contact') ? 'on' : '',
+      navAbout: (s.route === 'about') ? 'on' : '',
 
       skipToMain: (e) => { e && e.preventDefault && e.preventDefault(); const el = document.getElementById('main-content'); if (el) { el.focus(); el.scrollIntoView && el.scrollIntoView({ block: 'start' }); } },
       handoffOpen: !!s.handoffOpen,
@@ -1401,11 +1781,18 @@ class Component extends DCLogic {
       showSearch: s.route === 'search',
 
       // home rails
+      shopFsRow: ['flow-state-tank','flow-state-skort','flow-state-tee','flow-state-dress'].map(slug => { const p = this.CATALOGUE.find(x => x.slug === slug); return { slug, name: p.name, img: this.HOME_IMG[slug] || p.imgs[0], priceLabel: this.fmt(p.price), variedLabel: 'Varied' }; }),
+      // Meet-the-collection rundown
+      rundownTabs: this.RUNDOWN.map(r => ({ label: r.label, on: (s.rundown === r.slug) ? 'on' : '', selected: (s.rundown === r.slug) ? 'true' : 'false', select: () => this.setState({ rundown: r.slug }) })),
+      rundown: (() => { const active = this.RUNDOWN.find(r => r.slug === s.rundown) || this.RUNDOWN[0]; return { slug: active.slug, name: active.name, img: active.img, imgAlt: active.imgAlt, benefits: active.benefits, ctaLabel: 'Shop the ' + active.label.toLowerCase() }; })(),
       homeWomen: this.CATALOGUE.filter(p => p.gender === 'women').map(p => ({ slug: p.slug, name: p.name, img: p.imgs[0], homeImg: this.HOME_IMG[p.slug] || p.imgs[0], priceLabel: this.fmt(p.price) })),
       homeMen: this.CATALOGUE.filter(p => p.gender === 'men').map(p => ({ slug: p.slug, name: p.name, img: p.imgs[0], homeImg: this.HOME_IMG[p.slug] || p.imgs[0], priceLabel: this.fmt(p.price) })),
 
       // shop
       shopTitle, shopIntro,
+      shopHeroShow: shopHero.show, shopHeroImg: shopHero.img, shopHeroAlt: shopHero.alt,
+      menFeatOn, menFeatOff: !menFeatOn && shopResults.length > 0,
+      menFeat: menFeatProduct || { slug: '', name: '', img: '', priceLabel: '', desc: '', colourLabel: '' },
       resultsCount: shopResults.length,
       resultsWord: shopResults.length === 1 ? 'result' : 'results',
       hasResults: shopResults.length > 0,
