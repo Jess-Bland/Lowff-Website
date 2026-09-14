@@ -15,6 +15,74 @@
 <style>
   html, body { margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
+
+  /* ================= LOWFF motion v2 ================= */
+  /* v1 (static logo cursor + fade-up) remains available: remove `motion-v2` class from <html>. */
+  @media (hover: hover) and (pointer: fine) {
+    html.motion-v2 body { cursor: none; }
+    html.motion-v2 input, html.motion-v2 textarea, html.motion-v2 [contenteditable] { cursor: text; }
+    .lowff-cursor { position: fixed; top: 0; left: 0; width: 32px; height: 32px; margin: -16px 0 0 -16px; pointer-events: none; z-index: 99999; transform-origin: center; transition: width 180ms ease, height 180ms ease, margin 180ms ease, opacity 200ms ease; opacity: 0; will-change: transform; mix-blend-mode: normal; }
+    html.motion-v2.cursor-ready .lowff-cursor { opacity: 1; }
+    .lowff-cursor img { width: 100%; height: 100%; display: block; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.35)); pointer-events: none; }
+    .lowff-cursor.is-interactive { width: 44px; height: 44px; margin: -22px 0 0 -22px; }
+    .lowff-cursor .lowff-cursor-pulse { position: absolute; inset: -6px; border-radius: 50%; border: 2px solid #004FFF; opacity: 0; pointer-events: none; }
+    .lowff-cursor.pulse .lowff-cursor-pulse { animation: lowff-cursor-pulse 520ms cubic-bezier(.2,.6,.2,1) forwards; }
+    @keyframes lowff-cursor-pulse { 0% { transform: scale(0.4); opacity: 0.85; } 100% { transform: scale(2); opacity: 0; } }
+  }
+  @media not all and (hover: hover), not all and (pointer: fine) { .lowff-cursor { display: none; } }
+
+  /* v2 entrance system, replaces the v1 [data-anim] rules on <html.motion-v2> */
+  html.motion-v2 [data-anim] { opacity: 0; transform: translateY(20px); transition: opacity 520ms cubic-bezier(.2,.7,.2,1), transform 620ms cubic-bezier(.2,.7,.2,1); transition-delay: var(--anim-delay, 0ms); will-change: opacity, transform; }
+  html.motion-v2 [data-anim="fromRight"] { transform: translateX(28px); }
+  html.motion-v2 [data-anim="fromLeft"] { transform: translateX(-24px); }
+  html.motion-v2 [data-anim="fromTop"] { transform: translateY(-16px); }
+  html.motion-v2 [data-anim="drop"] { transform: translateY(28px) scale(0.98); }
+  html.motion-v2 [data-anim].is-in { opacity: 1; transform: none; }
+
+  /* v1 fallback (only when v2 not active) */
+  body.anim-ready :not(.motion-v2) [data-anim] { opacity: 0; transform: translateY(16px); transition: opacity 480ms cubic-bezier(.2,.6,.2,1), transform 520ms cubic-bezier(.2,.6,.2,1); transition-delay: var(--anim-delay, 0ms); }
+  body.anim-ready :not(.motion-v2) [data-anim].is-in { opacity: 1; transform: none; }
+
+  /* Staggered children */
+  [data-anim-stagger] > *:nth-child(1)  { --anim-delay: 0ms; }
+  [data-anim-stagger] > *:nth-child(2)  { --anim-delay: 70ms; }
+  [data-anim-stagger] > *:nth-child(3)  { --anim-delay: 140ms; }
+  [data-anim-stagger] > *:nth-child(4)  { --anim-delay: 210ms; }
+  [data-anim-stagger] > *:nth-child(5)  { --anim-delay: 280ms; }
+  [data-anim-stagger] > *:nth-child(6)  { --anim-delay: 350ms; }
+  [data-anim-stagger] > *:nth-child(7)  { --anim-delay: 420ms; }
+  [data-anim-stagger] > *:nth-child(8)  { --anim-delay: 490ms; }
+
+  /* Flow State choreographed timing (dominant first, then supporting) */
+  html.motion-v2 .fs-collage .fc-a { --anim-delay: 0ms; }
+  html.motion-v2 .fs-collage .fc-b { --anim-delay: 180ms; }
+  html.motion-v2 .fs-collage .fc-c { --anim-delay: 260ms; }
+  html.motion-v2 .fs-collage .fc-d { --anim-delay: 340ms; }
+  html.motion-v2 .fs-collage .fc-e { --anim-delay: 420ms; }
+  html.motion-v2 .fs-collage > div { overflow: hidden; }
+  html.motion-v2 .fs-collage > div img { transition: transform 520ms cubic-bezier(.2,.7,.2,1); }
+  html.motion-v2 .fs-collage > div:hover img { transform: scale(1.04); }
+
+  /* Rundown panel: smooth product change */
+  .rd-panel { transition: opacity 260ms ease; }
+  .rd-panel.rd-swap { opacity: 0.25; }
+
+  /* CTA arrow micro-motion */
+  html.motion-v2 .link-standalone { transition: color 160ms ease, letter-spacing 200ms ease, gap 200ms ease; }
+  html.motion-v2 .link-standalone:hover { color: #004FFF; letter-spacing: 0.02em; gap: 10px; }
+  html.motion-v2 .btn.btn-primary, html.motion-v2 .btn.btn-secondary, html.motion-v2 .btn.btn-onphoto, html.motion-v2 .btn.btn-ghost { transition: transform 180ms cubic-bezier(.2,.6,.2,1), background-color 160ms ease, color 160ms ease, border-color 160ms ease, letter-spacing 200ms ease; }
+  html.motion-v2 .btn.btn-primary:hover, html.motion-v2 .btn.btn-secondary:hover, html.motion-v2 .btn.btn-onphoto:hover, html.motion-v2 .btn.btn-ghost:hover { transform: translateY(-1px); }
+
+  /* Consistent focus feedback */
+  a:focus-visible, button:focus-visible, [role="tab"]:focus-visible { outline: 2px solid #004FFF; outline-offset: 3px; border-radius: 2px; }
+  @media (prefers-reduced-motion: reduce) {
+    html.motion-v2 body { cursor: auto !important; }
+    .lowff-cursor { display: none !important; }
+    body.anim-ready [data-anim], html.motion-v2 [data-anim] { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .rd-panel { transition: none !important; }
+    html { scroll-behavior: auto; }
+    html.motion-v2 .fs-collage > div:hover img, html.motion-v2 .btn:hover { transform: none !important; }
+  }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
@@ -719,10 +787,10 @@
   <div class="page home-page">
     <section class="hero">
       <img src="https://lowff.co.uk/wp-content/uploads/2025/11/CARO-PIC-MAIN%40300x-1-scaled.png" alt="LOWFF Flow State campaign photograph">
-      <div class="hero-body">
-        <div class="hero-eyebrow">The Collection · Flow State</div>
-        <h1 class="hero-title"><span class="lb">Boldness</span><span class="lb">has no</span><span class="lb accent">borders.</span></h1>
-        <div class="hero-ctas">
+      <div class="hero-body" data-anim-stagger>
+        <div class="hero-eyebrow" data-anim>The Collection · Flow State</div>
+        <h1 class="hero-title" data-anim><span class="lb">Boldness</span><span class="lb">has no</span><span class="lb accent">borders.</span></h1>
+        <div class="hero-ctas" data-anim>
           <a class="btn btn-primary" href="#/shop?g=women">Shop Women</a>
           <a class="btn btn-secondary" href="#/shop?g=men">Shop Men</a>
         </div>
@@ -730,7 +798,7 @@
     </section>
 
     <section class="sec">
-      <div class="sec-h">
+      <div class="sec-h" data-anim>
         <div><div class="eyebrow">New collection · Flow State</div><h2>Shop Flow State</h2></div>
         <a class="link-standalone" href="#/shop">View all →</a>
       </div>
@@ -743,29 +811,29 @@
 
     <section class="brand-strip" aria-label="LOWFF brand statement">
       <div class="brand-strip-inner">
-        <div class="brand-strip-text">
+        <div class="brand-strip-text" data-anim>
           <div class="brand-strip-mark" aria-hidden="true"><img src="uploads/FULL_WHITE%40300x.png" alt=""></div>
           <h3 class="brand-strip-title">Move <span class="accent">boldly.</span></h3>
           <p class="brand-strip-sub">Performance wear for those who move boldly.</p>
           <a class="btn btn-onphoto" href="#/shop">Shop the range</a>
         </div>
-        <div class="brand-strip-photo">
+        <div class="brand-strip-photo" data-anim="fromRight">
           <img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9895-819x1024.jpg" alt="LOWFF athlete mid-movement">
         </div>
       </div>
     </section>
 
     <section class="fs-section">
-      <div class="fs-copy" style="max-width: 1200px; margin: 0 auto 32px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start;">
+      <div class="fs-copy" style="max-width: 1200px; margin: 0 auto 32px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start;" data-anim>
         <div class="fs-eyebrow">The Collection · Flow State</div>
         <p class="fs-line">Bold in colour. Free to move.</p>
       </div>
       <div class="fs-collage" role="list" aria-label="Flow State, campaign moments">
-        <div class="fc-a" role="listitem"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1074-819x1024.jpg" alt="Athlete wearing the Flow State Dress"></div>
-        <div class="fc-b" role="listitem"><img src="uploads/FLOW%20STATE-05-f57730b5.png" alt="Flow State, warm red colourway"></div>
-        <div class="fc-c" role="listitem"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1286-819x1024.jpg" alt="Athlete wearing the Flow State Tank"></div>
-        <div class="fc-d" role="listitem"><img src="https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0941-819x1024.jpg" alt="Athlete wearing the Flow State Men's T-Shirt"></div>
-        <div class="fc-e" role="listitem"><img src="uploads/FLOW%20STATE-09-0b058515.png" alt="Flow State, blue photographic colourway"></div>
+        <div class="fc-a" role="listitem" data-anim="drop"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1074-819x1024.jpg" alt="Athlete wearing the Flow State Dress"></div>
+        <div class="fc-b" role="listitem" data-anim="fromRight"><img src="uploads/FLOW%20STATE-05-f57730b5.png" alt="Flow State, warm red colourway"></div>
+        <div class="fc-c" role="listitem" data-anim="fromRight"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1286-819x1024.jpg" alt="Athlete wearing the Flow State Tank"></div>
+        <div class="fc-d" role="listitem" data-anim="fromTop"><img src="https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0941-819x1024.jpg" alt="Athlete wearing the Flow State Men's T-Shirt"></div>
+        <div class="fc-e" role="listitem" data-anim><img src="uploads/FLOW%20STATE-09-0b058515.png" alt="Flow State, blue photographic colourway"></div>
       </div>
       <div style="max-width: 1200px; margin: 28px auto 0;">
         <a class="btn btn-primary" href="#/shop">Shop Flow State</a>
@@ -794,12 +862,12 @@
     </section>
 
     <section class="sec" style="border-top: 1px solid #E6E6E2;">
-      <div class="sec-h"><div><div class="eyebrow">Follow</div><h2 class="lowffers-title">Meet the <span class="accent-dark">LOWFFERS.</span></h2></div><a class="btn btn-secondary" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Follow @_lowff_</a></div>
-      <div class="comm-editorial">
-        <div class="ce-a"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-scaled.jpg" alt="LOWFF athlete portrait"></div>
-        <div class="ce-b"><img src="https://lowff.co.uk/wp-content/uploads/2025/11/COLLAGE-IMAGE%40300x-scaled.png" alt="LOWFF campaign collage"></div>
-        <div class="ce-c"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9949-819x1024.jpg" alt="Athlete moving in Flow State"></div>
-        <div class="ce-d"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1247-819x1024.jpg" alt="Athletes together in the Flow State Tank"></div>
+      <div class="sec-h" data-anim><div><div class="eyebrow">Follow</div><h2 class="lowffers-title">Meet the <span class="accent-dark">LOWFFERS.</span></h2></div><a class="btn btn-secondary" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Follow @_lowff_</a></div>
+      <div class="comm-editorial" data-anim-stagger>
+        <div class="ce-a" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-scaled.jpg" alt="LOWFF athlete portrait"></div>
+        <div class="ce-b" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/11/COLLAGE-IMAGE%40300x-scaled.png" alt="LOWFF campaign collage"></div>
+        <div class="ce-c" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9949-819x1024.jpg" alt="Athlete moving in Flow State"></div>
+        <div class="ce-d" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1247-819x1024.jpg" alt="Athletes together in the Flow State Tank"></div>
       </div>
     </section>
   </div>
@@ -1012,7 +1080,7 @@
 
     <!-- Related -->
     <section class="sec" style="border-top: 1px solid #E6E6E2; margin-top: 40px;">
-      <div class="sec-h"><h2 style="font-size: 24px;">You might also like</h2></div>
+      <div class="sec-h" data-anim><h2 style="font-size: 24px;">You might also like</h2></div>
       <div class="pc-grid">
         <sc-for list="{{ pdpRelated }}" as="p" hint-placeholder-count="3">
           <a class="pc" href="#/product/{{ p.slug }}"><div class="pc-media"><img src="{{ p.img }}" alt="{{ p.name }}"></div><div class="pc-body"><div class="pc-name">{{ p.name }}</div><div class="pc-price">{{ p.priceLabel }}</div></div></a>
@@ -1094,7 +1162,7 @@
       <p class="about-lede">At LOWFF, we believe every athlete deserves a partner who's with them through every moment of their journey. Whether you're training for your next big competition, pushing through the grind, celebrating a victory, or recovering from a setback, LOWFF is here to support you.</p>
       <p class="about-lede-sub">More than a sportswear brand. A community, built by athletes, for athletes.</p>
 
-      <section class="about-block">
+      <section class="about-block" data-anim>
         <div class="about-block-img"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9895-819x1024.jpg" alt="LOWFF athlete in training"></div>
         <div>
           <h2>Racket sports, <span class="accent">and beyond.</span></h2>
@@ -1103,7 +1171,7 @@
         </div>
       </section>
 
-      <section class="about-block reverse">
+      <section class="about-block reverse" data-anim>
         <div class="about-block-img"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1286-819x1024.jpg" alt="LOWFF athlete in focus"></div>
         <div>
           <h2>Built for the highs <span class="accent">and the lows.</span></h2>
@@ -1114,7 +1182,7 @@
     </div>
 
     <section class="about-community">
-      <div class="about-community-inner">
+      <div class="about-community-inner" data-anim>
         <div>
           <h2>Welcome to the <span class="accent">LOWFFERS.</span></h2>
           <p>The people who move with us. Athletes, training partners, and the moments in between, meet the community.</p>
@@ -1219,7 +1287,7 @@
     <div class="breadcrumbs" style="margin-bottom: 12px;"><a href="#/home">Home</a><span>/</span><span aria-current="page">Collections</span></div>
 
     <section class="col-fs">
-      <div class="col-fs-inner">
+      <div class="col-fs-inner" data-anim>
         <div>
           <div class="col-fs-eyebrow">The current release</div>
           <h1 class="col-fs-title">Flow <span class="accent">State.</span></h1>
@@ -1235,18 +1303,18 @@
     </section>
 
     <section style="margin: 0 auto 40px; max-width: 1200px;">
-      <div class="sec-h">
+      <div class="sec-h" data-anim>
         <div><div class="eyebrow">Shop the collection</div><h2 style="font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(28px, 4vw, 44px); letter-spacing: 0; text-transform: uppercase; line-height: 0.95;">Four pieces.</h2></div>
         <a class="link-standalone" href="#/shop">View all →</a>
       </div>
-      <div class="col-products">
+      <div class="col-products" data-anim>
         <a class="pc" href="#/product/flow-state-dress"><div class="pc-media"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1074-819x1024.jpg" alt="Flow State Dress"></div><div class="pc-body"><div class="pc-name">Flow State Dress</div><div class="pc-price">£65.00</div></div></a>
         <a class="pc" href="#/product/flow-state-tank"><div class="pc-media"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1180-819x1024.jpg" alt="Flow State Tank Top"></div><div class="pc-body"><div class="pc-name">Flow State Tank Top</div><div class="pc-price">£32.50</div></div></a>
         <a class="pc" href="#/product/flow-state-skort"><div class="pc-media"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1331-819x1024.jpg" alt="Flow State Skort"></div><div class="pc-body"><div class="pc-name">Flow State Skort</div><div class="pc-price">£40.00</div></div></a>
         <a class="pc" href="#/product/flow-state-tee"><div class="pc-media"><img src="https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0920-819x1024.jpg" alt="Flow State T-Shirt"></div><div class="pc-body"><div class="pc-name">Flow State T-Shirt</div><div class="pc-price">£29.50</div></div></a>
       </div>
 
-      <div class="col-info">
+      <div class="col-info" data-anim>
         <div>
           <h3>Made to move.</h3>
           <p>The Flow State fabric is stretchy and supportive at once, dynamic pattern, breathable feel, structure that follows you through the session.</p>
@@ -1266,7 +1334,7 @@
     <div class="breadcrumbs" style="margin-bottom: 12px;"><a href="#/home">Home</a><span>/</span><span aria-current="page">Follow</span></div>
 
     <section class="follow-hero">
-      <div class="follow-hero-inner">
+      <div class="follow-hero-inner" data-anim>
         <div>
           <div class="about-hero-eyebrow">The community</div>
           <h1>Meet the <span class="accent">LOWFFERS.</span></h1>
@@ -1283,15 +1351,15 @@
 
     <div style="max-width: 1200px; margin: 0 auto;">
       <h2 class="follow-section-h">In <span class="accent">motion.</span></h2>
-      <div class="comm-editorial">
-        <div class="ce-a"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-scaled.jpg" alt="LOWFF athlete portrait"></div>
-        <div class="ce-b"><img src="https://lowff.co.uk/wp-content/uploads/2025/11/COLLAGE-IMAGE%40300x-scaled.png" alt="LOWFF campaign collage"></div>
-        <div class="ce-c"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9949-819x1024.jpg" alt="Athlete moving in Flow State"></div>
-        <div class="ce-d"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1247-819x1024.jpg" alt="Athletes together in the Flow State Tank"></div>
+      <div class="comm-editorial" data-anim-stagger>
+        <div class="ce-a" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-scaled.jpg" alt="LOWFF athlete portrait"></div>
+        <div class="ce-b" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/11/COLLAGE-IMAGE%40300x-scaled.png" alt="LOWFF campaign collage"></div>
+        <div class="ce-c" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9949-819x1024.jpg" alt="Athlete moving in Flow State"></div>
+        <div class="ce-d" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1247-819x1024.jpg" alt="Athletes together in the Flow State Tank"></div>
       </div>
 
       <h2 class="follow-section-h">Behind the <span class="accent">scenes.</span></h2>
-      <div class="follow-strip">
+      <div class="follow-strip" data-anim-stagger>
         <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1180-819x1024.jpg" alt="Flow State tank on-model"></div>
         <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1286-819x1024.jpg" alt="Flow State tank on-model"></div>
         <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1074-819x1024.jpg" alt="Flow State dress on-model"></div>
@@ -1516,6 +1584,22 @@ class Component extends DCLogic {
 
   componentDidMount() {
     this._loadBag();
+    // Motion layer (v2)
+    try {
+      document.documentElement.classList.add('motion-v2');
+      document.body.classList.add('anim-ready');
+      if ('IntersectionObserver' in window) {
+        this._io = new IntersectionObserver((entries) => {
+          entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); this._io.unobserve(e.target); } });
+        }, { threshold: 0.14, rootMargin: '0px 0px -6% 0px' });
+        this._observeAnims();
+      } else {
+        document.querySelectorAll('[data-anim]').forEach(el => el.classList.add('is-in'));
+      }
+      this._setupCursor();
+    } catch (err) {
+      document.querySelectorAll('[data-anim]').forEach(el => el.classList.add('is-in'));
+    }
     this._onHash = () => this._readHash();
     window.addEventListener('hashchange', this._onHash);
     window.addEventListener('storage', (e) => { if (e.key === 'lowff_bag') this._loadBag(); });
@@ -1532,9 +1616,83 @@ class Component extends DCLogic {
     };
     window.addEventListener('keydown', this._onKey);
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState && prevState.route !== this.state.route) {
+      window.scrollTo(0, 0);
+      document.querySelectorAll('[data-anim].is-in').forEach(el => el.classList.remove('is-in'));
+    }
+    if (prevState && prevState.rundown !== this.state.rundown) {
+      const panel = document.getElementById('rd-panel');
+      if (panel) {
+        panel.classList.add('rd-swap');
+        setTimeout(() => panel && panel.classList.remove('rd-swap'), 220);
+      }
+    }
+    this._observeAnims();
+  }
+  _observeAnims() {
+    if (!this._io) return;
+    document.querySelectorAll('[data-anim]:not(.is-in)').forEach(el => this._io.observe(el));
+  }
+  _setupCursor() {
+    if (this._cursorReady) return;
+    // Feature gates: precise pointer + hover, and not reduced motion
+    if (!window.matchMedia) return;
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!finePointer || reduced) return;
+    this._cursorReady = true;
+    const el = document.createElement('div');
+    el.className = 'lowff-cursor';
+    el.setAttribute('aria-hidden', 'true');
+    el.innerHTML = '<img src="uploads/lowff-cursor.png" alt=""><span class="lowff-cursor-pulse"></span>';
+    document.body.appendChild(el);
+    this._cursorEl = el;
+    let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+    let cx = tx, cy = ty;
+    let vx = 0, angle = 0;
+    let firstMove = true;
+    const onMove = (e) => {
+      tx = e.clientX; ty = e.clientY;
+      if (firstMove) { cx = tx; cy = ty; firstMove = false; document.documentElement.classList.add('cursor-ready'); }
+    };
+    const onDown = () => { el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse'); };
+    const onLeave = () => { el.style.opacity = 0; };
+    const onEnter = () => { el.style.opacity = 1; };
+    const isInteractive = (n) => !!(n && n.closest && n.closest('a, button, [role="button"], [role="tab"], label, summary, .pc, .rd-tab, input[type="checkbox"], input[type="radio"]'));
+    const onOver = (e) => { el.classList.toggle('is-interactive', isInteractive(e.target)); };
+    window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener('mousedown', onDown, { passive: true });
+    document.addEventListener('mouseleave', onLeave);
+    document.addEventListener('mouseenter', onEnter);
+    window.addEventListener('mouseover', onOver, { passive: true });
+    this._cursorTeardown = () => {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mousedown', onDown);
+      document.removeEventListener('mouseleave', onLeave);
+      document.removeEventListener('mouseenter', onEnter);
+      window.removeEventListener('mouseover', onOver);
+      if (this._cursorRAF) cancelAnimationFrame(this._cursorRAF);
+      if (el.parentNode) el.parentNode.removeChild(el);
+    };
+    const tick = () => {
+      const dx = tx - cx, dy = ty - cy;
+      cx += dx * 0.22; cy += dy * 0.22;
+      // horizontal velocity → gentle tilt, clamped
+      vx += (dx - vx) * 0.25;
+      let ta = Math.max(-18, Math.min(18, vx * 0.9));
+      if (Math.abs(dx) + Math.abs(dy) < 0.15) ta = 0;
+      angle += (ta - angle) * 0.16;
+      el.style.transform = 'translate3d(' + cx + 'px,' + cy + 'px,0) rotate(' + angle.toFixed(2) + 'deg)';
+      this._cursorRAF = requestAnimationFrame(tick);
+    };
+    this._cursorRAF = requestAnimationFrame(tick);
+  }
   componentWillUnmount() {
     window.removeEventListener('hashchange', this._onHash);
     window.removeEventListener('keydown', this._onKey);
+    if (this._io) this._io.disconnect();
+    if (this._cursorTeardown) this._cursorTeardown();
   }
 
   _openerEl = null;
