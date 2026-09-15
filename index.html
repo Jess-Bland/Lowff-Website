@@ -870,7 +870,7 @@
       </div>
       <div class="rd-tabs" role="tablist" aria-label="Flow State product selector">
         <sc-for list="{{ rundownTabs }}" as="t" hint-placeholder-count="4">
-          <button class="rd-tab {{ t.on }}" type="button" role="tab" aria-selected="{{ t.selected }}" aria-controls="rd-panel" onClick="{{ t.select }}">{{ t.label }}</button>
+          <button class="rd-tab {{ t.on }}" type="button" role="tab" data-rundown="{{ t.slug }}" aria-selected="{{ t.selected }}" aria-controls="rd-panel" onClick="{{ t.select }}">{{ t.label }}</button>
         </sc-for>
       </div>
       <div class="rd-panel" role="tabpanel" id="rd-panel" aria-live="polite">
@@ -1656,6 +1656,33 @@ class Component extends DCLogic {
       if (e.key === 'Tab') this._trapFocus(e);
     };
     window.addEventListener('keydown', this._onKey);
+
+    // Safety-net delegation: guarantees pills + hamburger fire even if
+    // sc-for re-keys a button between touchstart and click, or an animated
+    // ancestor swallows the event.
+    this._onDocClick = (e) => {
+      const t = e.target;
+      if (!t || !t.closest) return;
+      const pill = t.closest('.rd-tab[data-rundown]');
+      if (pill) {
+        const slug = pill.getAttribute('data-rundown');
+        if (slug && slug !== this.state.rundown) {
+          e.preventDefault();
+          this.setState({ rundown: slug });
+        }
+        return;
+      }
+      const hb = t.closest('.hdr-menu-btn');
+      if (hb) {
+        e.preventDefault();
+        if (!this.state.menuOpen) {
+          this._rememberOpener();
+          this.setState({ menuOpen: true }, () => this._focusFirst(this._menuEl));
+        }
+        return;
+      }
+    };
+    document.addEventListener('click', this._onDocClick, true);
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevState && prevState.route !== this.state.route) {
@@ -1732,6 +1759,7 @@ class Component extends DCLogic {
   componentWillUnmount() {
     window.removeEventListener('hashchange', this._onHash);
     window.removeEventListener('keydown', this._onKey);
+    if (this._onDocClick) document.removeEventListener('click', this._onDocClick, true);
     if (this._io) this._io.disconnect();
     if (this._cursorTeardown) this._cursorTeardown();
   }
@@ -2021,7 +2049,7 @@ class Component extends DCLogic {
       // home rails
       shopFsRow: ['flow-state-tank','flow-state-skort','flow-state-tee','flow-state-dress'].map(slug => { const p = this.CATALOGUE.find(x => x.slug === slug); return { slug, name: p.name, img: this.HOME_IMG[slug] || p.imgs[0], priceLabel: this.fmt(p.price), variedLabel: 'Varied' }; }),
       // Meet-the-collection rundown
-      rundownTabs: this.RUNDOWN.map(r => ({ label: r.label, on: (s.rundown === r.slug) ? 'on' : '', selected: (s.rundown === r.slug) ? 'true' : 'false', select: () => this.setState({ rundown: r.slug }) })),
+      rundownTabs: this.RUNDOWN.map(r => ({ slug: r.slug, label: r.label, on: (s.rundown === r.slug) ? 'on' : '', selected: (s.rundown === r.slug) ? 'true' : 'false', select: (e) => { if (e) { e.preventDefault(); e.stopPropagation(); } this.setState({ rundown: r.slug }); } })),
       rundown: (() => { const active = this.RUNDOWN.find(r => r.slug === s.rundown) || this.RUNDOWN[0]; const pad2 = (i) => (i < 9 ? '0' + (i + 1) : String(i + 1)); return { slug: active.slug, name: active.name, img: active.img, imgAlt: active.imgAlt, detailImg: active.detailImg || '', detailAlt: active.detailAlt || '', benefits: active.benefits.map((b, i) => ({ n: pad2(i), title: b.title, text: b.text })), ctaLabel: 'Shop the ' + active.label.toLowerCase() }; })(),
       homeWomen: this.CATALOGUE.filter(p => p.gender === 'women').map(p => ({ slug: p.slug, name: p.name, img: p.imgs[0], homeImg: this.HOME_IMG[p.slug] || p.imgs[0], priceLabel: this.fmt(p.price) })),
       homeMen: this.CATALOGUE.filter(p => p.gender === 'men').map(p => ({ slug: p.slug, name: p.name, img: p.imgs[0], homeImg: this.HOME_IMG[p.slug] || p.imgs[0], priceLabel: this.fmt(p.price) })),
