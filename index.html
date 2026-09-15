@@ -196,7 +196,7 @@
   /* Shared content container, the ONE horizontal rail used across every page.
      Full-bleed panels escape via `margin: 0 calc(-1 * var(--page-x))`;
      their internal content boxes cap at the same --content-max. */
-  .container, .sec, .sec-h, .plp-hd, .plp-toolbar, .plp-chips, .plp-body, .rd-tabs { max-width: var(--content-max); margin-left: auto; margin-right: auto; }
+  .container, .sec, .sec-h, .plp-hd, .plp-toolbar, .plp-chips, .plp-body, .rd-tabs, .breadcrumbs, .fs-collage, .fs-cta { max-width: var(--content-max); margin-left: auto; margin-right: auto; }
 
   /* Section rhythm, one scale for every in-page section */
   .sec { padding: var(--sec-y) 0; }
@@ -306,7 +306,7 @@
   @media (min-width: 900px) {
     .fs-collage { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); gap: 14px;
       grid-template-areas: "a b c" "a d e"; }
-    .fs-collage .fc-a { aspect-ratio: auto; min-height: 620px; }
+    .fs-collage .fc-a { aspect-ratio: auto; min-height: 560px; }
     .fs-collage .fc-b, .fs-collage .fc-c, .fs-collage .fc-d, .fs-collage .fc-e { aspect-ratio: auto; }
   }
   .fs-inner { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; align-items: stretch; max-width: var(--content-max); margin: 0 auto; }
@@ -548,16 +548,16 @@
   .fs-row .pc-varied { display: none; }
 
   /* Shop hero, compact photographic intro */
-  .shop-hero { display: grid; grid-template-columns: 1fr; gap: 0; background: #F4F4F2; margin: 0 calc(-1 * var(--page-x)) var(--sec-y); overflow: hidden; }
+  .shop-hero { display: grid; grid-template-columns: 1fr; gap: 0; background: #F4F4F2; margin: 0 auto var(--sec-y); overflow: hidden; max-width: var(--content-max); }
   .shop-hero-photo { aspect-ratio: 16/10; overflow: hidden; background: #EAEAE6; order: -1; }
   .shop-hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; display: block; }
-  .shop-hero-body { padding: 24px var(--page-x) 28px; display: flex; flex-direction: column; gap: var(--stack-sm); align-items: flex-start; }
+  .shop-hero-body { padding: 24px 24px 28px; display: flex; flex-direction: column; gap: var(--stack-sm); align-items: flex-start; }
   .shop-hero-body h1 { font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(36px, 6vw, 68px); letter-spacing: -0.005em; text-transform: uppercase; line-height: 0.95; margin: 0; padding-bottom: 2px; }
   .shop-hero-body p { margin: var(--stack-sm) 0 0; font-size: 15px; line-height: 1.6; color: #3A3A3C; max-width: 44ch; }
   @media (min-width: 900px) {
-    .shop-hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); align-items: stretch; margin: 0 calc(-1 * var(--page-x)) var(--sec-y); }
-    .shop-hero-photo { aspect-ratio: auto; order: 1; min-height: 300px; max-height: 340px; }
-    .shop-hero-body { padding: 40px var(--page-x); justify-content: center; gap: var(--stack-md); }
+    .shop-hero { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr); align-items: stretch; margin: 0 auto var(--sec-y); max-width: var(--content-max); }
+    .shop-hero-photo { aspect-ratio: auto; order: 1; min-height: 380px; max-height: 480px; }
+    .shop-hero-body { padding: 40px 40px; justify-content: center; gap: var(--stack-md); }
   }
 
   /* Men's single-product feature layout */
@@ -574,7 +574,7 @@
   .mfeat-swatches em { font-style: normal; font-size: 13px; color: #6B6B6E; margin-left: 4px; }
   @media (min-width: 900px) {
     .mfeat { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: start; }
-    .mfeat-media { aspect-ratio: 4/5; max-height: 620px; }
+    .mfeat-media { aspect-ratio: 4/5; max-height: 540px; }
     .mfeat-body { padding: 0 8px; gap: 16px; }
   }
 
@@ -835,7 +835,7 @@
         <div class="fc-d" role="listitem" data-anim="fromTop"><img src="https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0941-819x1024.jpg" alt="Athlete wearing the Flow State Men's T-Shirt"></div>
         <div class="fc-e" role="listitem" data-anim><img src="uploads/FLOW%20STATE-09-0b058515.png" alt="Flow State, blue photographic colourway"></div>
       </div>
-      <div style="max-width: 1200px; margin: 28px auto 0;">
+      <div class="fs-cta" style="margin-top: 28px;">
         <a class="btn btn-primary" href="#/shop">Shop Flow State</a>
       </div>
     </section>
