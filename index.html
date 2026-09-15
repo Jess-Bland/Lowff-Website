@@ -233,13 +233,14 @@
   /* Home: Meet the LOWFFERS editorial grid */
   .lowffers-title { font-family: 'Anton', 'Space Grotesk', sans-serif !important; font-weight: 400 !important; font-size: clamp(36px, 6vw, 64px) !important; letter-spacing: 0 !important; line-height: 0.9 !important; text-transform: uppercase; }
   .lowffers-title .accent-dark { color: #004FFF; }
-  .comm-editorial { display: grid; gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .comm-editorial { display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .comm-editorial > div { overflow: hidden; background: #F4F4F2; aspect-ratio: 3/4; }
   .comm-editorial img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; display: block; transition: transform .6s; }
   .comm-editorial > div:hover img { transform: scale(1.03); }
-  .comm-editorial .ce-a { grid-column: 1 / -1; aspect-ratio: 4/5; }
+  .comm-editorial .ce-a { aspect-ratio: 3/4; }
   @media (min-width: 780px) {
     .comm-editorial {
+      gap: 10px;
       grid-template-columns: 1.3fr 1fr 1fr;
       grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
       grid-template-areas: "a b c" "a d d";
@@ -294,14 +295,17 @@
   @media (min-width: 900px) { .fs-strip { gap: 10px; } }
 
   /* Home: Flow State editorial collage, dominant photo + smaller supporting tiles */
-  .fs-collage { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 8px;
+  .fs-collage { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; gap: 8px;
     grid-template-areas: "a a" "b c" "d e"; }
   .fs-collage > div { overflow: hidden; background: #F4F4F2; }
   .fs-collage img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .fs-collage .fc-a { grid-area: a; aspect-ratio: 4/3; }
+  .fs-collage .fc-a { grid-area: a; aspect-ratio: 4/5; }
+  .fs-collage .fc-a img { object-position: center 30%; }
   .fs-collage .fc-b { grid-area: b; aspect-ratio: 1/1; }
   .fs-collage .fc-c { grid-area: c; aspect-ratio: 1/1; }
+  .fs-collage .fc-c img { object-position: center 35%; }
   .fs-collage .fc-d { grid-area: d; aspect-ratio: 1/1; }
+  .fs-collage .fc-d img { object-position: center 40%; }
   .fs-collage .fc-e { grid-area: e; aspect-ratio: 1/1; }
   @media (min-width: 900px) {
     .fs-collage { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); gap: 14px;
@@ -314,7 +318,8 @@
   .fs-art { width: 100%; height: auto; display: block; }
   .fs-copy { display: flex; flex-direction: column; gap: var(--stack-sm); align-items: flex-start; max-width: var(--content-max); margin: 0 auto var(--stack-lg); }
   .fs-copy .fs-eyebrow { font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 500; color: #3A3A3C; margin: 0; }
-  .fs-copy .fs-line { font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(20px, 4.4vw, 56px); letter-spacing: -0.005em; line-height: 0.95; margin: 0; color: #0B0B0C; white-space: nowrap; text-transform: uppercase; max-width: 22ch; }
+  .fs-copy .fs-line { font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(28px, 6.2vw, 56px); letter-spacing: -0.005em; line-height: 0.95; margin: 0; color: #0B0B0C; text-transform: uppercase; max-width: 22ch; }
+  @media (min-width: 900px) { .fs-copy .fs-line { white-space: nowrap; font-size: clamp(28px, 4.4vw, 56px); } }
   .fs-art-panel { background: #FFF; padding: 24px; display: flex; align-items: center; justify-content: center; aspect-ratio: 4/5; }
   .fs-art-panel img { max-width: 100%; max-height: 100%; width: auto; height: auto; display: block; }
   .fs-photo { aspect-ratio: 4/5; overflow: hidden; background: #EAEAE6; }
@@ -583,22 +588,41 @@
   @media (min-width: 900px) { .rd { margin: 0 calc(-1 * var(--page-x)); padding: var(--sec-y-lg) var(--page-x); } }
   .rd-h { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px; flex-wrap: wrap; gap: 20px; max-width: var(--content-max); margin-left: auto; margin-right: auto; }
   .rd-h h2 { font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(28px, 4vw, 48px); letter-spacing: -0.005em; text-transform: uppercase; margin: 0; line-height: 0.95; padding-bottom: 2px; }
-  .rd-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 0; margin: 0 auto 28px; max-width: var(--content-max); scrollbar-width: none; }
+  .rd-tabs { display: flex; gap: 8px; flex-wrap: wrap; padding-bottom: 0; margin: 0 auto 32px; max-width: var(--content-max); scrollbar-width: none; position: relative; z-index: 2; }
   .rd-tabs::-webkit-scrollbar { display: none; }
-  .rd-tab { flex: 0 0 auto; padding: 10px 18px; background: #FFF; border: 1px solid #0B0B0C; color: #0B0B0C; font: 500 12px 'Inter', sans-serif; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; border-radius: 999px; transition: background-color .12s, color .12s, border-color .12s; min-height: 40px; }
+  @media (min-width: 900px) { .rd-tabs { flex-wrap: nowrap; overflow-x: auto; } }
+  .rd-tab { flex: 0 0 auto; min-height: 44px; padding: 11px 20px; background: #FFF; border: 1px solid #0B0B0C; color: #0B0B0C; font: 500 12px 'Inter', sans-serif; letter-spacing: 0.14em; text-transform: uppercase; touch-action: manipulation; -webkit-tap-highlight-color: rgba(0,79,255,0.15); cursor: pointer; border-radius: 999px; transition: background-color .16s ease, color .16s ease, border-color .16s ease; min-height: 40px; }
   .rd-tab:hover { background: #F4F4F2; }
-  .rd-tab.on { background: #0B0B0C; color: #FFF; border-color: #0B0B0C; }
+  .rd-tab.on { background: #004FFF; color: #FFF; border-color: #004FFF; }
+  .rd-tab.on:hover { background: #003BCC; border-color: #003BCC; }
   .rd-tab:focus-visible { outline: 2px solid #004FFF; outline-offset: 2px; }
-  .rd-panel { display: grid; grid-template-columns: 1fr; gap: 32px; align-items: start; max-width: var(--content-max); margin: 0 auto; }
-  @media (min-width: 900px) { .rd-panel { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; } }
-  .rd-img { aspect-ratio: 4/5; overflow: hidden; background: #F4F4F2; }
-  .rd-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .rd-name { font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(32px, 5vw, 56px); text-transform: uppercase; letter-spacing: -0.005em; line-height: 0.95; margin: 0 0 22px; padding-bottom: 2px; color: #0B0B0C; }
-  .rd-benefit { border-top: 1px solid #E6E6E2; padding: 16px 0; }
-  .rd-benefit:first-of-type { border-top: 0; padding-top: 0; }
-  .rd-benefit h4 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 15px; letter-spacing: 0; margin: 0 0 6px; color: #0B0B0C; }
-  .rd-benefit p { font-size: 14px; line-height: 1.6; color: #3A3A3C; margin: 0; max-width: 46ch; }
-  .rd-cta { margin-top: 24px; }
+
+  /* Editorial two-column panel: ~55% imagery, ~45% info */
+  .rd-panel { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: start; max-width: var(--content-max); margin: 0 auto; }
+  @media (min-width: 900px) { .rd-panel { grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr); gap: 56px; align-items: start; } }
+
+  .rd-media { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .rd-media-primary { aspect-ratio: 4/5; overflow: hidden; background: #F4F4F2; }
+  .rd-media-primary img { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; display: block; }
+  @media (min-width: 900px) {
+    .rd-media-primary { aspect-ratio: 5/6; min-height: 560px; }
+  }
+
+  .rd-info { display: flex; flex-direction: column; }
+  .rd-info .eyebrow { color: #6B6B6E; margin-bottom: 12px; }
+  .rd-name { font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(34px, 4.6vw, 60px); text-transform: uppercase; letter-spacing: -0.005em; line-height: 0.95; margin: 0 0 28px; padding-bottom: 2px; color: #0B0B0C; }
+  .rd-benefits { display: flex; flex-direction: column; gap: 22px; margin: 0 0 32px; }
+  .rd-benefit { display: grid; grid-template-columns: 46px minmax(0, 1fr); column-gap: 18px; row-gap: 4px; align-items: baseline; }
+  .rd-benefit-n { font-family: 'Anton', sans-serif; font-weight: 400; font-size: 26px; color: #004FFF; letter-spacing: 0; line-height: 1; padding-top: 2px; }
+  .rd-benefit-h { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 16px; letter-spacing: -0.005em; margin: 0; color: #0B0B0C; line-height: 1.25; }
+  .rd-benefit-p { grid-column: 2; font-size: 14.5px; line-height: 1.6; color: #3A3A3C; margin: 4px 0 0; max-width: 44ch; }
+  @media (min-width: 900px) {
+    .rd-benefit { grid-template-columns: 56px minmax(0, 1fr); column-gap: 22px; }
+    .rd-benefit-n { font-size: 32px; }
+    .rd-benefit-h { font-size: 17px; }
+    .rd-benefits { gap: 26px; }
+  }
+  .rd-cta { align-self: flex-start; margin-top: 4px; }
 
   /* About page, campaign layout */
   .about-hero { position: relative; overflow: hidden; aspect-ratio: 16/10; margin: 0 calc(-1 * var(--page-x)) var(--sec-y); color: #FFF; }
@@ -850,12 +874,21 @@
         </sc-for>
       </div>
       <div class="rd-panel" role="tabpanel" id="rd-panel" aria-live="polite">
-        <div class="rd-img"><img src="{{ rundown.img }}" alt="{{ rundown.imgAlt }}"></div>
-        <div>
+        <div class="rd-media">
+          <div class="rd-media-primary"><img src="{{ rundown.img }}" alt="{{ rundown.imgAlt }}"></div>
+        </div>
+        <div class="rd-info">
+          <div class="eyebrow">Flow State · Product</div>
           <h3 class="rd-name">{{ rundown.name }}</h3>
-          <sc-for list="{{ rundown.benefits }}" as="b" hint-placeholder-count="3">
-            <div class="rd-benefit"><h4>{{ b.title }}</h4><p>{{ b.text }}</p></div>
-          </sc-for>
+          <div class="rd-benefits">
+            <sc-for list="{{ rundown.benefits }}" as="b" hint-placeholder-count="3">
+              <div class="rd-benefit">
+                <div class="rd-benefit-n">{{ b.n }}</div>
+                <h4 class="rd-benefit-h">{{ b.title }}</h4>
+                <p class="rd-benefit-p">{{ b.text }}</p>
+              </div>
+            </sc-for>
+          </div>
           <a class="btn btn-primary rd-cta" href="#/product/{{ rundown.slug }}">{{ rundown.ctaLabel }}</a>
         </div>
       </div>
@@ -1545,6 +1578,8 @@ class Component extends DCLogic {
       slug: 'flow-state-dress', name: 'Flow State Dress', label: 'Dress',
       img: 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9895-819x1024.jpg',
       imgAlt: 'Athlete wearing the Flow State Dress',
+      detailImg: 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-819x1024.jpg',
+      detailAlt: 'Detail of the Flow State Dress open back and side pleat',
       benefits: [
         { title: 'Open back', text: 'An open-back slit boosts breathability and adds a sleek, athletic look, keeping you cool through intense play.' },
         { title: 'Range of motion pleat', text: 'A side pleat boosts mobility, offering unrestricted movement for fast direction changes and dynamic performance.' },
@@ -1555,6 +1590,8 @@ class Component extends DCLogic {
       slug: 'flow-state-tank', name: 'Flow State Tank Top', label: 'Tank',
       img: 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1286-819x1024.jpg',
       imgAlt: 'Athlete wearing the Flow State Tank Top',
+      detailImg: 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1247-819x1024.jpg',
+      detailAlt: 'Detail of the Flow State Tank Top fabric and fit',
       benefits: [
         { title: 'Comfort', text: 'A soft, thick fabric with the perfect hint of spandex gives structure, stretch and comfort that lasts through every training session.' },
         { title: 'A LOWFF essential', text: 'Bold design meets soft, supportive fabric, the Flow State tank is an elevated essential piece.' },
@@ -1565,6 +1602,8 @@ class Component extends DCLogic {
       slug: 'flow-state-skort', name: 'Flow State Skort', label: 'Skort',
       img: 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1347-819x1024.jpg',
       imgAlt: 'Athlete wearing the Flow State Skort',
+      detailImg: 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1318-819x1024.jpg',
+      detailAlt: 'Detail of the Flow State Skort waistband and shorts',
       benefits: [
         { title: 'Lightweight outer skirt', text: 'A lightweight, fluid outer skirt moves freely with your body, effortless freedom through every movement.' },
         { title: 'Supportive shorts & waistband', text: 'Built-in shorts and a wide waistband in a thicker stretch fabric hold a secure, comfortable fit that stays in place.' },
@@ -1575,6 +1614,8 @@ class Component extends DCLogic {
       slug: 'flow-state-tee', name: 'Flow State T-Shirt', label: "Men's T-Shirt",
       img: 'https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0941-819x1024.jpg',
       imgAlt: "The Flow State Men's T-Shirt",
+      detailImg: 'https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0920-819x1024.jpg',
+      detailAlt: "Detail of the Flow State Men's T-Shirt pattern and fabric",
       benefits: [
         { title: 'Stretch & support', text: 'Made with a stretchy, supportive fabric that carries structure with freedom of movement.' },
         { title: 'Bold, dynamic pattern', text: "A bold, dynamic pattern that carries the Flow State signature into the men's edit." },
@@ -1981,7 +2022,7 @@ class Component extends DCLogic {
       shopFsRow: ['flow-state-tank','flow-state-skort','flow-state-tee','flow-state-dress'].map(slug => { const p = this.CATALOGUE.find(x => x.slug === slug); return { slug, name: p.name, img: this.HOME_IMG[slug] || p.imgs[0], priceLabel: this.fmt(p.price), variedLabel: 'Varied' }; }),
       // Meet-the-collection rundown
       rundownTabs: this.RUNDOWN.map(r => ({ label: r.label, on: (s.rundown === r.slug) ? 'on' : '', selected: (s.rundown === r.slug) ? 'true' : 'false', select: () => this.setState({ rundown: r.slug }) })),
-      rundown: (() => { const active = this.RUNDOWN.find(r => r.slug === s.rundown) || this.RUNDOWN[0]; return { slug: active.slug, name: active.name, img: active.img, imgAlt: active.imgAlt, benefits: active.benefits, ctaLabel: 'Shop the ' + active.label.toLowerCase() }; })(),
+      rundown: (() => { const active = this.RUNDOWN.find(r => r.slug === s.rundown) || this.RUNDOWN[0]; const pad2 = (i) => (i < 9 ? '0' + (i + 1) : String(i + 1)); return { slug: active.slug, name: active.name, img: active.img, imgAlt: active.imgAlt, detailImg: active.detailImg || '', detailAlt: active.detailAlt || '', benefits: active.benefits.map((b, i) => ({ n: pad2(i), title: b.title, text: b.text })), ctaLabel: 'Shop the ' + active.label.toLowerCase() }; })(),
       homeWomen: this.CATALOGUE.filter(p => p.gender === 'women').map(p => ({ slug: p.slug, name: p.name, img: p.imgs[0], homeImg: this.HOME_IMG[p.slug] || p.imgs[0], priceLabel: this.fmt(p.price) })),
       homeMen: this.CATALOGUE.filter(p => p.gender === 'men').map(p => ({ slug: p.slug, name: p.name, img: p.imgs[0], homeImg: this.HOME_IMG[p.slug] || p.imgs[0], priceLabel: this.fmt(p.price) })),
 
