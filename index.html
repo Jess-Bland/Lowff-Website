@@ -1681,8 +1681,39 @@ class Component extends DCLogic {
         }
         return;
       }
+      // Menu dismissal — only if the drawer is currently open, and
+      // guard against immediate reopen by ignoring the hamburger above.
+      if (this.state.menuOpen) {
+        // Nav link inside the drawer: let the href navigate normally,
+        // just close the drawer without stealing focus back.
+        const menuLink = t.closest('aside.menu a[href]');
+        if (menuLink) {
+          this.setState({ menuOpen: false });
+          return;
+        }
+        // Close button in the drawer head (works even when the tap
+        // lands on the SVG child).
+        const closeBtn = t.closest('aside.menu .menu-head button');
+        if (closeBtn) {
+          e.preventDefault();
+          this._dismissMenu();
+          return;
+        }
+        // Backdrop tap — but not a tap inside the drawer itself.
+        const backdrop = t.closest('.menu-overlay');
+        if (backdrop && !t.closest('aside.menu')) {
+          e.preventDefault();
+          this._dismissMenu();
+          return;
+        }
+      }
     };
     document.addEventListener('click', this._onDocClick, true);
+  }
+  _dismissMenu() {
+    if (!this.state.menuOpen) return;
+    this.setState({ menuOpen: false });
+    this._returnFocus();
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevState && prevState.route !== this.state.route) {
