@@ -19,7 +19,7 @@
   /* ================= LOWFF motion v2 ================= */
   /* v1 (static logo cursor + fade-up) remains available: remove `motion-v2` class from <html>. */
   @media (hover: hover) and (pointer: fine) {
-    html.motion-v2 body { cursor: none; }
+    /* standard cursor restored (Prompt 11) */
     html.motion-v2 input, html.motion-v2 textarea, html.motion-v2 [contenteditable] { cursor: text; }
     .lowff-cursor { position: fixed; top: 0; left: 0; width: 32px; height: 32px; margin: -16px 0 0 -16px; pointer-events: none; z-index: 99999; transform-origin: center; transition: width 180ms ease, height 180ms ease, margin 180ms ease, opacity 200ms ease; opacity: 0; will-change: transform; mix-blend-mode: normal; }
     html.motion-v2.cursor-ready .lowff-cursor { opacity: 1; }
@@ -116,7 +116,8 @@
   /* Header */
   .hdr { position: sticky; top: 0; z-index: 30; background: #FFF; border-bottom: 1px solid #E6E6E2; display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; gap: 8px; }
   .hdr-brand { display: flex; align-items: center; gap: 8px; }
-  .hdr-brand img { height: 20px; }
+  .hdr-brand img { height: 20px; width: auto; display: block; }
+  .hdr-brand > a { display: flex; align-items: center; padding: 6px 0; flex-shrink: 0; }
   .hdr-nav { display: none; gap: 24px; margin-left: 24px; }
   .hdr-nav a { font-weight: 500; font-size: 14px; padding: 8px 0; border-bottom: 1px solid transparent; }
   .hdr-nav a:hover, .hdr-nav a.on { border-bottom-color: #0B0B0C; color: #0B0B0C; }
@@ -125,7 +126,8 @@
   @media (min-width: 900px) {
     .hdr { padding: 14px 32px; }
     .hdr-nav { display: flex; }
-    .hdr-brand img { height: 22px; }
+    .hdr-brand img { height: 32px; }
+    .hdr-brand > a { padding: 4px 8px 4px 0; }
     .hdr-menu-btn { display: none; }
   }
 
@@ -191,6 +193,21 @@
   .hero-title .accent { color: #D6FF3B; }
   .hero-title .accent { color: #D6FF3B; }
   .hero-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
+  /* Mobile hero: subject held in the upper frame, headline wraps, CTAs share one row */
+  @media (max-width: 599px) {
+    .hero { aspect-ratio: auto; height: min(132vw, calc(100svh - 64px)); min-height: 480px; max-height: none; }
+    .hero > img { object-position: 70% 18%; }
+    .hero::after { height: 62%; background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.78) 100%); }
+    .hero-body { bottom: 24px; gap: 12px; }
+    .hero-title { white-space: normal; font-size: clamp(34px, 11vw, 56px); line-height: 0.95; }
+    .hero-title .lb.accent { display: block; margin-left: 0; }
+    .hero-ctas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; gap: 8px; }
+    .hero-ctas .btn { justify-content: center; text-align: center; }
+  }
+  @media (min-width: 600px) and (max-width: 899px) {
+    .hero-title { white-space: normal; font-size: clamp(40px, 8vw, 64px); }
+  }
+  @media (min-width: 640px) { .fs-row.fs-row-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
 
   /* Shared content container, the ONE horizontal rail used across every page.
@@ -205,6 +222,35 @@
   .sec-h h2 { font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(28px, 4vw, 48px); letter-spacing: -0.005em; text-transform: uppercase; margin: 0; line-height: 0.95; padding-bottom: 2px; }
   .link-standalone { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; font-size: 14px; padding: 6px 2px; border-bottom: 1px solid #0B0B0C; }
   .link-standalone:hover { color: #004FFF; border-bottom-color: #004FFF; }
+  /* Home carousels: native scroll-snap (touch), arrow keys on the focused track, visible prev/next. No autoplay. */
+  .car-ctl { display: flex; align-items: center; gap: 8px; }
+  .car-ctl .link-standalone { margin-right: 8px; }
+  .car-btn { width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; background: #FFF; color: #0B0B0C; border: 1px solid #0B0B0C; border-radius: 2px; cursor: pointer; padding: 0; transition: background .15s, color .15s, opacity .15s; }
+  .car-btn:hover { background: #0B0B0C; color: #FFF; }
+  .car-btn[aria-disabled="true"] { opacity: 0.3; cursor: default; background: #FFF; color: #0B0B0C; }
+  .car-ctl.is-static .car-btn { display: none; }
+  .car-track { display: grid; grid-auto-flow: column; grid-auto-columns: 72%; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 4px 2px 8px; }
+  .car-track::-webkit-scrollbar { display: none; }
+  .car-track > * { scroll-snap-align: start; min-width: 0; }
+  .car-track:focus-visible { outline: 2px solid #004FFF; outline-offset: 4px; }
+  @media (min-width: 640px) { .car-track { grid-auto-columns: calc((100% - 2 * 16px) / 3); gap: 16px; } }
+  @media (min-width: 1024px) { .car-track { grid-auto-columns: calc((100% - 3 * 20px) / 4); gap: 20px; } }
+  @media (min-width: 1024px) { .car-track-new { grid-auto-columns: calc((100% - 2 * 20px) / 3); } }
+  .car-track-colour { grid-auto-columns: 42%; }
+  @media (min-width: 640px) { .car-track-colour { grid-auto-columns: calc((100% - 3 * 16px) / 4); } }
+  @media (min-width: 1024px) { .car-track-colour { grid-auto-columns: calc((100% - 4 * 20px) / 5); } }
+  .clr-tile { display: flex; flex-direction: column; gap: 0; text-align: left; background: transparent; border: 0; padding: 0; cursor: pointer; color: inherit; font: inherit; }
+  .clr-tile-media { position: relative; display: block; aspect-ratio: 1 / 1; outline: 1px solid rgba(0,0,0,0.08); outline-offset: -1px; transition: box-shadow .15s; }
+  .clr-tile-note { position: absolute; left: 10px; bottom: 10px; font-size: 11px; letter-spacing: 0.04em; font-weight: 500; }
+  .clr-tile-body { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 10px 2px; border-bottom: 2px solid transparent; }
+  .clr-tile-name { font-weight: 600; font-size: 15px; }
+  .clr-tile-n { font-size: 12px; color: #6B6B6E; }
+  .clr-tile:hover .clr-tile-name { color: #004FFF; }
+  .clr-tile.on .clr-tile-media { box-shadow: inset 0 0 0 3px #FFF, 0 0 0 2px #0B0B0C; }
+  .clr-tile.on .clr-tile-body { border-bottom-color: #0B0B0C; }
+  .col-results { margin-top: var(--stack-lg); border-top: 1px solid #E6E6E2; padding-top: var(--stack-lg); }
+  .col-results-h { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+  .col-results-h h3 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 16px; margin: 0; }
 
   /* Product grid */
   .pc-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
@@ -440,9 +486,13 @@
   .empty p { font-size: 14px; color: #3A3A3C; max-width: 40ch; margin: 0 auto; line-height: 1.55; }
 
   /* ============ PDP ============ */
-  .pdp { display: grid; grid-template-columns: 1fr; gap: 24px; }
-  @media (min-width: 900px) { .pdp { grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: flex-start; } }
-  .gal { display: flex; flex-direction: column; gap: 10px; }
+  .pdp { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .pdp > * { min-width: 0; }
+  @media (min-width: 900px) { .pdp { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; align-items: flex-start; } }
+  .gal { display: flex; flex-direction: column; gap: 10px; min-width: 0; max-width: 100%; }
+  .gal-main { min-width: 0; }
+  .gal-thumbs { min-width: 0; max-width: 100%; }
+  .info-name, .info-price, .acc-body { overflow-wrap: anywhere; }
   .gal-main { aspect-ratio: 4/5; background: #FFF; overflow: hidden; position: relative; }
   .gal-main img { width: 100%; height: 100%; object-fit: cover; }
   .gal-thumbs { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 4px; }
@@ -552,6 +602,31 @@
   }
   .fs-row .pc-varied { display: none; }
 
+  /* Category hero (Men / Woman): full-bleed photo, overlaid text, same treatment as home hero */
+  .cat-hero { position: relative; overflow: hidden; margin: 0 calc(-1 * var(--page-x)) var(--sec-y); background: #1A1A1C; height: min(118vw, calc(100svh - 64px)); min-height: 420px; max-height: 620px; }
+  .cat-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; display: block; }
+  .cat-hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 60%; background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.42) 48%, rgba(0,0,0,0.76) 100%); pointer-events: none; z-index: 1; }
+  .cat-hero-body { position: absolute; z-index: 2; left: max(var(--page-x), calc((100% - var(--content-max)) / 2)); right: max(var(--page-x), calc((100% - var(--content-max)) / 2)); bottom: 24px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; color: #FFF; }
+  .cat-hero-body h1 { font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(56px, 16vw, 132px); line-height: 0.9; letter-spacing: -0.01em; text-transform: uppercase; margin: 0; padding-bottom: 2px; color: #FFF; }
+  .cat-hero-body p { margin: 0; font-size: 15px; line-height: 1.55; color: #FFF; max-width: 40ch; text-wrap: pretty; text-shadow: 0 1px 12px rgba(0,0,0,0.35); }
+  @media (min-width: 900px) {
+    .cat-hero { height: calc(100svh - 120px); min-height: 460px; max-height: 600px; }
+    .cat-hero > img { object-position: 50% 24%; }
+    .cat-hero::after { height: 65%; background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.72) 100%); }
+    .cat-hero-body { bottom: 44px; gap: 14px; }
+    .cat-hero-body p { font-size: 17px; }
+  }
+  /* Desktop triptych: three portrait frames side by side so full figures stay in shot; mobile keeps one portrait */
+  .hero-tri { display: none; }
+  @media (min-width: 900px) {
+    .cat-hero.has-tri > img, .follow-hero.has-tri > img { display: none; }
+    .hero-tri { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; position: absolute; inset: 0; z-index: 0; }
+    .hero-tri img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; display: block; min-width: 0; }
+    .cat-hero.has-tri { height: calc(100svh - 120px); min-height: 520px; max-height: 680px; }
+  }
+  @media (max-width: 899px) { .cat-hero.has-tri > img { object-position: 50% 10%; } }
+  .col-hero-single > img { object-position: 50% 30%; }
+  @media (min-width: 900px) { .cat-hero.col-hero-single { height: min(calc(100vw * 0.5), calc(100svh - 120px)); min-height: 520px; max-height: 720px; } .col-hero-single > img { object-position: 50% 20%; } }
   /* Shop hero, compact photographic intro */
   .shop-hero { display: grid; grid-template-columns: 1fr; gap: 0; background: #F4F4F2; margin: 0 auto var(--sec-y); overflow: hidden; max-width: var(--content-max); }
   .shop-hero-photo { aspect-ratio: 16/10; overflow: hidden; background: #EAEAE6; order: -1; }
@@ -626,7 +701,8 @@
 
   /* About page, campaign layout */
   .about-hero { position: relative; overflow: hidden; aspect-ratio: 16/10; margin: 0 calc(-1 * var(--page-x)) var(--sec-y); color: #FFF; }
-  .about-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+  .about-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; }
+  @media (max-width: 599px) { .about-hero { aspect-ratio: 4/5; } .about-hero > img { object-position: 42% 40%; } .about-hero-body { bottom: 24px; } }
   .about-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.75) 100%); }
   .about-hero-body { position: absolute; z-index: 2; left: max(var(--page-x), calc((100% - var(--content-max)) / 2)); right: max(var(--page-x), calc((100% - var(--content-max)) / 2)); bottom: 28px; }
   .about-hero-eyebrow { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 500; margin-bottom: 12px; opacity: 0.92; }
@@ -634,11 +710,11 @@
   .about-hero-title .accent { color: #D6FF3B; }
   .about-tagline { font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(44px, 9vw, 108px); line-height: 0.95; letter-spacing: -0.005em; text-transform: uppercase; margin: 0 0 28px; padding-bottom: 4px; color: #0B0B0C; max-width: 14ch; }
   .about-tagline .accent { color: #004FFF; }
-  .about-lede-sub { max-width: 640px; font-size: 16px; line-height: 1.7; color: #3A3A3C; margin: 0 0 56px; }
+  .about-lede-sub { max-width: 760px; font-size: clamp(18px, 2vw, 22px); line-height: 1.55; font-weight: 500; color: #0B0B0C; margin: 0 0 56px; }
   .about-hero-title .accent { color: #D6FF3B; }
   @media (min-width: 900px) { .about-hero { margin: 0 calc(-1 * var(--page-x)) var(--sec-y); aspect-ratio: 21/9; } .about-hero-body { bottom: 56px; } }
   .about-wrap { max-width: var(--content-max); margin: 0 auto; }
-  .about-lede { max-width: 760px; font-size: clamp(18px, 2vw, 22px); line-height: 1.55; color: #0B0B0C; margin: 8px 0 56px; font-weight: 500; }
+  .about-lede { max-width: 760px; font-size: clamp(18px, 2vw, 22px); line-height: 1.55; color: #0B0B0C; margin: 8px 0 20px; font-weight: 500; }
   .about-block { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: center; margin: 0 0 64px; }
   .about-block-img { aspect-ratio: 4/5; overflow: hidden; background: #F4F4F2; }
   .about-block-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -655,6 +731,18 @@
   .about-community p { font-size: 15px; line-height: 1.6; margin: 0 0 24px; max-width: 46ch; opacity: 0.92; }
   .about-community-inner { max-width: var(--content-max); margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 32px; align-items: end; }
   .about-community-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .about-community-inner.ig { grid-template-columns: 1fr; align-items: start; }
+  .about-community-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px 40px; }
+  .ig-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .ig-grid > * { aspect-ratio: 4/5; overflow: hidden; background: rgba(255,255,255,0.06); margin: 0; }
+  .ig-grid img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ig-grid > .ig-art { background: #0B0B0C; }
+  .ig-grid .ig-art img { object-fit: contain; object-position: 50% 50%; }
+  .ig-slot { display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; padding: 14px; border: 1px dashed rgba(255,255,255,0.7); background: rgba(11,11,12,0.18) !important; color: #FFF; }
+  .ig-slot b { font-size: 13px; font-weight: 600; }
+  .ig-slot span { font-size: 12px; line-height: 1.45; }
+  @media (min-width: 640px) { .ig-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; } }
+  @media (min-width: 1024px) { .ig-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
   .about-community-strip > div { aspect-ratio: 3/4; overflow: hidden; background: rgba(255,255,255,0.06); }
   .about-community-strip img { width: 100%; height: 100%; object-fit: cover; display: block; }
   @media (min-width: 900px) {
@@ -664,7 +752,20 @@
   }
 
   /* Follow page, editorial */
-  .follow-hero { background: #0B0B0C; color: #FFF; padding: var(--sec-y-lg) var(--page-x); margin: 0 calc(-1 * var(--page-x)) var(--sec-y); }
+  .follow-hero { position: relative; overflow: hidden; background: #0B0B0C; color: #FFF; padding: var(--sec-y-lg) var(--page-x); margin: 0 calc(-1 * var(--page-x)) var(--sec-y); min-height: 520px; display: flex; align-items: flex-end; }
+  .follow-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; display: block; }
+  .follow-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.35) 40%, rgba(0,0,0,0.82) 100%); pointer-events: none; }
+  .follow-hero > .follow-hero-inner { position: relative; z-index: 2; width: 100%; }
+  @media (max-width: 599px) { .follow-hero { min-height: 560px; padding-top: 120px; } }
+  @media (min-width: 900px) { .follow-hero.has-tri { min-height: 600px; } }
+  /* Behind the scenes: curated tiles that link to specific Instagram posts */
+  .bts-tile { position: relative; display: block; overflow: hidden; background: #F4F4F2; aspect-ratio: 3/4; color: #FFF; }
+  .bts-tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s; }
+  .bts-tile:hover img { transform: scale(1.03); }
+  .bts-tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,0.6) 100%); pointer-events: none; }
+  .bts-type { position: absolute; z-index: 2; top: 10px; right: 10px; width: 32px; height: 32px; border-radius: 999px; background: rgba(11,11,12,0.6); display: inline-flex; align-items: center; justify-content: center; }
+  .bts-cta { position: absolute; z-index: 2; left: 12px; bottom: 12px; right: 12px; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #FFF; }
+  .bts-tile:hover .bts-cta { text-decoration: underline; text-underline-offset: 3px; }
   .follow-hero-inner { max-width: var(--content-max); margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 24px; align-items: end; }
   .follow-hero .about-hero-eyebrow { margin-bottom: 20px; }
   .follow-hero h1 { font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(48px, 10vw, 120px); line-height: 0.92; letter-spacing: -0.005em; text-transform: uppercase; margin: 0; padding-bottom: 4px; }
@@ -682,6 +783,15 @@
   .follow-strip img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s; }
   .follow-strip > div:hover img { transform: scale(1.03); }
   @media (min-width: 780px) { .follow-strip { grid-template-columns: repeat(4, 1fr); gap: 12px; } }
+  .comm-sub { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px 24px; flex-wrap: wrap; margin: 56px 0 20px; }
+  .comm-sub .follow-section-h { margin: 0; }
+  .comm-sub p { margin: 0; font-size: 14px; line-height: 1.6; color: #3A3A3C; max-width: 46ch; }
+  .follow-section-h.sm { font-size: clamp(22px, 3vw, 32px); }
+  .tag-slot { aspect-ratio: 3/4; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; padding: 14px; background: #F4F4F2; border: 1px dashed #B8B8B4; color: #3A3A3C; margin: 0; }
+  .tag-slot b { font-size: 13px; font-weight: 600; color: #0B0B0C; }
+  .tag-slot span { font-size: 12px; line-height: 1.45; }
+  .follow-strip.bts-row { grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 780px) { .follow-strip.bts-row { grid-template-columns: repeat(4, 1fr); } }
   .follow-caption { font-size: 13px; color: #6B6B6E; margin: 8px 0 0; }
 
   /* Collections, Flow State campaign */
@@ -703,6 +813,42 @@
     .col-fs-inner { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 40px; }
     .col-fs-art { max-width: 620px; margin: 0; margin-right: -60px; }
   }
+  /* Collections: per-collection sections */
+  .cl-sec { max-width: var(--content-max); margin: 0 auto; padding: var(--sec-y) 0; border-top: 1px solid #E6E6E2; }
+  .cl-sec:first-of-type { border-top: 0; padding-top: 0; }
+  .cl-head { display: grid; grid-template-columns: 1fr; gap: 20px; align-items: end; margin-bottom: var(--stack-lg); }
+  .cl-head h2 { font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(44px, 8vw, 96px); line-height: 0.92; letter-spacing: -0.005em; text-transform: uppercase; margin: 0; padding-bottom: 2px; }
+  .cl-head h2 .accent { color: #004FFF; }
+  .cl-head p { font-size: 16px; line-height: 1.6; color: #3A3A3C; margin: 0; max-width: 46ch; }
+  .cl-head-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  @media (min-width: 900px) { .cl-head { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 48px; } .cl-head-r { display: flex; flex-direction: column; gap: 20px; align-items: flex-start; } }
+  .cl-body { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .cl-feature { aspect-ratio: 4/5; overflow: hidden; background: #EAEAE6; }
+  .cl-feature img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; display: block; }
+  .cl-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-content: start; }
+  @media (min-width: 900px) {
+    .cl-body { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 24px; align-items: start; }
+    .cl-feature { position: sticky; top: 96px; }
+    .cl-body.cl-body-flip { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+    .cl-body.cl-body-flip .cl-feature { order: 2; }
+  }
+  /* Accessories, sampling preview */
+  .acc-teaser { display: grid; grid-template-columns: 1fr; gap: 20px; background: #0B0B0C; color: #FFF; padding: 32px 24px; align-items: end; }
+  .acc-teaser h2 { font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(40px, 7vw, 80px); line-height: 0.92; text-transform: uppercase; margin: 0; }
+  .acc-teaser p { margin: 0; font-size: 15px; line-height: 1.6; color: #FFF; max-width: 44ch; }
+  .acc-pill { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600; color: #0B0B0C; background: #D6FF3B; padding: 6px 10px; border-radius: 2px; }
+  @media (min-width: 900px) { .acc-teaser { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); padding: 48px; gap: 48px; } }
+  .acc-hero { margin: 0 calc(-1 * var(--page-x)) var(--sec-y); background: #004FFF url('uploads/Background.png') center / cover no-repeat; color: #FFF; padding: var(--sec-y-lg) var(--page-x); }
+  .acc-hero-inner { max-width: var(--content-max); margin: 0 auto; display: flex; flex-direction: column; gap: 18px; align-items: flex-start; }
+  .acc-hero h1 { font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(56px, 14vw, 140px); line-height: 0.9; text-transform: uppercase; margin: 0; padding-bottom: 2px; }
+  .acc-hero p { margin: 0; font-size: clamp(16px, 1.6vw, 19px); line-height: 1.55; max-width: 44ch; font-weight: 500; }
+  .acc-steps { max-width: var(--content-max); margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 0; border-top: 1px solid #E6E6E2; }
+  .acc-step { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 12px; padding: 20px 0; border-bottom: 1px solid #E6E6E2; }
+  .acc-step-n { font-family: 'Anton', sans-serif; font-size: 28px; line-height: 1; color: #6B6B6E; }
+  .acc-step.on .acc-step-n { color: #004FFF; }
+  .acc-step h3 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 16px; margin: 0 0 4px; }
+  .acc-step p { margin: 0; font-size: 14px; line-height: 1.6; color: #3A3A3C; }
+  @media (min-width: 900px) { .acc-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; border-top: 0; } .acc-step { grid-template-columns: 1fr; border-bottom: 0; border-top: 2px solid #E6E6E2; } .acc-step.on { border-top-color: #004FFF; } }
   .col-products { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
   @media (min-width: 720px) { .col-products { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; } }
   .col-info { display: grid; grid-template-columns: 1fr; gap: 24px; margin: 56px 0 0; padding: 40px 0 0; border-top: 1px solid #E6E6E2; }
@@ -722,10 +868,9 @@
     <button class="btn btn-icon hdr-menu-btn" type="button" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="{{ menuExpanded }}" onClick="{{ openMenu }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <a href="#/home" aria-label="LOWFF home"><img src="uploads/FULL_BLACK%40300x.png" alt="LOWFF"></a>
     <nav class="hdr-nav" aria-label="Primary">
-      <a href="#/shop?g=men" class="{{ navMen }}">Men's</a>
-      <a href="#/shop?g=women" class="{{ navWomen }}">Women's</a>
+      <a href="#/shop?g=men" class="{{ navMen }}">Men</a>
+      <a href="#/shop?g=women" class="{{ navWomen }}">Woman</a>
       <a href="#/collections" class="{{ navCollections }}">Collections</a>
-      <a href="#/about" class="{{ navAbout }}">About</a>
       <a href="#/follow" class="{{ navFollow }}">Follow</a>
       <a href="#/contact" class="{{ navContact }}">Contact</a>
     </nav>
@@ -749,9 +894,11 @@
     </div>
     <div class="menu-links">
       <a href="#/home" onClick="{{ closeMenu }}">Home</a>
-      <a href="#/shop?g=men" onClick="{{ closeMenu }}">Men's</a>
-      <a href="#/shop?g=women" onClick="{{ closeMenu }}">Women's</a>
+      <a href="#/shop" onClick="{{ closeMenu }}">Shop all</a>
+      <a href="#/shop?g=men" onClick="{{ closeMenu }}">Men</a>
+      <a href="#/shop?g=women" onClick="{{ closeMenu }}">Woman</a>
       <a href="#/collections" onClick="{{ closeMenu }}">Collections</a>
+      <a href="#/accessories" onClick="{{ closeMenu }}">Accessories</a>
       <a href="#/about" onClick="{{ closeMenu }}">About</a>
       <a href="#/follow" onClick="{{ closeMenu }}">Follow</a>
       <a href="#/contact" onClick="{{ closeMenu }}">Contact</a>
@@ -759,7 +906,6 @@
     <div class="menu-secondary">
       <a href="#/returns" onClick="{{ closeMenu }}">Delivery &amp; returns</a>
       <a href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Follow @_lowff_</a>
-      <a href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a>
     </div>
   </aside>
 </sc-if>
@@ -788,7 +934,7 @@
           </sc-if>
         </sc-if>
         <sc-if value="{{ searchNoQ }}" hint-placeholder-val="{{ true }}">
-          <div style="padding: 12px 14px; font-size: 13px; color: #3A3A3C; line-height: 1.55;">Start typing to search 4 Flow State products.</div>
+          <div style="padding: 12px 14px; font-size: 13px; color: #3A3A3C; line-height: 1.55;">Start typing to search {{ catalogueCount }} LOWFF products.</div>
         </sc-if>
       </div>
     </div>
@@ -812,10 +958,10 @@
     <section class="hero">
       <img src="https://lowff.co.uk/wp-content/uploads/2025/11/CARO-PIC-MAIN%40300x-1-scaled.png" alt="LOWFF Flow State campaign photograph">
       <div class="hero-body" data-anim-stagger>
-        <div class="hero-eyebrow" data-anim>The Collection · Flow State</div>
+        <div class="hero-eyebrow" data-anim>New collection · Flow State 2.0</div>
         <h1 class="hero-title" data-anim><span class="lb">Boldness</span><span class="lb">has no</span><span class="lb accent">borders.</span></h1>
         <div class="hero-ctas" data-anim>
-          <a class="btn btn-primary" href="#/shop?g=women">Shop Women</a>
+          <a class="btn btn-primary" href="#/shop?g=women">Shop Woman</a>
           <a class="btn btn-secondary" href="#/shop?g=men">Shop Men</a>
         </div>
       </div>
@@ -823,12 +969,12 @@
 
     <section class="sec">
       <div class="sec-h" data-anim>
-        <div><div class="eyebrow">New collection · Flow State</div><h2>Shop Flow State</h2></div>
-        <a class="link-standalone" href="#/shop">View all →</a>
+        <div><div class="eyebrow">New Arrivals · Flow State 2.0</div><h2 id="car-new-title">Shop Flow State 2.0</h2></div>
+        <div class="car-ctl"><a class="link-standalone" href="#/shop?c=flow-state-2">View all →</a><button class="car-btn" type="button" data-car="prev" data-car-target="car-new" aria-controls="car-new" aria-label="Previous new arrivals"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button><button class="car-btn" type="button" data-car="next" data-car-target="car-new" aria-controls="car-new" aria-label="Next new arrivals"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div>
       </div>
-      <div class="fs-row">
-        <sc-for list="{{ shopFsRow }}" as="p" hint-placeholder-count="4">
-          <a class="pc" href="#/product/{{ p.slug }}"><div class="pc-media"><img src="{{ p.img }}" alt="{{ p.name }}"></div><div class="pc-body"><div class="pc-name">{{ p.name }}</div><div class="pc-price">{{ p.priceLabel }}</div><div class="pc-sw" aria-hidden="true"><span style="background: #2F63B0;"></span><span style="background: #0B0B0C;"></span><span style="background: #C8B48A;"></span></div></div></a>
+      <div class="car-track car-track-new" id="car-new" tabindex="0" role="region" aria-label="New Arrivals, Flow State 2.0, scroll sideways or use arrow keys">
+        <sc-for list="{{ shopFsRow }}" as="p" hint-placeholder-count="3">
+          <a class="pc" href="#/product/{{ p.slug }}"><div class="pc-media"><img src="{{ p.img }}" alt="{{ p.name }}"></div><div class="pc-body"><div class="pc-name">{{ p.name }}</div><div class="pc-price">{{ p.priceLabel }}</div><div class="pc-sw" aria-hidden="true"><sc-for list="{{ p.sw }}" as="c" hint-placeholder-count="3"><span style="background: {{ c.hex }};"></span></sc-for></div></div></a>
         </sc-for>
       </div>
     </section>
@@ -839,12 +985,84 @@
           <div class="brand-strip-mark" aria-hidden="true"><img src="uploads/FULL_WHITE%40300x.png" alt=""></div>
           <h3 class="brand-strip-title">Move <span class="accent">boldly.</span></h3>
           <p class="brand-strip-sub">Performance wear for those who move boldly.</p>
-          <a class="btn btn-onphoto" href="#/shop">Shop the range</a>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <a class="btn btn-onphoto" href="#/shop?g=men">Shop Men</a>
+            <a class="btn btn-onphoto" href="#/shop?g=women">Shop Woman</a>
+          </div>
         </div>
         <div class="brand-strip-photo" data-anim="fromRight">
           <img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9895-819x1024.jpg" alt="LOWFF athlete mid-movement">
         </div>
       </div>
+    </section>
+
+    <section class="sec" aria-labelledby="car-woman-title">
+      <div class="sec-h" data-anim>
+        <div><div class="eyebrow">Woman · Flow State &amp; Flow State 2.0</div><h2 id="car-woman-title">Shop Woman</h2></div>
+        <div class="car-ctl"><a class="link-standalone" href="#/shop?g=women">View all →</a><button class="car-btn" type="button" data-car="prev" data-car-target="car-woman" aria-controls="car-woman" aria-label="Previous Woman products"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button><button class="car-btn" type="button" data-car="next" data-car-target="car-woman" aria-controls="car-woman" aria-label="Next Woman products"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div>
+      </div>
+      <div class="car-track" id="car-woman" tabindex="0" role="region" aria-label="Shop Woman products, scroll sideways or use arrow keys">
+        <sc-for list="{{ homeWomen }}" as="p" hint-placeholder-count="5">
+          <a class="pc" href="#/product/{{ p.slug }}"><div class="pc-media"><img src="{{ p.img }}" alt="{{ p.name }}" loading="lazy"></div><div class="pc-body"><div class="pc-name">{{ p.name }}</div><div class="pc-price">{{ p.priceLabel }}</div><div class="pc-sw" aria-hidden="true"><sc-for list="{{ p.sw }}" as="c" hint-placeholder-count="3"><span style="background: {{ c.hex }};"></span></sc-for></div></div></a>
+        </sc-for>
+      </div>
+    </section>
+
+    <section class="home-campaign" aria-label="Flow State 2.0 campaign" style="position: relative; margin: 0 calc(-1 * var(--page-x)); height: clamp(320px, 62vw, 760px); overflow: hidden; background: #0B0B0C;">
+      <img src="https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8438.jpg" alt="Three athletes in the Flow State Tank Top in Green, Purple and Blue" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; display: block;">
+      <div aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: 0; height: 45%; background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%); pointer-events: none;"></div>
+      <div style="position: absolute; left: max(var(--page-x), calc((100% - var(--content-max)) / 2)); right: var(--page-x); bottom: clamp(20px, 4vw, 44px); display: flex; flex-wrap: wrap; gap: 10px;">
+        <a class="btn btn-onphoto" href="#/collections">Explore Collections</a>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="car-men-title">
+      <div class="sec-h" data-anim>
+        <div><div class="eyebrow">Men · Flow State &amp; Flow State 2.0</div><h2 id="car-men-title">Shop Men</h2></div>
+        <div class="car-ctl"><a class="link-standalone" href="#/shop?g=men">View all →</a><button class="car-btn" type="button" data-car="prev" data-car-target="car-men" aria-controls="car-men" aria-label="Previous Men products"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button><button class="car-btn" type="button" data-car="next" data-car-target="car-men" aria-controls="car-men" aria-label="Next Men products"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div>
+      </div>
+      <div class="car-track" id="car-men" tabindex="0" role="region" aria-label="Shop Men products, scroll sideways or use arrow keys">
+        <sc-for list="{{ homeMen }}" as="p" hint-placeholder-count="2">
+          <a class="pc" href="#/product/{{ p.slug }}"><div class="pc-media"><img src="{{ p.img }}" alt="{{ p.name }}" loading="lazy"></div><div class="pc-body"><div class="pc-name">{{ p.name }}</div><div class="pc-price">{{ p.priceLabel }}</div><div class="pc-sw" aria-hidden="true"><sc-for list="{{ p.sw }}" as="c" hint-placeholder-count="3"><span style="background: {{ c.hex }};"></span></sc-for></div></div></a>
+        </sc-for>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="car-colour-title">
+      <div class="sec-h" data-anim>
+        <div><div class="eyebrow">Blue · Black · Beige · Purple · Green</div><h2 id="car-colour-title">Shop by Colour</h2></div>
+        <div class="car-ctl"><button class="car-btn" type="button" data-car="prev" data-car-target="car-colour" aria-controls="car-colour" aria-label="Previous colours"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button><button class="car-btn" type="button" data-car="next" data-car-target="car-colour" aria-controls="car-colour" aria-label="Next colours"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div>
+      </div>
+      <div class="car-track car-track-colour" id="car-colour" tabindex="0" role="region" aria-label="Product colours, scroll sideways or use arrow keys">
+        <sc-for list="{{ colourTiles }}" as="c" hint-placeholder-count="5">
+          <button class="clr-tile {{ c.on }}" type="button" data-colour="{{ c.label }}" aria-pressed="{{ c.pressed }}" aria-controls="col-results">
+            <span class="clr-tile-media" style="background: {{ c.hex }}; overflow: hidden;"><sc-if value="{{ c.hasImg }}" hint-placeholder-val="{{ true }}"><img src="{{ c.img }}" alt="{{ c.alt }}" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; display: block;"></sc-if><sc-if value="{{ c.noImg }}" hint-placeholder-val="{{ false }}"><span class="clr-tile-note" style="color: {{ c.ink }};">Colour photo to come</span></sc-if></span>
+            <span class="clr-tile-body"><span class="clr-tile-name">{{ c.label }}</span><span class="clr-tile-n">{{ c.countLabel }}</span></span>
+          </button>
+        </sc-for>
+      </div>
+      <div class="col-results" id="col-results" aria-live="polite">
+        <div class="col-results-h">
+          <h3>{{ colourPickCountLabel }} in {{ colourPick }}</h3>
+          <div class="car-ctl"><a class="link-standalone" href="#/shop?colour={{ colourPick }}">{{ colourShopLabel }}</a><button class="car-btn" type="button" data-car="prev" data-car-target="car-colour-results" aria-controls="car-colour-results" aria-label="Previous products in this colour"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button><button class="car-btn" type="button" data-car="next" data-car-target="car-colour-results" aria-controls="car-colour-results" aria-label="Next products in this colour"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div>
+        </div>
+        <div class="car-track" id="car-colour-results" tabindex="0" role="region" aria-label="Products available in {{ colourPick }}">
+          <sc-for list="{{ colourProducts }}" as="p" hint-placeholder-count="4">
+            <a class="pc" href="{{ p.href }}"><div class="pc-media" style="position: relative;"><img src="{{ p.img }}" alt="{{ p.name }}" loading="lazy"><sc-if value="{{ p.illus }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; left: 8px; bottom: 8px; right: 8px; background: #FFFFFF; color: #0B0B0C; font-size: 11px; font-weight: 500; line-height: 1.3; padding: 4px 8px; width: fit-content;">{{ p.illusLabel }}</span></sc-if></div><div class="pc-body"><div class="pc-name">{{ p.name }}</div><div class="pc-price">{{ p.priceLabel }}</div><div class="pc-sw" aria-hidden="true"><sc-for list="{{ p.sw }}" as="c" hint-placeholder-count="3"><span style="background: {{ c.hex }};"></span></sc-for></div></div></a>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" style="border-top: 1px solid #E6E6E2;">
+      <div class="sec-h" data-anim><div><div class="eyebrow" style="text-transform: none; letter-spacing: 0.01em; font-size: 13px; color: #3A3A3C;">Tag us @_lowff_ or use hashtag #lowff for a chance to be featured.</div><h2 class="lowffers-title">Meet the <span class="accent-dark">LOWFFERS.</span></h2></div><a class="btn btn-secondary" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Follow @_lowff_</a></div>
+      <div class="comm-editorial" data-anim-stagger>
+        <div class="ce-a" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-scaled.jpg" alt="LOWFF athlete portrait"></div>
+        <div class="ce-b" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/11/COLLAGE-IMAGE%40300x-scaled.png" alt="LOWFF campaign collage"></div>
+        <div class="ce-c" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9949-819x1024.jpg" alt="Athlete moving in Flow State"></div>
+        <div class="ce-d" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1247-819x1024.jpg" alt="Athletes together in the Flow State Tank"></div>
+      </div>
+      <p class="follow-caption">Photos: LOWFF campaign.</p>
     </section>
 
     <section class="fs-section">
@@ -860,49 +1078,10 @@
         <div class="fc-e" role="listitem" data-anim><img src="uploads/FLOW%20STATE-09-0b058515.png" alt="Flow State, blue photographic colourway"></div>
       </div>
       <div class="fs-cta" style="margin-top: 28px;">
-        <a class="btn btn-primary" href="#/shop">Shop Flow State</a>
+        <a class="btn btn-primary" href="#/shop?c=flow-state">Shop Flow State</a>
       </div>
     </section>
 
-    <section class="rd" aria-labelledby="rd-title">
-      <div class="rd-h">
-        <div><div class="eyebrow">The Collection · Flow State</div><h2 id="rd-title">Meet the collection</h2></div>
-      </div>
-      <div class="rd-tabs" role="tablist" aria-label="Flow State product selector">
-        <sc-for list="{{ rundownTabs }}" as="t" hint-placeholder-count="4">
-          <button class="rd-tab {{ t.on }}" type="button" role="tab" data-rundown="{{ t.slug }}" aria-selected="{{ t.selected }}" aria-controls="rd-panel" onClick="{{ t.select }}">{{ t.label }}</button>
-        </sc-for>
-      </div>
-      <div class="rd-panel" role="tabpanel" id="rd-panel" aria-live="polite">
-        <div class="rd-media">
-          <div class="rd-media-primary"><img src="{{ rundown.img }}" alt="{{ rundown.imgAlt }}"></div>
-        </div>
-        <div class="rd-info">
-          <div class="eyebrow">Flow State · Product</div>
-          <h3 class="rd-name">{{ rundown.name }}</h3>
-          <div class="rd-benefits">
-            <sc-for list="{{ rundown.benefits }}" as="b" hint-placeholder-count="3">
-              <div class="rd-benefit">
-                <div class="rd-benefit-n">{{ b.n }}</div>
-                <h4 class="rd-benefit-h">{{ b.title }}</h4>
-                <p class="rd-benefit-p">{{ b.text }}</p>
-              </div>
-            </sc-for>
-          </div>
-          <a class="btn btn-primary rd-cta" href="#/product/{{ rundown.slug }}">{{ rundown.ctaLabel }}</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec" style="border-top: 1px solid #E6E6E2;">
-      <div class="sec-h" data-anim><div><div class="eyebrow">Follow</div><h2 class="lowffers-title">Meet the <span class="accent-dark">LOWFFERS.</span></h2></div><a class="btn btn-secondary" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Follow @_lowff_</a></div>
-      <div class="comm-editorial" data-anim-stagger>
-        <div class="ce-a" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-scaled.jpg" alt="LOWFF athlete portrait"></div>
-        <div class="ce-b" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/11/COLLAGE-IMAGE%40300x-scaled.png" alt="LOWFF campaign collage"></div>
-        <div class="ce-c" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9949-819x1024.jpg" alt="Athlete moving in Flow State"></div>
-        <div class="ce-d" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1247-819x1024.jpg" alt="Athletes together in the Flow State Tank"></div>
-      </div>
-    </section>
   </div>
 </sc-if>
 
@@ -911,13 +1090,13 @@
   <div class="page">
     <div class="breadcrumbs"><a href="#/home">Home</a><span>/</span><span aria-current="page">{{ shopTitle }}</span></div>
     <sc-if value="{{ shopHeroShow }}" hint-placeholder-val="{{ false }}">
-      <section class="shop-hero">
-        <div class="shop-hero-body">
-          <div class="eyebrow" style="color: #6B6B6E;">The Collection · Flow State</div>
-          <h1>{{ shopTitle }}</h1>
+      <section class="cat-hero {{ shopHeroTriClass }}" aria-labelledby="cat-hero-title">
+        <img src="{{ shopHeroImg }}" alt="{{ shopHeroAlt }}">
+        <sc-if value="{{ shopHeroHasTri }}" hint-placeholder-val="{{ false }}"><div class="hero-tri" aria-hidden="true"><sc-for list="{{ shopHeroTri }}" as="t" hint-placeholder-count="3"><img src="{{ t.src }}" alt=""></sc-for></div></sc-if>
+        <div class="cat-hero-body">
+          <h1 id="cat-hero-title">{{ shopTitle }}</h1>
           <p>{{ shopIntro }}</p>
         </div>
-        <div class="shop-hero-photo"><img src="{{ shopHeroImg }}" alt="{{ shopHeroAlt }}"></div>
       </section>
     </sc-if>
     <sc-if value="{{ shopHeroShow }}" hint-placeholder-val="{{ true }}"></sc-if>
@@ -954,15 +1133,15 @@
       <aside class="facets plp-desktop-only" aria-label="Filters">
         <div class="facet">
           <div class="facet-h">Category</div>
-          <label class="facet-check"><input type="checkbox" checked="{{ genderWomenOn }}" onChange="{{ toggleGenderWomen }}"><span class="box"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 6 3 3 5-6"/></svg></span>Women's <span class="n">{{ countWomen }}</span></label>
-          <label class="facet-check"><input type="checkbox" checked="{{ genderMenOn }}" onChange="{{ toggleGenderMen }}"><span class="box"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 6 3 3 5-6"/></svg></span>Men's <span class="n">{{ countMen }}</span></label>
+          <label class="facet-check"><input type="checkbox" checked="{{ genderWomenOn }}" onChange="{{ toggleGenderWomen }}"><span class="box"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 6 3 3 5-6"/></svg></span>Woman <span class="n">{{ countWomen }}</span></label>
+          <label class="facet-check"><input type="checkbox" checked="{{ genderMenOn }}" onChange="{{ toggleGenderMen }}"><span class="box"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 6 3 3 5-6"/></svg></span>Men <span class="n">{{ countMen }}</span></label>
         </div>
         <div class="facet">
           <div class="facet-h">Colour</div>
           <div class="facet-row">
-            <button class="swatch-btn {{ cBlueOn }}" type="button" aria-pressed="{{ cBlueSel }}" onClick="{{ toggleColBlue }}"><span class="dot" style="background: #2F63B0;"></span><span class="lbl">Blue</span></button>
-            <button class="swatch-btn {{ cBlackOn }}" type="button" aria-pressed="{{ cBlackSel }}" onClick="{{ toggleColBlack }}"><span class="dot" style="background: #0B0B0C;"></span><span class="lbl">Black</span></button>
-            <button class="swatch-btn {{ cBeigeOn }}" type="button" aria-pressed="{{ cBeigeSel }}" onClick="{{ toggleColBeige }}"><span class="dot" style="background: #C8B48A;"></span><span class="lbl">Beige</span></button>
+            <sc-for list="{{ facetColours }}" as="c" hint-placeholder-count="5">
+              <button class="swatch-btn {{ c.onClass }}" type="button" aria-pressed="{{ c.pressed }}" onClick="{{ c.toggle }}"><span class="dot" style="background: {{ c.hex }};"></span><span class="lbl">{{ c.label }}</span></button>
+            </sc-for>
           </div>
         </div>
         <div class="facet">
@@ -977,25 +1156,25 @@
 
       <!-- Results grid or empty -->
       <div>
-        <sc-if value="{{ menFeatOn }}" hint-placeholder-val="{{ false }}">
-          <a class="mfeat" href="#/product/{{ menFeat.slug }}">
-            <div class="mfeat-media"><img src="{{ menFeat.img }}" alt="{{ menFeat.name }}"></div>
+        <sc-if value="{{ featOn }}" hint-placeholder-val="{{ false }}">
+          <a class="mfeat" href="#/product/{{ feat.slug }}">
+            <div class="mfeat-media"><img src="{{ feat.img }}" alt="{{ feat.name }}"></div>
             <div class="mfeat-body">
-              <div class="eyebrow" style="color: #6B6B6E;">Men's · Flow State</div>
-              <h2 class="mfeat-name">{{ menFeat.name }}</h2>
-              <p class="mfeat-price">{{ menFeat.priceLabel }}</p>
-              <p class="mfeat-desc">{{ menFeat.desc }}</p>
-              <div class="mfeat-swatches" aria-label="Available colours"><span style="background: #2F63B0;"></span><span style="background: #0B0B0C;"></span><span style="background: #C8B48A;"></span><em>{{ menFeat.colourLabel }}</em></div>
+              <div class="eyebrow" style="color: #6B6B6E;">{{ feat.eyebrow }}</div>
+              <h2 class="mfeat-name">{{ feat.name }}</h2>
+              <p class="mfeat-price">{{ feat.priceLabel }}</p>
+              <p class="mfeat-desc">{{ feat.desc }}</p>
+              <div class="mfeat-swatches" aria-label="Available colours"><sc-for list="{{ feat.sw }}" as="c" hint-placeholder-count="3"><span style="background: {{ c.hex }};"></span></sc-for><em>{{ feat.colourLabel }}</em></div>
               <span class="btn btn-primary" style="margin-top: 8px;">View product →</span>
             </div>
           </a>
         </sc-if>
-        <sc-if value="{{ menFeatOff }}" hint-placeholder-val="{{ true }}">
+        <sc-if value="{{ featOff }}" hint-placeholder-val="{{ true }}">
           <div class="pc-grid pc-grid-shop">
             <sc-for list="{{ shopResults }}" as="p" hint-placeholder-count="3">
-              <a class="pc" href="#/product/{{ p.slug }}">
-                <div class="pc-media"><img src="{{ p.img }}" alt="{{ p.name }}"></div>
-                <div class="pc-body"><div class="pc-name">{{ p.name }}</div><div class="pc-price">{{ p.priceLabel }}</div><div class="pc-sw"><span style="background: #2F63B0;"></span><span style="background: #0B0B0C;"></span><span style="background: #C8B48A;"></span></div></div>
+              <a class="pc" href="{{ p.href }}">
+                <div class="pc-media" style="position: relative;"><img src="{{ p.img }}" alt="{{ p.name }}"><sc-if value="{{ p.illus }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; left: 8px; bottom: 8px; right: 8px; background: #FFFFFF; color: #0B0B0C; font-size: 11px; font-weight: 500; line-height: 1.3; padding: 4px 8px; width: fit-content;">{{ p.illusLabel }}</span></sc-if></div>
+                <div class="pc-body"><div class="pc-name">{{ p.name }}</div><div class="pc-price">{{ p.priceLabel }}</div><div class="pc-sw" aria-hidden="true"><sc-for list="{{ p.sw }}" as="c" hint-placeholder-count="3"><span style="background: {{ c.hex }};"></span></sc-for></div></div>
               </a>
             </sc-for>
           </div>
@@ -1003,7 +1182,7 @@
         <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
           <div class="empty">
             <h4>Nothing matches those filters.</h4>
-            <p>LOWFF stocks 4 Flow State pieces in Blue, Black and Beige. Try removing a filter, or reset to see everything.</p>
+            <p>LOWFF stocks {{ catalogueCount }} pieces across Flow State and Flow State 2.0. Try removing a filter, or reset to see everything.</p>
             <div style="display: inline-flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; justify-content: center;">
               <button class="btn btn-primary" type="button" onClick="{{ clearAll }}">Clear all filters</button>
               <a class="btn btn-secondary" href="#/shop">Shop all</a>
@@ -1025,15 +1204,15 @@
       <div class="drawer-body">
         <div class="facet">
           <div class="facet-h">Category</div>
-          <label class="facet-check"><input type="checkbox" checked="{{ genderWomenOn }}" onChange="{{ toggleGenderWomen }}"><span class="box"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 6 3 3 5-6"/></svg></span>Women's <span class="n">{{ countWomen }}</span></label>
-          <label class="facet-check"><input type="checkbox" checked="{{ genderMenOn }}" onChange="{{ toggleGenderMen }}"><span class="box"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 6 3 3 5-6"/></svg></span>Men's <span class="n">{{ countMen }}</span></label>
+          <label class="facet-check"><input type="checkbox" checked="{{ genderWomenOn }}" onChange="{{ toggleGenderWomen }}"><span class="box"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 6 3 3 5-6"/></svg></span>Woman <span class="n">{{ countWomen }}</span></label>
+          <label class="facet-check"><input type="checkbox" checked="{{ genderMenOn }}" onChange="{{ toggleGenderMen }}"><span class="box"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 6 3 3 5-6"/></svg></span>Men <span class="n">{{ countMen }}</span></label>
         </div>
         <div class="facet">
           <div class="facet-h">Colour</div>
           <div class="facet-row">
-            <button class="swatch-btn {{ cBlueOn }}" type="button" aria-pressed="{{ cBlueSel }}" onClick="{{ toggleColBlue }}"><span class="dot" style="background: #2F63B0;"></span><span class="lbl">Blue</span></button>
-            <button class="swatch-btn {{ cBlackOn }}" type="button" aria-pressed="{{ cBlackSel }}" onClick="{{ toggleColBlack }}"><span class="dot" style="background: #0B0B0C;"></span><span class="lbl">Black</span></button>
-            <button class="swatch-btn {{ cBeigeOn }}" type="button" aria-pressed="{{ cBeigeSel }}" onClick="{{ toggleColBeige }}"><span class="dot" style="background: #C8B48A;"></span><span class="lbl">Beige</span></button>
+            <sc-for list="{{ facetColours }}" as="c" hint-placeholder-count="5">
+              <button class="swatch-btn {{ c.onClass }}" type="button" aria-pressed="{{ c.pressed }}" onClick="{{ c.toggle }}"><span class="dot" style="background: {{ c.hex }};"></span><span class="lbl">{{ c.label }}</span></button>
+            </sc-for>
           </div>
         </div>
         <div class="facet">
@@ -1064,20 +1243,19 @@
             <button class="{{ t.onClass }}" type="button" role="tab" aria-selected="{{ t.pressed }}" onClick="{{ t.pick }}"><img src="{{ t.img }}" alt=""></button>
           </sc-for>
         </div>
-        <div class="gal-main"><img src="{{ pdpMainImg }}" alt="{{ pdpName }}, image {{ pdpImgIndexLabel }}"></div>
+        <div class="gal-main"><img src="{{ pdpMainImg }}" alt="{{ pdpName }}, image {{ pdpImgIndexLabel }}"><sc-if value="{{ pdpIllus }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; left: 10px; bottom: 10px; background: #FFFFFF; color: #0B0B0C; font-size: 12px; font-weight: 500; line-height: 1.3; padding: 6px 10px; max-width: calc(100% - 20px);">Illustrative photo, {{ pdpColourIllus }} photo to come</span></sc-if></div>
       </div>
 
       <div>
         <div class="info-eye">{{ pdpCollectionLabel }}</div>
         <h1 class="info-name">{{ pdpName }}</h1>
         <div class="info-price">{{ pdpPriceLabel }}</div>
-        <div style="font-size: 12px; color: #6B6B6E;">Tax included per lowff.co.uk. <a class="link-inline" href="#/returns">Delivery &amp; returns</a></div>
 
         <div class="selector">
           <div class="selector-h"><span id="pdp-col-label">Colour</span><span class="val">{{ pdpColourLabel }}</span></div>
           <div class="col-row" role="radiogroup" aria-labelledby="pdp-col-label">
             <sc-for list="{{ pdpColours }}" as="c" hint-placeholder-count="3">
-              <button class="col-btn {{ c.onClass }}" type="button" role="radio" aria-checked="{{ c.pressed }}" onClick="{{ c.pick }}"><span class="dot" style="background: {{ c.hex }};"></span><span class="lbl">{{ c.label }}</span></button>
+              <button class="col-btn {{ c.onClass }}" type="button" role="radio" aria-checked="{{ c.pressed }}" data-pdp-colour="{{ c.label }}" aria-label="Colour {{ c.label }}"><span class="dot" style="background: {{ c.hex }};"></span><span class="lbl">{{ c.label }}</span></button>
             </sc-for>
           </div>
         </div>
@@ -1086,7 +1264,7 @@
           <div class="selector-h"><span id="pdp-size-label">Size</span><span class="val">{{ pdpSizeLabel }}</span></div>
           <div class="size-row" role="radiogroup" aria-labelledby="pdp-size-label">
             <sc-for list="{{ pdpSizes }}" as="s" hint-placeholder-count="5">
-              <button class="size-chip {{ s.onClass }}" type="button" role="radio" aria-checked="{{ s.pressed }}" onClick="{{ s.pick }}">{{ s.label }}</button>
+              <button class="size-chip {{ s.onClass }}" type="button" role="radio" aria-checked="{{ s.pressed }}" data-pdp-size="{{ s.label }}">{{ s.label }}</button>
             </sc-for>
           </div>
           <sc-if value="{{ pdpSizeErr }}" hint-placeholder-val="{{ false }}">
@@ -1094,9 +1272,18 @@
           </sc-if>
         </div>
 
+        <div class="selector">
+          <div class="selector-h"><span id="pdp-qty-label">Quantity</span></div>
+          <div style="display: inline-flex; align-items: center; border: 1px solid #0B0B0C; height: 48px;" role="group" aria-labelledby="pdp-qty-label">
+            <button type="button" data-pdp-qty="-1" aria-label="Decrease quantity" style="width: 48px; height: 46px; border: 0; background: transparent; font-size: 20px; cursor: pointer; color: #0B0B0C;">−</button>
+            <span aria-live="polite" style="min-width: 40px; text-align: center; font-weight: 600; font-size: 15px;">{{ pdpQty }}</span>
+            <button type="button" data-pdp-qty="1" aria-label="Increase quantity" style="width: 48px; height: 46px; border: 0; background: transparent; font-size: 20px; cursor: pointer; color: #0B0B0C;">+</button>
+          </div>
+        </div>
+
         <div class="selector" style="padding-top: 20px;">
           <div class="buy-row" style="grid-template-columns: 1fr;">
-            <button class="btn btn-primary buy-primary" type="button" onClick="{{ pdpAdd }}" disabled="{{ pdpAddDisabled }}">
+            <button class="btn btn-primary buy-primary pdp-add" type="button" disabled="{{ pdpAddDisabled }}">
               <sc-if value="{{ pdpAdding }}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.2-8.6"/></svg> Adding…</sc-if>
               <sc-if value="{{ pdpNotAdding }}" hint-placeholder-val="{{ true }}">Add to bag · {{ pdpPriceLabel }}</sc-if>
             </button>
@@ -1105,8 +1292,9 @@
 
         <div style="margin-top: 20px;">
           <details class="acc" open="true"><summary>Description</summary><div class="acc-body">{{ pdpDesc }}</div></details>
-          <details class="acc"><summary>Fit &amp; fabric</summary><div class="acc-body">{{ pdpFit }}</div></details>
+          <details class="acc"><summary>Fit &amp; fabric</summary><div class="acc-body"><p style="margin: 0;">{{ pdpFit }}</p><sc-if value="{{ pdpHasComp }}" hint-placeholder-val="{{ false }}"><div style="margin-top: 14px; display: grid; gap: 6px;"><div style="font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600; color: #3A3A3C;">Composition</div><sc-for list="{{ pdpComp }}" as="m" hint-placeholder-count="2"><div style="display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid #E6E6E2; padding: 6px 0; font-size: 14px;"><span>{{ m.name }}</span><span style="font-weight: 600;">{{ m.pct }}</span></div></sc-for></div></sc-if></div></details>
           <details class="acc"><summary>Delivery &amp; returns</summary><div class="acc-body"><p>14-day return window from receipt. Items must be unused, in original packaging. Return shipping is the customer's responsibility unless the item is defective.</p><p><a class="link-inline" href="#/returns">Full policy</a>.</p></div></details>
+          <div style="font-size: 12px; color: #6B6B6E; padding-top: 16px;">Tax included per lowff.co.uk. <a class="link-inline" href="#/returns">Delivery &amp; returns</a></div>
         </div>
       </div>
     </div>
@@ -1137,6 +1325,7 @@
               <div style="min-width: 0;">
                 <a href="#/product/{{ item.slug }}" class="line-name">{{ item.name }}</a>
                 <div class="line-meta">{{ item.colour }} · {{ item.size }} · £{{ item.priceLabel }} each</div>
+                <sc-if value="{{ item.illus }}" hint-placeholder-val="{{ false }}"><div class="line-meta" style="margin-top: 2px;">Illustrative photo, {{ item.colour }} photo to come</div></sc-if>
                 <div class="line-controls">
                   <div class="qty" role="group" aria-label="Quantity">
                     <button type="button" aria-label="Decrease" onClick="{{ item.dec }}">−</button>
@@ -1183,9 +1372,8 @@
     <div class="breadcrumbs" style="margin-bottom: 12px;"><a href="#/home">Home</a><span>/</span><span aria-current="page">About</span></div>
 
     <section class="about-hero">
-      <img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1230-819x1024.jpg" alt="LOWFF athlete portrait">
+      <img src="https://lowff.co.uk/wp-content/uploads/2025/11/CARO-PIC-002%40300x-1-scaled.png" alt="LOWFF athletes in the Flow State collection">
       <div class="about-hero-body">
-        <div class="about-hero-eyebrow">Brand</div>
         <h1 class="about-hero-title">About <span class="accent">LOWFF.</span></h1>
       </div>
     </section>
@@ -1198,8 +1386,8 @@
       <section class="about-block" data-anim>
         <div class="about-block-img"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9895-819x1024.jpg" alt="LOWFF athlete in training"></div>
         <div>
-          <h2>Racket sports, <span class="accent">and beyond.</span></h2>
-          <p>LOWFF specialises in high-performance sportswear, with a unique focus on racket sports.</p>
+          <h2>Every sport, <span class="accent">every athlete.</span></h2>
+          <p>LOWFF makes high-performance sportswear for training, competing and everything in between, from court to gym to track.</p>
           <p>Our mission goes beyond a single discipline, we're here for athletes of all kinds, championing the work it takes to reach peak potential.</p>
         </div>
       </section>
@@ -1214,20 +1402,26 @@
       </section>
     </div>
 
-    <section class="about-community">
-      <div class="about-community-inner" data-anim>
-        <div>
-          <h2>Welcome to the <span class="accent">LOWFFERS.</span></h2>
-          <p>The people who move with us. Athletes, training partners, and the moments in between, meet the community.</p>
-          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <a class="btn btn-onphoto" href="#/follow">Meet the LOWFFERS</a>
+    <section class="about-community" aria-labelledby="about-lowffers">
+      <div class="about-community-inner ig" data-anim>
+        <div class="about-community-head">
+          <div>
+            <h2 id="about-lowffers">Welcome to the <span class="accent">LOWFFERS.</span></h2>
+            <p>The people who move with us. Athletes, training partners, and the moments in between, meet the community.</p>
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px;">
+            <a class="btn btn-onphoto" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Follow @_lowff_</a>
             <a class="btn btn-ghost" href="#/shop">Shop the range</a>
           </div>
         </div>
-        <div class="about-community-strip">
-          <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-scaled.jpg" alt="LOWFF athlete portrait"></div>
-          <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1247-819x1024.jpg" alt="Athletes together"></div>
-          <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1180-819x1024.jpg" alt="LOWFF athlete portrait"></div>
+        <div class="ig-grid" role="list" aria-label="LOWFFERS community imagery">
+          <figure role="listitem"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-scaled.jpg" alt="LOWFF athlete portrait" loading="lazy"></figure>
+          <figure role="listitem"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1247-819x1024.jpg" alt="LOWFF clothing on hangers" loading="lazy"></figure>
+          <figure role="listitem"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1180-819x1024.jpg" alt="LOWFF clothing on hangers" loading="lazy"></figure>
+          <!-- Source: user-supplied screenshots of @_lowff_ posts. Boldness = uploads/IMG_8027 cropped to remove app controls; Beyond the Mirror = uploads/IMG_8031 (no app UI visible). Original exports still preferred. -->
+          <figure role="listitem" class="ig-art"><img src="uploads/about-ig-boldness-crop.png" alt="@_lowff_ Instagram post: Boldness has no borders" loading="lazy"></figure>
+          <figure role="listitem" class="ig-art"><img src="uploads/IMG_8031.jpg" alt="@_lowff_ Instagram post: Beyond the Mirror" loading="lazy"></figure>
+          <figure class="ig-slot" aria-label="Placeholder for approved Instagram post 3"><b>Instagram post 03</b><span>Approved @_lowff_ image needed</span></figure>
         </div>
       </div>
     </section>
@@ -1244,12 +1438,12 @@
     </div>
     <h1 class="info-title">Get in touch.</h1>
     <div class="prose">
-      <p>Questions about a product, an order or a return, please email <a class="link-inline" href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a>. The form below is a prototype and does not send messages.</p>
+      <p>Questions about a product, an order, a return, a collaboration or team kit? Use the form below and choose the subject that fits.</p>
     </div>
 
     <form class="form" onSubmit="{{ contactSubmit }}" noValidate="true">
       <h3>Send a message</h3>
-      <div class="ribbon"><b>Prototype form</b>, submissions are not delivered to LOWFF. For a real reply, email <a href="mailto:lowri@lowff.co.uk" style="color: inherit; text-decoration: underline;">lowri@lowff.co.uk</a>.</div>
+      <div class="ribbon"><b>Prototype form</b>, submissions are checked here but not delivered to LOWFF yet.</div>
       <sc-if value="{{ contactAlertShown }}" hint-placeholder-val="{{ false }}">
         <div class="form-alert {{ contactAlertClass }}" role="{{ contactAlertRole }}">{{ contactAlertText }}</div>
       </sc-if>
@@ -1265,14 +1459,14 @@
       </div>
       <div class="field">
         <label>Subject</label>
-        <select><option>General enquiry</option><option>Order or delivery</option><option>Returns</option></select>
+        <select value="{{ contactSubject }}" onChange="{{ setContactSubject }}"><option value="General enquiry">General enquiry</option><option value="Order or delivery">Order or delivery</option><option value="Returns">Returns</option><option value="Collab / Partnerships">Collab / Partnerships</option><option value="Team Kit Opportunity">Team Kit Opportunity</option></select>
       </div>
       <div class="field {{ contactMsgErrClass }}">
         <label>Message *</label>
-        <textarea placeholder="How can we help?" onInput="{{ setContactMsg }}">{{ contactMsg }}</textarea>
+        <textarea placeholder="How can we help?" value="{{ contactMsg }}" onInput="{{ setContactMsg }}"></textarea>
         <div class="helptxt">{{ contactMsgHelp }}</div>
       </div>
-      <button class="btn btn-primary" type="submit">Submit prototype form</button>
+      <button class="btn btn-primary contact-submit" type="submit">Submit prototype form</button>
     </form>
   </div></div>
 </sc-if>
@@ -1289,7 +1483,7 @@
     <div class="prose">
       <h3 style="margin-top: 0;">Delivery</h3>
       <p>Delivery for lowff.co.uk orders is handled by the checkout at time of purchase.</p>
-      <p>For questions about a specific order, cut-off, carrier, tracking, late or missing parcel, please email <a class="link-inline" href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a> with your order number.</p>
+      <p>For questions about a specific order, cut-off, carrier, tracking, late or missing parcel, please <a class="link-inline" href="#/contact?subject=Order%20or%20delivery">contact LOWFF</a> with your order number.</p>
 
       <h3>Returns policy</h3>
       <p style="font-weight: 500; color: #0B0B0C;">Thank you for supporting our small business.</p>
@@ -1302,7 +1496,7 @@
       <p>As a small business, we cannot guarantee an exchange for returned items. If you'd like to exchange a product, we suggest initiating a return and placing a new order.</p>
 
       <h3>How to return</h3>
-      <p>To initiate a return, please email <a class="link-inline" href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a> with your order number and the reason for the return. We will provide instructions for returning your item.</p>
+      <p>To initiate a return, please <a class="link-inline" href="#/contact?subject=Returns">contact LOWFF</a> with your order number and the reason for the return. We will provide instructions for returning your item.</p>
 
       <h3>Return shipping</h3>
       <p>You are responsible for return shipping costs unless the item is defective or damaged. Shipping costs are non-refundable.</p>
@@ -1310,52 +1504,106 @@
       <h3>Refunds</h3>
       <p>Once your return is received and inspected, we will notify you of the approval or rejection of your refund. If approved, please allow up to <b>30 days</b> for the refund to be processed back to your original method of payment.</p>
     </div>
-    <div style="margin-top: 24px;"><a class="btn btn-primary" href="mailto:lowri@lowff.co.uk?subject=Return%20request">Start a return by email</a></div>
+    <div style="margin-top: 24px;"><a class="btn btn-primary" href="#/contact?subject=Returns">Start a return</a></div>
   </div></div>
 </sc-if>
 
 <!-- ============ COLLECTIONS ============ -->
 <sc-if value="{{ showCollections }}" hint-placeholder-val="{{ false }}">
   <div class="page">
-    <div class="breadcrumbs" style="margin-bottom: 12px;"><a href="#/home">Home</a><span>/</span><span aria-current="page">Collections</span></div>
-
-    <section class="col-fs">
-      <div class="col-fs-inner" data-anim>
-        <div>
-          <div class="col-fs-eyebrow">The current release</div>
-          <h1 class="col-fs-title">Flow <span class="accent">State.</span></h1>
-          <p class="col-fs-lede">Four pieces. One collection. A dress, a tank, a skort, and a men's tee, built from stretchy, supportive fabric that gives structure without holding you back.</p>
-          <div class="col-fs-ctas">
-            <a class="btn btn-primary" href="#/shop">Shop the collection</a>
-            <a class="btn btn-secondary" href="#/shop?g=women">Women's</a>
-            <a class="btn btn-secondary" href="#/shop?g=men">Men's</a>
-          </div>
+    <div class="breadcrumbs"><a href="#/home">Home</a><span>/</span><span aria-current="page">Collections</span></div>
+    <section class="cat-hero col-hero-single" aria-labelledby="col-hero-title">
+      <img src="https://lowff.co.uk/wp-content/uploads/2025/11/CARO-PIC-002%40300x-1-scaled.png" alt="Three LOWFF athletes in Flow State Beige, Blue and Black, seated on LOWFF towels">
+      <div class="cat-hero-body">
+        <h1 id="col-hero-title">Collections</h1>
+        <p>Flow State 2.0 is new in. The original Flow State is still here. Accessories are in sampling.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-onphoto" href="#col-fs2" onClick="{{ jumpFs2 }}">Flow State 2.0</a>
+          <a class="btn btn-ghost" href="#col-fs1" onClick="{{ jumpFs1 }}">Flow State</a>
         </div>
-        <img class="col-fs-art" src="uploads/Flow%20State-fc0b57f7.jpg" alt="Flow State collection artwork">
       </div>
     </section>
 
-    <section style="margin: 0 auto 40px; max-width: 1200px;">
-      <div class="sec-h" data-anim>
-        <div><div class="eyebrow">Shop the collection</div><h2 style="font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(28px, 4vw, 44px); letter-spacing: 0; text-transform: uppercase; line-height: 0.95;">Four pieces.</h2></div>
-        <a class="link-standalone" href="#/shop">View all →</a>
+    <section class="cl-sec" id="col-fs2" aria-labelledby="col-fs2-title">
+      <div class="cl-head" data-anim>
+        <div><div class="eyebrow">New collection</div><h2 id="col-fs2-title">Flow State <span class="accent">2.0</span></h2></div>
+        <div class="cl-head-r">
+          <p>A sports bra, shorts and men's shorts in Blue, Purple and Green. Made to move, in bold colours that make a statement.</p>
+          <div class="cl-head-actions"><a class="btn btn-primary" href="#/shop?c=flow-state-2">Shop Flow State 2.0</a></div>
+        </div>
       </div>
-      <div class="col-products" data-anim>
-        <a class="pc" href="#/product/flow-state-dress"><div class="pc-media"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1074-819x1024.jpg" alt="Flow State Dress"></div><div class="pc-body"><div class="pc-name">Flow State Dress</div><div class="pc-price">£65.00</div></div></a>
-        <a class="pc" href="#/product/flow-state-tank"><div class="pc-media"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1180-819x1024.jpg" alt="Flow State Tank Top"></div><div class="pc-body"><div class="pc-name">Flow State Tank Top</div><div class="pc-price">£32.50</div></div></a>
-        <a class="pc" href="#/product/flow-state-skort"><div class="pc-media"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1331-819x1024.jpg" alt="Flow State Skort"></div><div class="pc-body"><div class="pc-name">Flow State Skort</div><div class="pc-price">£40.00</div></div></a>
-        <a class="pc" href="#/product/flow-state-tee"><div class="pc-media"><img src="https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0920-819x1024.jpg" alt="Flow State T-Shirt"></div><div class="pc-body"><div class="pc-name">Flow State T-Shirt</div><div class="pc-price">£29.50</div></div></a>
+      <div class="cl-body">
+        <div class="cl-feature"><img src="https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9384.jpg" alt="Athlete wearing the Flow State Men's Shorts" loading="lazy"></div>
+        <div class="cl-grid">
+          <sc-for list="{{ colFs2 }}" as="p" hint-placeholder-count="3">
+            <a class="pc" href="{{ p.href }}"><div class="pc-media" style="position: relative;"><img src="{{ p.img }}" alt="{{ p.name }}" loading="lazy"><sc-if value="{{ p.illus }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; left: 8px; bottom: 8px; right: 8px; background: #FFFFFF; color: #0B0B0C; font-size: 11px; font-weight: 500; line-height: 1.3; padding: 4px 8px; width: fit-content;">{{ p.illusLabel }}</span></sc-if></div><div class="pc-body"><div class="pc-name">{{ p.name }}</div><div class="pc-price">{{ p.priceLabel }}</div><div class="pc-sw" aria-hidden="true"><sc-for list="{{ p.sw }}" as="c" hint-placeholder-count="3"><span style="background: {{ c.hex }};"></span></sc-for></div></div></a>
+          </sc-for>
+        </div>
       </div>
+    </section>
 
-      <div class="col-info" data-anim>
-        <div>
-          <h3>Made to move.</h3>
-          <p>The Flow State fabric is stretchy and supportive at once, dynamic pattern, breathable feel, structure that follows you through the session.</p>
+    <section class="cl-sec" id="col-fs1" aria-labelledby="col-fs1-title">
+      <div class="cl-head" data-anim>
+        <div><div class="eyebrow">The original collection</div><h2 id="col-fs1-title">Flow State</h2></div>
+        <div class="cl-head-r">
+          <p>The dress, tank top, skort and men's T-shirt that started it. Stretchy, supportive fabric with a bold, dynamic pattern.</p>
+          <div class="cl-head-actions"><a class="btn btn-primary" href="#/shop?c=flow-state">Shop Flow State</a></div>
         </div>
-        <div>
-          <h3>Small, considered edits.</h3>
-          <p>LOWFF releases one collection at a time. Flow State is the current chapter, new work is on the way.</p>
+      </div>
+      <div class="cl-body cl-body-flip">
+        <div class="cl-feature"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9895-819x1024.jpg" alt="Athlete wearing the Flow State Dress" loading="lazy"></div>
+        <div class="cl-grid">
+          <sc-for list="{{ colFs1 }}" as="p" hint-placeholder-count="4">
+            <a class="pc" href="{{ p.href }}"><div class="pc-media" style="position: relative;"><img src="{{ p.img }}" alt="{{ p.name }}" loading="lazy"><sc-if value="{{ p.illus }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; left: 8px; bottom: 8px; right: 8px; background: #FFFFFF; color: #0B0B0C; font-size: 11px; font-weight: 500; line-height: 1.3; padding: 4px 8px; width: fit-content;">{{ p.illusLabel }}</span></sc-if></div><div class="pc-body"><div class="pc-name">{{ p.name }}</div><div class="pc-price">{{ p.priceLabel }}</div><div class="pc-sw" aria-hidden="true"><sc-for list="{{ p.sw }}" as="c" hint-placeholder-count="3"><span style="background: {{ c.hex }};"></span></sc-for></div></div></a>
+          </sc-for>
         </div>
+      </div>
+    </section>
+
+    <section class="cl-sec" id="col-accessories" aria-labelledby="col-acc-title">
+      <div class="acc-teaser" data-anim>
+        <div style="display: flex; flex-direction: column; gap: 16px; align-items: flex-start;">
+          <span class="acc-pill">In sampling</span>
+          <h2 id="col-acc-title">Accessories</h2>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 20px; align-items: flex-start;">
+          <p>We're sampling the first LOWFF accessories now. Nothing is on sale yet, and we'll share more when they're ready.</p>
+          <a class="btn btn-onphoto" href="#/accessories">See what's coming</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</sc-if>
+
+<!-- ============ ACCESSORIES (sampling preview) ============ -->
+<sc-if value="{{ showAccessories }}" hint-placeholder-val="{{ false }}">
+  <div class="page">
+    <div class="breadcrumbs"><a href="#/home">Home</a><span>/</span><a href="#/collections">Collections</a><span>/</span><span aria-current="page">Accessories</span></div>
+    <section class="acc-hero" aria-labelledby="acc-title">
+      <div class="acc-hero-inner" data-anim>
+        <span class="acc-pill">In sampling</span>
+        <h1 id="acc-title">Accessories</h1>
+        <p>The first LOWFF accessories are being sampled and tested now. There's nothing to buy yet.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-onphoto" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Follow @_lowff_ for updates</a>
+          <a class="btn btn-ghost" href="#/collections">Back to Collections</a>
+        </div>
+      </div>
+    </section>
+    <section class="sec" aria-labelledby="acc-where">
+      <div class="sec-h"><div><div class="eyebrow">Where we are</div><h2 id="acc-where">From sample to shop</h2></div></div>
+      <div class="acc-steps">
+        <div class="acc-step on"><div class="acc-step-n">01</div><div><h3>Sampling · now</h3><p>First samples are being made and tested.</p></div></div>
+        <div class="acc-step"><div class="acc-step-n">02</div><div><h3>Final pieces</h3><p>Products, colours and prices are confirmed.</p></div></div>
+        <div class="acc-step"><div class="acc-step-n">03</div><div><h3>In the shop</h3><p>Accessories appear here, ready to add to your bag.</p></div></div>
+      </div>
+    </section>
+    <section class="sec" style="border-top: 1px solid #E6E6E2;">
+      <div class="sec-h"><div><div class="eyebrow">Shop now</div><h2>The current range</h2></div></div>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#/shop?c=flow-state-2">Shop Flow State 2.0</a>
+        <a class="btn btn-secondary" href="#/shop?g=women">Shop Woman</a>
+        <a class="btn btn-secondary" href="#/shop?g=men">Shop Men</a>
       </div>
     </section>
   </div>
@@ -1366,46 +1614,68 @@
   <div class="page">
     <div class="breadcrumbs" style="margin-bottom: 12px;"><a href="#/home">Home</a><span>/</span><span aria-current="page">Follow</span></div>
 
-    <section class="follow-hero">
+    <section class="follow-hero has-tri">
+      <img src="https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9620.jpg" alt="LOWFF athlete in the Flow State collection" style="object-position: 50% 10%;">
+      <div class="hero-tri" aria-hidden="true">
+        <img src="https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9620-683x1024.jpg" alt="">
+        <img src="https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9384-683x1024.jpg" alt="">
+        <img src="https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8531-683x1024.jpg" alt="">
+      </div>
       <div class="follow-hero-inner" data-anim>
         <div>
-          <div class="about-hero-eyebrow">The community</div>
-          <h1>Meet the <span class="accent">LOWFFERS.</span></h1>
+          <div class="about-hero-eyebrow">Built to be Bold</div>
+          <h1>Join a Bold <span class="accent">LOWFFERS.</span></h1>
         </div>
         <div>
           <p>Athletes, training, and the moments in between. A curated look at the people who move with us, for the full feed, follow along on Instagram.</p>
           <div class="follow-hero-cta">
             <a class="btn btn-onphoto" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Follow @_lowff_</a>
-            <a class="btn btn-ghost" href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a>
           </div>
         </div>
       </div>
     </section>
 
     <div style="max-width: 1200px; margin: 0 auto;">
-      <h2 class="follow-section-h">In <span class="accent">motion.</span></h2>
+      <div class="comm-sub"><h2 class="follow-section-h">In <span class="accent">motion.</span></h2><p>LOWFF athletes in the latest Flow State 2.0 shoot.</p></div>
       <div class="comm-editorial" data-anim-stagger>
-        <div class="ce-a" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-scaled.jpg" alt="LOWFF athlete portrait"></div>
-        <div class="ce-b" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/11/COLLAGE-IMAGE%40300x-scaled.png" alt="LOWFF campaign collage"></div>
-        <div class="ce-c" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9949-819x1024.jpg" alt="Athlete moving in Flow State"></div>
-        <div class="ce-d" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1247-819x1024.jpg" alt="Athletes together in the Flow State Tank"></div>
+        <div class="ce-a" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9671-683x1024.jpg" alt="Athlete in the Flow State Sports Bra" loading="lazy"></div>
+        <div class="ce-b" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8463-copy-819x1024.jpg" alt="Athletes in Flow State 2.0" loading="lazy"></div>
+        <div class="ce-c" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8379-683x1024.jpg" alt="Athlete in the Flow State Men's Shorts" loading="lazy"></div>
+        <div class="ce-d" data-anim><img src="https://lowff.co.uk/wp-content/uploads/2026/09/IMG_7784-683x1024.jpg" alt="Athlete in the Flow State Shorts" loading="lazy"></div>
       </div>
 
-      <h2 class="follow-section-h">Behind the <span class="accent">scenes.</span></h2>
-      <div class="follow-strip" data-anim-stagger>
-        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1180-819x1024.jpg" alt="Flow State tank on-model"></div>
-        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1286-819x1024.jpg" alt="Flow State tank on-model"></div>
-        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1074-819x1024.jpg" alt="Flow State dress on-model"></div>
-        <div><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9895-819x1024.jpg" alt="Athlete in training"></div>
+      <div class="comm-sub"><h2 class="follow-section-h">Tagged by <span class="accent">you.</span></h2><p>Tag us @_lowff_ or use hashtag #lowff for a chance to be featured.</p></div>
+      <div class="follow-strip" role="list" aria-label="Customer and ambassador posts">
+        <figure class="tag-slot" aria-label="Placeholder for Tagged post 1"><b>Tagged post 01</b><span>Approved Instagram image needed</span></figure>
+        <figure class="tag-slot" aria-label="Placeholder for Tagged post 2"><b>Tagged post 02</b><span>Approved Instagram image needed</span></figure>
+        <figure class="tag-slot" aria-label="Placeholder for Ambassador post 3"><b>Ambassador post 03</b><span>Approved Instagram image needed</span></figure>
+        <figure class="tag-slot" aria-label="Placeholder for Ambassador post 4"><b>Ambassador post 04</b><span>Approved Instagram image needed</span></figure>
+      </div>
+
+      <sc-if value="{{ eventsShow }}" hint-placeholder-val="{{ false }}">
+        <div class="comm-sub"><h2 class="follow-section-h sm">Upcoming <span class="accent">events.</span></h2></div>
+        <div class="follow-strip" role="list" aria-label="Upcoming events">
+          <sc-for list="{{ events }}" as="ev" hint-placeholder-count="0">
+            <a class="tag-slot" role="listitem" href="{{ ev.href }}" style="border-style: solid; aspect-ratio: auto; min-height: 140px;"><b>{{ ev.title }}</b><span>{{ ev.when }} · {{ ev.where }}</span></a>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <div class="comm-sub"><h2 class="follow-section-h sm">Behind the <span class="accent">scenes.</span></h2><p>Selected moments from @_lowff_.</p></div>
+      <div class="follow-strip bts-row" data-anim-stagger>
+        <a class="bts-tile" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener" data-ig-post="" aria-label="Flow State tank on-model, open the @_lowff_ Instagram profile (opens in a new tab)"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1180-819x1024.jpg" alt="" loading="lazy"><span class="bts-cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/></svg> View @_lowff_</span></a>
+        <a class="bts-tile" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener" data-ig-post="" aria-label="Flow State tank on-model, open the @_lowff_ Instagram profile (opens in a new tab)"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1286-819x1024.jpg" alt="" loading="lazy"><span class="bts-cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/></svg> View @_lowff_</span></a>
+        <a class="bts-tile" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener" data-ig-post="" aria-label="Flow State dress on-model, open the @_lowff_ Instagram profile (opens in a new tab)"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1074-819x1024.jpg" alt="" loading="lazy"><span class="bts-cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/></svg> View @_lowff_</span></a>
+        <a class="bts-tile" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener" data-ig-post="" aria-label="Athlete in training, open the @_lowff_ Instagram profile (opens in a new tab)"><img src="https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9895-819x1024.jpg" alt="" loading="lazy"><span class="bts-cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/></svg> View @_lowff_</span></a>
       </div>
 
       <div style="margin: 48px 0 8px; padding: 32px 24px; background: #F4F4F2; display: grid; grid-template-columns: 1fr; gap: 16px; align-items: center;">
         <div>
-          <div class="eyebrow" style="color: #6B6B6E; margin-bottom: 8px;">Say hello</div>
+          <div class="eyebrow" style="color: #6B6B6E; margin-bottom: 8px;">Contact LOWFF</div>
           <p style="font-size: 15px; line-height: 1.6; color: #3A3A3C; margin: 0; max-width: 46ch;">Working with LOWFF, shooting with us, or want to be part of the next drop? Send a note, we read every one.</p>
         </div>
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <a class="btn btn-primary" href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a>
+          <a class="btn btn-primary" href="#/contact">Contact LOWFF</a>
           <a class="btn btn-secondary" href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Instagram →</a>
         </div>
       </div>
@@ -1418,12 +1688,12 @@
   <div class="page">
     <div class="breadcrumbs"><a href="#/home">Home</a><span>/</span><span aria-current="page">Search</span></div>
     <h1 class="info-title" style="margin-bottom: 12px;">Search</h1>
-    <form onSubmit="{{ searchSubmit }}" style="display: grid; grid-template-columns: 1fr auto; gap: 8px; max-width: 640px;">
-      <label style="display: flex; align-items: center; gap: 10px; padding: 0 14px; height: 48px; border: 1px solid #0B0B0C; border-radius: 2px; background: #FFF;">
+    <form onSubmit="{{ searchSubmit }}" style="display: flex; flex-wrap: wrap; gap: 8px; max-width: 640px;">
+      <label style="flex: 1 1 200px; min-width: 0; display: flex; align-items: center; gap: 10px; padding: 0 14px; height: 48px; border: 1px solid #0B0B0C; border-radius: 2px; background: #FFF;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input type="text" placeholder="Search LOWFF" value="{{ searchPageQ }}" onInput="{{ onSearchPageInput }}" aria-label="Search products" style="flex: 1; border: 0; outline: 0; font: 500 15px 'Inter', sans-serif; background: transparent;">
+        <input type="text" placeholder="Search LOWFF" value="{{ searchPageQ }}" onInput="{{ onSearchPageInput }}" aria-label="Search products" style="flex: 1; min-width: 0; width: 100%; border: 0; outline: 0; font: 500 15px 'Inter', sans-serif; background: transparent;">
       </label>
-      <button class="btn btn-primary" type="submit" style="height: 48px;">Search</button>
+      <button class="btn btn-primary" type="submit" style="height: 48px; flex: 0 0 auto;">Search</button>
     </form>
     <div style="margin: 24px 0 16px; padding-bottom: 12px; border-bottom: 1px solid #E6E6E2;">
       <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap;">
@@ -1441,14 +1711,14 @@
     <sc-if value="{{ searchPageNone }}" hint-placeholder-val="{{ false }}">
       <div class="empty">
         <h4>No matches for "{{ searchPageQ }}".</h4>
-        <p>The catalogue is small, 4 Flow State products. Try "flow", "dress", "tank", "skort" or "t-shirt".</p>
+        <p>The catalogue is small, {{ catalogueCount }} LOWFF products. Try "shorts", "bra", "dress", "tank", "skort" or "t-shirt".</p>
         <a class="btn btn-primary" href="#/shop" style="margin-top: 16px;">Shop all</a>
       </div>
     </sc-if>
     <sc-if value="{{ searchPageEmpty }}" hint-placeholder-val="{{ false }}">
       <div class="empty">
         <h4>Type something to search.</h4>
-        <p>Search across the 4 Flow State products.</p>
+        <p>Search across the {{ catalogueCount }} LOWFF products.</p>
       </div>
     </sc-if>
   </div>
@@ -1477,6 +1747,24 @@
   </div>
 </sc-if>
 
+<!-- ============ NEWSLETTER (shared, once per page) ============ -->
+<section class="nl" aria-labelledby="nl-title" style="background: #004FFF; color: #FFFFFF; padding: var(--sec-y) var(--page-x);">
+  <div style="max-width: var(--content-max); margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 28px 48px; align-items: end;">
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+      <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600; color: #FFFFFF;">Newsletter</div>
+      <h2 id="nl-title" style="font-family: 'Anton', 'Space Grotesk', sans-serif; font-weight: 400; font-size: clamp(36px, 5.2vw, 72px); line-height: 0.95; text-transform: uppercase; margin: 0; padding-bottom: 2px; text-wrap: balance;">Our boldest gear, straight to your inbox.</h2>
+    </div>
+    <form class="nl-form" novalidate="true" onSubmit="{{ nlSubmit }}" style="display: flex; flex-direction: column; gap: 10px; min-width: 0;">
+      <label for="nl-email" style="font-size: 13px; font-weight: 600; color: #FFFFFF;">Email address</label>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <input id="nl-email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" value="{{ nlEmail }}" onInput="{{ setNlEmail }}" aria-invalid="{{ nlInvalid }}" aria-describedby="nl-msg" style="flex: 1 1 220px; min-width: 0; height: 52px; padding: 0 16px; border: 2px solid {{ nlBorder }}; background: #FFFFFF; color: #0B0B0C; font: inherit; font-size: 16px; border-radius: 0; outline-offset: 2px;"></input>
+        <button class="btn nl-submit" type="submit" style="flex: 0 0 auto; height: 52px; min-width: 140px; background: #0B0B0C; color: #FFFFFF; border: 2px solid #0B0B0C;" style-hover="background: #D6FF3B; color: #0B0B0C; border-color: #D6FF3B;">Subscribe</button>
+      </div>
+      <div id="nl-msg" role="status" aria-live="polite" style="min-height: 22px; font-size: 14px; line-height: 1.5; font-weight: 500; color: #FFFFFF;">{{ nlMsg }}</div>
+    </form>
+  </div>
+</section>
+
 <!-- ============ FOOTER ============ -->
 <footer class="foot">
   <div class="foot-top">
@@ -1484,9 +1772,9 @@
       <img src="uploads/FULL_WHITE%40300x.png" alt="LOWFF">
       <p>Sport is more than a game.</p>
     </div>
-    <div><h5>Shop</h5><ul><li><a href="#/shop?g=men">Men's</a></li><li><a href="#/shop?g=women">Women's</a></li><li><a href="#/collections">Collections</a></li></ul></div>
+    <div><h5>Shop</h5><ul><li><a href="#/shop">Shop all</a></li><li><a href="#/shop?g=men">Men</a></li><li><a href="#/shop?g=women">Woman</a></li><li><a href="#/collections">Collections</a></li><li><a href="#/accessories">Accessories</a></li></ul></div>
     <div><h5>Support</h5><ul><li><a href="#/about">About</a></li><li><a href="#/contact">Contact</a></li><li><a href="#/returns">Delivery &amp; returns</a></li></ul></div>
-    <div><h5>Follow</h5><ul><li><a href="#/follow">Community</a></li><li><a href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Instagram</a></li><li><a href="mailto:lowri@lowff.co.uk">lowri@lowff.co.uk</a></li></ul></div>
+    <div><h5>Follow</h5><ul><li><a href="#/follow">Community</a></li><li><a href="https://www.instagram.com/_lowff_/" target="_blank" rel="noopener">Instagram @_lowff_</a></li><li><a href="#/contact">Contact LOWFF</a></li></ul></div>
   </div>
   <div class="foot-bottom">
     <div>© LOWFF Ltd</div>
@@ -1499,7 +1787,71 @@
 class Component extends DCLogic {
   CATALOGUE = [
       {
-        slug: 'flow-state-dress', name: 'Flow State Dress', price: 65, gender: 'women', category: 'Dresses',
+        slug: 'flow-state-mens-shorts', name: "Flow State Men's Shorts", price: 32.5, gender: 'men', category: 'Shorts', collection: 'Flow State 2.0', keywords: 'short bottoms',
+        sizes: ['X-Small','Small','Medium','Large','X-Large'], colours: ['Blue','Purple','Green'],
+        imgs: [
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9384-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9398-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9380-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8379-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8294-683x1024.jpg',
+        ],
+        desc: "The Men's Flow State Shorts are made for unrestricted movement, with a lightweight feel and flexible fit that moves with you. Maximum mobility, whether you're training, flowing or taking it easy.",
+        fit: "Lightweight feel with a flexible fit, made for unrestricted movement.",
+        url: 'https://lowff.co.uk/products/lowff-flowstate-tanktop-duplicate-85f32b80/',
+        colourImg: {'Green':'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9384-683x1024.jpg', 'Purple':'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8379-683x1024.jpg'}, // verified colour → photo URL pairs only; see review notes
+      },
+      {
+        slug: 'flow-state-sports-bra', name: 'Flow State Sports Bra', price: 27.5, gender: 'women', category: 'Sports Bras', collection: 'Flow State 2.0', keywords: 'bra crop top',
+        sizes: ['UK 6','UK 8','UK 10','UK 12','UK 14'], colours: ['Blue','Purple','Green'],
+        imgs: [
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8531-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8525-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8571-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8833-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8795-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9649-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_7371-683x1024.jpg',
+        ],
+        desc: "The Flow State Sports Bra is designed for effortless movement and all-day comfort, with a soft, flattering fit and natural feel. The perfect match to the Flow State Shorts, available in bold, statement colours.",
+        fit: "Soft, flattering fit with a natural feel, designed for all-day comfort.",
+        url: 'https://lowff.co.uk/products/lowff-flowstate-tanktop-duplicate-da89fd49/',
+        colourImg: {'Green':'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8531-683x1024.jpg', 'Purple':'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9649-683x1024.jpg', 'Blue':'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_7371-683x1024.jpg'}, // verified colour → photo URL pairs only; see review notes
+      },
+      {
+        slug: 'flow-state-shorts', name: 'Flow State Shorts', price: 35, gender: 'women', category: 'Shorts', collection: 'Flow State 2.0', keywords: 'short bottoms',
+        sizes: ['UK 6','UK 8','UK 10','UK 12','UK 14'], colours: ['Blue','Purple','Green'],
+        imgs: [
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9620-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8184-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8174-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8231-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9638-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8525-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_7351-683x1024.jpg',
+        ],
+        desc: "Flow State Shorts have built-in undershorts for secure coverage, with a flattering outer layer and sleek side panel detailing. Made to move, in bold colours that make a statement.",
+        fit: "Built-in undershorts for secure coverage; flattering outer layer with side panel detailing.",
+        url: 'https://lowff.co.uk/products/lowff-flowstate-tanktop-duplicate-9a873526/',
+        colourImg: {'Purple':'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9620-683x1024.jpg', 'Green':'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8525-683x1024.jpg', 'Blue':'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_7351-683x1024.jpg'}, // verified colour → photo URL pairs only; see review notes
+      },
+      {
+        slug: 'flow-state-tee', name: "Flow State Men's T-Shirt", price: 29.5, gender: 'men', category: 'Tops', collection: 'Flow State', keywords: 'tee tshirt top',
+        sizes: ['X-Small','Small','Medium','Large','X-Large'], colours: ['Blue','Black','Beige','Purple','Green'],
+        imgs: [
+          'https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0920-819x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0941-819x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0924-731x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9942-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_0113-683x1024.jpg',
+        ],
+        desc: "The Flow State T-Shirt is made with a stretchy and supportive fabric, allowing structure and freedom of movement. It incorporates a bold and dynamic pattern that is both stylish and comfortable, designed with a unique breathable fabric.",
+        fit: "Stretchy, supportive and breathable, bold, dynamic pattern.",
+        url: 'https://lowff.co.uk/products/lowff-flowstate-tshirt/',
+        colourImg: {'Black':'https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0920-819x1024.jpg'}, // verified colour → photo URL pairs only; see review notes
+      },
+      {
+        slug: 'flow-state-dress', name: 'Flow State Dress', price: 65, gender: 'women', category: 'Dresses', collection: 'Flow State', keywords: 'dress',
         sizes: ['UK 6','UK 8','UK 10','UK 12','UK 14'], colours: ['Blue','Black','Beige'],
         imgs: [
           'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1074-819x1024.jpg',
@@ -1511,46 +1863,60 @@ class Component extends DCLogic {
         desc: "The iconic Flow State dress, a perfectly fitted dress. Made with a stretchy and supportive fabric, allowing structure and freedom of movement. Shorts are not included with this purchase.",
         fit: "Stretchy and supportive fabric, structured for freedom of movement.",
         url: 'https://lowff.co.uk/products/lowff-flowstate-dress/',
+        colourImg: {'Blue':'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_0056-819x1024.jpg', 'Beige':'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9826-819x1024.jpg', 'Black':'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9895-819x1024.jpg'}, // verified colour → photo URL pairs only; see review notes
       },
       {
-        slug: 'flow-state-tank', name: 'Flow State Tank Top', price: 32.5, gender: 'women', category: 'Tops',
-        sizes: ['UK 6','UK 8','UK 10','UK 12','UK 14'], colours: ['Blue','Black','Beige'],
+        slug: 'flow-state-tank', name: 'Flow State Tank Top', price: 32.5, gender: 'women', category: 'Tops', collection: 'Flow State', keywords: 'tank top vest',
+        sizes: ['UK 6','UK 8','UK 10','UK 12','UK 14'], colours: ['Blue','Black','Beige','Purple','Green'],
         imgs: [
           'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1180-819x1024.jpg',
           'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1286-819x1024.jpg',
           'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1230-819x1024.jpg',
           'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1247-819x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9817-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9848-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9865-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9782-683x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_0974-819x1024.jpg',
         ],
         desc: "The Flow State Tank is made from a unique fabric that is both stretchy and super soft. With comfort and support as the primary features, the Flow State Tank is incredibly flattering, allowing for unrestricted movement always.",
-        fit: "Stretchy and super soft; comfort and support the primary features.",
+        fit: "Stretchy and super soft; comfort and support the primary features. A soft, thick fabric with a hint of spandex.",
         url: 'https://lowff.co.uk/products/lowff-flowstate-tanktop/',
+        colourImg: {'Blue':'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1180-819x1024.jpg', 'Beige':'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1230-819x1024.jpg', 'Black':'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_0974-819x1024.jpg'}, // verified colour → photo URL pairs only; see review notes
       },
       {
-        slug: 'flow-state-skort', name: 'Flow State Skort', price: 40, gender: 'women', category: 'Skorts',
+        slug: 'flow-state-skort', name: 'Flow State Skort', price: 37.5, gender: 'women', category: 'Skorts', collection: 'Flow State', keywords: 'skort skirt',
         sizes: ['UK 8','UK 10','UK 12','UK 14'], colours: ['Blue','Black','Beige'],
         imgs: [
           'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1331-819x1024.jpg',
           'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1318-819x1024.jpg',
           'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1347-819x1024.jpg',
+          'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1291-819x1024.jpg',
         ],
         desc: "Designed to move with power and grace. Crafted from high-performing fabrics, the cyclone skirt provides style and functionality, offering an aerodynamic fit that moves with you. This dynamic skirt allows you to pivot, stretch and sprint with ease. Featuring thick, supportive shorts underneath and a lightweight skirt.",
         fit: "High-performing fabric with an aerodynamic fit; thick supportive shorts underneath.",
         url: 'https://lowff.co.uk/products/lowff-flowstate-skort/',
-      },
-      {
-        slug: 'flow-state-tee', name: "Flow State Men's T-Shirt", price: 29.5, gender: 'men', category: 'Tops',
-        sizes: ['Small','Medium','Large','X-Large'], colours: ['Blue','Black','Beige'],
-        imgs: [
-          'https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0920-819x1024.jpg',
-          'https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0941-819x1024.jpg',
-          'https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0924-731x1024.jpg',
-        ],
-        desc: "The Flow State T-Shirt is made with a stretchy and supportive fabric, allowing structure and freedom of movement. It incorporates a bold and dynamic pattern that is both stylish and comfortable, designed with a unique breathable fabric.",
-        fit: "Stretchy, supportive and breathable, bold, dynamic pattern.",
-        url: 'https://lowff.co.uk/products/lowff-flowstate-tshirt/',
+        colourImg: {'Blue':'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1331-819x1024.jpg', 'Beige':'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1318-819x1024.jpg', 'Black':'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1291-819x1024.jpg'}, // verified colour → photo URL pairs only; see review notes
       },
     ];
-  COLOUR_HEX = { Blue: '#2F63B0', Black: '#0B0B0C', Beige: '#C8B48A' };
+  COLOUR_HEX = { Blue: '#2F63B0', Black: '#0B0B0C', Beige: '#C8B48A', Purple: '#6A4C9C', Green: '#2F8F5B' };
+  COLOUR_ORDER = ['Blue','Black','Beige','Purple','Green'];
+  // Verified single-colour LOWFF photographs for the Shop by Colour tiles
+  COLOUR_TILE = {
+    Blue:   { src: 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_0056-819x1024.jpg', alt: 'Athlete wearing the Flow State Dress in Blue' },
+    Black:  { src: 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_0390-819x1024.jpg', alt: 'Athlete wearing the Flow State Tank Top and Skort in Black' },
+    Beige:  { src: 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_0081-819x1024.jpg', alt: 'Athlete wearing the Flow State Dress in Beige' },
+    Purple: { src: 'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9620-683x1024.jpg', alt: 'Athlete wearing the Flow State Sports Bra and Shorts in Purple' },
+    Green:  { src: 'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8531-683x1024.jpg', alt: 'Athlete wearing the Flow State Sports Bra and Shorts in Green' },
+  };
+  GENDER_LABEL = { women: 'Woman', men: 'Men' };
+  COLLECTION_SLUG = { 'flow-state-2': 'Flow State 2.0', 'flow-state': 'Flow State' };
+  _sw(p) { return p.colours.map(c => ({ hex: this.COLOUR_HEX[c] || '#999' })); }
+  _cardIn(p, colour) {
+    const ci = colour && p.colourImg && p.colourImg[colour];
+    return { ...this._card(p), img: ci || this.HOME_IMG[p.slug] || p.imgs[0], href: '#/product/' + p.slug + (colour ? '?colour=' + colour : ''), illus: !!(colour && !ci), illusLabel: colour ? 'Illustrative photo, ' + colour + ' photo to come' : '' };
+  }
+  _card(p) { return { slug: p.slug, name: p.name, img: this.HOME_IMG[p.slug] || p.imgs[0], priceLabel: this.fmt(p.price), sw: this._sw(p), collection: p.collection }; }
 
   HOME_IMG = {
     // Prefer full-product shots on the homepage rail; detail crops stay on the PDP
@@ -1566,11 +1932,13 @@ class Component extends DCLogic {
     bag: [],
     pdp: {}, // {slug: {img, colour, size, adding, err}}
     toast: null,
-    filters: { g: null, colours: [], sizes: [] },
+    filters: { g: null, c: null, colours: [], sizes: [] },
     sort: 'newest',
-    contact: { name: '', email: '', msg: '', state: 'default' },
+    contact: { name: '', email: '', subject: 'General enquiry', msg: '', state: 'default' },
+    nl: { email: '', state: 'default' },
     handoffOpen: false,
     rundown: 'flow-state-tank',
+    colourPick: 'Blue',
   };
 
   RUNDOWN = [
@@ -1654,6 +2022,10 @@ class Component extends DCLogic {
         }
       }
       if (e.key === 'Tab') this._trapFocus(e);
+      if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && e.target && e.target.classList && e.target.classList.contains('car-track')) {
+        e.preventDefault();
+        this._carStep(e.target, e.key === 'ArrowRight' ? 1 : -1, false);
+      }
     };
     window.addEventListener('keydown', this._onKey);
 
@@ -1663,6 +2035,37 @@ class Component extends DCLogic {
     this._onDocClick = (e) => {
       const t = e.target;
       if (!t || !t.closest) return;
+      const pCol = t.closest('[data-pdp-colour]');
+      const pSize = t.closest('[data-pdp-size]');
+      const pQty = t.closest('[data-pdp-qty]');
+      const pAdd = t.closest('.pdp-add');
+      if (pCol || pSize || pQty || pAdd) {
+        e.preventDefault();
+        const pdp = this._pdpCurrent();
+        if (!pdp) return;
+        const slug = pdp.product.slug;
+        if (pCol) { const c = pCol.getAttribute('data-pdp-colour'); if (pdp.product.colours.includes(c)) { const ci = pdp.product.colourImg && pdp.product.colourImg[c] ? pdp.product.imgs.indexOf(pdp.product.colourImg[c]) : -1; this._pdpSet(slug, { colour: c, img: ci >= 0 ? ci : 0 }); } return; }
+        if (pSize) { const sz = pSize.getAttribute('data-pdp-size'); if (pdp.product.sizes.includes(sz)) this._pdpSet(slug, { size: sz, err: false }); return; }
+        if (pQty) { const q = Math.min(10, Math.max(1, pdp.qty + Number(pQty.getAttribute('data-pdp-qty')))); this._pdpSet(slug, { qty: q }); return; }
+        if (pAdd) { this._pdpAddNow(); return; }
+      }
+      if (t.closest('.nl-submit')) { e.preventDefault(); this._nlSubmit(); return; }
+      const cSubmit = t.closest('.contact-submit');
+      if (cSubmit) { e.preventDefault(); this._contactSubmit(); return; }
+      const carBtn = t.closest('[data-car]');
+      if (carBtn) {
+        e.preventDefault();
+        if (carBtn.getAttribute('aria-disabled') === 'true') return;
+        this._carStep(document.getElementById(carBtn.getAttribute('data-car-target')), carBtn.getAttribute('data-car') === 'next' ? 1 : -1, true);
+        return;
+      }
+      const colTile = t.closest('.clr-tile[data-colour]');
+      if (colTile) {
+        e.preventDefault();
+        const c = colTile.getAttribute('data-colour');
+        if (c && c !== this.state.colourPick) this.setState({ colourPick: c }, () => { const r = document.getElementById('car-colour-results'); if (r) r.scrollLeft = 0; this._updateCars(); });
+        return;
+      }
       const pill = t.closest('.rd-tab[data-rundown]');
       if (pill) {
         const slug = pill.getAttribute('data-rundown');
@@ -1709,6 +2112,33 @@ class Component extends DCLogic {
       }
     };
     document.addEventListener('click', this._onDocClick, true);
+    this._onCarScroll = () => { if (this._carRAF) return; this._carRAF = requestAnimationFrame(() => { this._carRAF = null; this._updateCars(); }); };
+    document.addEventListener('scroll', this._onCarScroll, true);
+    window.addEventListener('resize', this._onCarScroll);
+    setTimeout(() => this._updateCars(), 60);
+  }
+  _carStep(track, dir, viaButton) {
+    if (!track) return;
+    const first = track.firstElementChild;
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    const item = first ? first.getBoundingClientRect().width + gap : track.clientWidth * 0.8;
+    const visible = Math.max(1, Math.floor((track.clientWidth + gap) / item));
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    track.scrollBy({ left: dir * item * (viaButton ? visible : 1), behavior: reduced ? 'auto' : 'smooth' });
+  }
+  _updateCars() {
+    document.querySelectorAll('.car-ctl').forEach(ctl => {
+      const btns = ctl.querySelectorAll('[data-car]');
+      if (!btns.length) return;
+      const tr = document.getElementById(btns[0].getAttribute('data-car-target'));
+      if (!tr) return;
+      const max = tr.scrollWidth - tr.clientWidth;
+      ctl.classList.toggle('is-static', max <= 2);
+      btns.forEach(b => {
+        const off = b.getAttribute('data-car') === 'prev' ? tr.scrollLeft <= 2 : tr.scrollLeft >= max - 2;
+        b.setAttribute('aria-disabled', off ? 'true' : 'false');
+      });
+    });
   }
   _dismissMenu() {
     if (!this.state.menuOpen) return;
@@ -1728,12 +2158,14 @@ class Component extends DCLogic {
       }
     }
     this._observeAnims();
+    if (this.state.route === 'home') setTimeout(() => this._updateCars(), 60);
   }
   _observeAnims() {
     if (!this._io) return;
     document.querySelectorAll('[data-anim]:not(.is-in)').forEach(el => this._io.observe(el));
   }
   _setupCursor() {
+    return; // standard cursor
     if (this._cursorReady) return;
     // Feature gates: precise pointer + hover, and not reduced motion
     if (!window.matchMedia) return;
@@ -1791,6 +2223,7 @@ class Component extends DCLogic {
     window.removeEventListener('hashchange', this._onHash);
     window.removeEventListener('keydown', this._onKey);
     if (this._onDocClick) document.removeEventListener('click', this._onDocClick, true);
+    if (this._onCarScroll) { document.removeEventListener('scroll', this._onCarScroll, true); window.removeEventListener('resize', this._onCarScroll); }
     if (this._io) this._io.disconnect();
     if (this._cursorTeardown) this._cursorTeardown();
   }
@@ -1837,6 +2270,8 @@ class Component extends DCLogic {
   _loadBag() {
     let bag = [];
     try { bag = JSON.parse(localStorage.getItem('lowff_bag') || '[]'); } catch (e) {}
+    // Keep bag prices/names in sync with the current catalogue
+    bag = bag.filter(it => this.CATALOGUE.some(p => p.slug === it.slug)).map(it => { const p = this.CATALOGUE.find(x => x.slug === it.slug); return { ...it, name: p.name, price: p.price }; });
     this.setState({ bag });
   }
   _saveBag(bag) {
@@ -1857,8 +2292,22 @@ class Component extends DCLogic {
     const filters = { ...this.state.filters };
     if (route === 'shop') {
       filters.g = routeQuery.g || null;
+      filters.c = this.COLLECTION_SLUG[routeQuery.c] ? routeQuery.c : null;
+      if (routeQuery.colour && this.COLOUR_HEX[routeQuery.colour]) filters.colours = [routeQuery.colour];
     }
-    this.setState({ route, routeParams, routeQuery, filters, filterDrawerOpen: false });
+    const subjects = ['General enquiry','Order or delivery','Returns','Collab / Partnerships','Team Kit Opportunity'];
+    const contactPatch = (route === 'contact' && routeQuery.subject && subjects.includes(routeQuery.subject)) ? { contact: { ...this.state.contact, subject: routeQuery.subject, state: 'default' } } : {};
+    // A valid ?colour= on a product link overrides any earlier selection for that product
+    let pdpPatch = {};
+    if (route === 'product' && routeParams.slug && routeQuery.colour) {
+      const pr = this.CATALOGUE.find(x => x.slug === routeParams.slug);
+      if (pr && pr.colours.includes(routeQuery.colour)) {
+        const ci = pr.colourImg && pr.colourImg[routeQuery.colour] ? pr.imgs.indexOf(pr.colourImg[routeQuery.colour]) : -1;
+        const prev = this.state.pdp[pr.slug] || {};
+        pdpPatch = { pdp: { ...this.state.pdp, [pr.slug]: { ...prev, colour: routeQuery.colour, img: ci >= 0 ? ci : 0 } } };
+      }
+    }
+    this.setState({ route, routeParams, routeQuery, filters, filterDrawerOpen: false, ...contactPatch, ...pdpPatch });
     window.scrollTo(0, 0);
   }
 
@@ -1866,12 +2315,13 @@ class Component extends DCLogic {
   fmtPlain(n) { return (Math.round(n * 100) / 100).toFixed(n % 1 ? 2 : 0).replace(/\.00$/, ''); }
 
   // ---- Bag ops
-  addToBag(product, colour, size) {
+  addToBag(product, colour, size, qty) {
+    qty = Math.max(1, qty || 1);
     const key = product.slug + '|' + colour + '|' + size;
     const bag = this.state.bag.slice();
     const existing = bag.find(it => it.key === key);
-    if (existing) existing.qty += 1;
-    else bag.push({ key, slug: product.slug, name: product.name, colour, size, price: product.price, qty: 1, img: product.imgs[0] });
+    if (existing) existing.qty += qty;
+    else bag.push({ key, slug: product.slug, name: product.name, colour, size, price: product.price, qty, img: (product.colourImg && product.colourImg[colour]) || product.imgs[0] });
     this._saveBag(bag);
   }
   qtyChange(key, delta) {
@@ -1895,12 +2345,13 @@ class Component extends DCLogic {
     }
     this.setState({ filters: f });
   }
-  clearAllFilters() { this.setState({ filters: { g: null, colours: [], sizes: [] } }); }
+  clearAllFilters() { this.setState({ filters: { g: null, c: null, colours: [], sizes: [] } }); }
 
   applyFilters(list) {
     const f = this.state.filters;
     let out = list.filter(p => {
       if (f.g && f.g !== 'both' && p.gender !== f.g) return false;
+      if (f.c && p.collection !== this.COLLECTION_SLUG[f.c]) return false;
       if (f.colours && f.colours.length && !f.colours.some(c => p.colours.includes(c))) return false;
       if (f.sizes && f.sizes.length && !f.sizes.some(s => p.sizes.includes(s))) return false;
       return true;
@@ -1915,21 +2366,44 @@ class Component extends DCLogic {
   matches(q) {
     const s = (q || '').trim().toLowerCase();
     if (!s) return [];
-    return this.CATALOGUE.filter(p => (p.name + ' ' + p.category + ' ' + p.gender).toLowerCase().includes(s));
+    const norm = (t) => t.replace(/[’']s\b/g, '').replace(/[’']/g, '');
+    const toks = norm(s).split(/\s+/).filter(Boolean);
+    return this.CATALOGUE.filter(p => {
+      const g = p.gender === 'women' ? 'woman women womens' : 'men mens man';
+      const words = norm((p.name + ' ' + p.category + ' ' + p.collection + ' ' + (p.keywords || '') + ' ' + g).toLowerCase()).split(/[\s·]+/);
+      return toks.every(t => words.some(w => w.startsWith(t)));
+    });
   }
 
   _pdpState(slug) {
     const cur = this.state.pdp[slug] || {};
     const p = this.CATALOGUE.find(x => x.slug === slug);
     if (!p) return null;
+    const qc = this.state.route === 'product' && this.state.routeQuery && this.state.routeQuery.colour;
+    const defC = cur.colour || (qc && p.colours.includes(qc) ? qc : p.colours[0]);
     return {
       product: p,
-      img: cur.img != null ? cur.img : 0,
-      colour: cur.colour || p.colours[0],
+      img: cur.img != null ? cur.img : Math.max(0, p.colourImg && p.colourImg[defC] ? p.imgs.indexOf(p.colourImg[defC]) : 0),
+      colour: defC,
       size: cur.size || null,
+      qty: cur.qty || 1,
       adding: !!cur.adding,
       err: !!cur.err,
     };
+  }
+  _pdpCurrent() { return (this.state.route === 'product' && this.state.routeParams.slug) ? this._pdpState(this.state.routeParams.slug) : null; }
+  _pdpAddNow() {
+    const pdp = this._pdpCurrent();
+    if (!pdp || pdp.adding) return;
+    if (!pdp.size) { this._pdpSet(pdp.product.slug, { err: true }); return; }
+    this._pdpSet(pdp.product.slug, { adding: true });
+    setTimeout(() => {
+      this.addToBag(pdp.product, pdp.colour, pdp.size, pdp.qty);
+      this._pdpSet(pdp.product.slug, { adding: false, qty: 1 });
+      this.setState({ toast: 'Added ' + pdp.qty + ' × ' + pdp.product.name + ' · ' + pdp.colour + ' · ' + pdp.size });
+      clearTimeout(this._toastT);
+      this._toastT = setTimeout(() => this.setState({ toast: null }), 3200);
+    }, 400);
   }
   _pdpSet(slug, patch) {
     const cur = this.state.pdp[slug] || {};
@@ -1937,6 +2411,18 @@ class Component extends DCLogic {
   }
 
   // ---- Contact
+  _nlSubmit() {
+    const v = (this.state.nl.email || '').trim();
+    if (!v) return this.setState({ nl: { email: this.state.nl.email, state: 'empty' } });
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) return this.setState({ nl: { email: this.state.nl.email, state: 'invalid' } });
+    this.setState({ nl: { email: '', state: 'ok' } });
+  }
+  _contactSubmit() {
+    const c = this.state.contact;
+    const errs = this._contactValidate();
+    if (errs.name || errs.email || errs.msg) { this.setState({ contact: { ...c, state: 'err' } }); return; }
+    this.setState({ contact: { name: '', email: '', subject: 'General enquiry', msg: '', state: 'ok' } });
+  }
   _contactValidate() {
     const c = this.state.contact;
     const errs = { name: !c.name.trim(), email: !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c.email), msg: c.msg.trim().length < 3 };
@@ -1948,6 +2434,7 @@ class Component extends DCLogic {
     const bagCount = s.bag.reduce((a, it) => a + it.qty, 0);
     const bagLines = s.bag.map(it => ({
       ...it,
+      ...(() => { const pr = this.CATALOGUE.find(x => x.slug === it.slug); const ci = pr && pr.colourImg && pr.colourImg[it.colour]; return { img: ci || (pr ? pr.imgs[0] : it.img), illus: !ci }; })(),
       priceLabel: this.fmtPlain(it.price),
       lineTotal: this.fmt(it.price * it.qty),
       inc: () => this.qtyChange(it.key, 1),
@@ -1957,19 +2444,23 @@ class Component extends DCLogic {
     const bagSubtotal = this.fmt(s.bag.reduce((a, it) => a + it.price * it.qty, 0));
 
     // Search overlay results
-    const searchHits = this.matches(s.searchQ).map(p => ({ slug: p.slug, name: p.name, cat: p.gender === 'women' ? "Women's · " + p.category : "Men's · " + p.category, img: p.imgs[0], priceLabel: this.fmt(p.price) }));
+    const searchHits = this.matches(s.searchQ).map(p => ({ slug: p.slug, name: p.name, cat: this.GENDER_LABEL[p.gender] + ' · ' + p.category, img: p.imgs[0], priceLabel: this.fmt(p.price) }));
 
     // Shop results
-    const shopResults = this.applyFilters(this.CATALOGUE).map(p => ({ slug: p.slug, name: p.name, img: p.imgs[0], priceLabel: this.fmt(p.price) }));
+    const oneColour = (s.filters.colours || []).length === 1 ? s.filters.colours[0] : null;
+    const shopResults = this.applyFilters(this.CATALOGUE).map(p => oneColour ? this._cardIn(p, oneColour) : ({ ...this._card(p), img: p.imgs[0], href: '#/product/' + p.slug, illus: false, illusLabel: '' }));
+    const catColours = new Set(this.CATALOGUE.flatMap(p => p.colours));
+    const facetColours = this.COLOUR_ORDER.filter(c => catColours.has(c)).map(c => { const on = (s.filters.colours || []).includes(c); return { label: c, hex: this.COLOUR_HEX[c], onClass: on ? 'on' : '', pressed: on ? 'true' : 'false', toggle: () => this.toggleFilter('colours', c) }; });
 
     // Active filter chips
     const chips = [];
-    if (s.filters.g && s.filters.g !== 'both') chips.push({ label: s.filters.g === 'women' ? "Women's" : "Men's", remove: () => this.toggleFilter('g', s.filters.g) });
+    if (s.filters.g && s.filters.g !== 'both') chips.push({ label: this.GENDER_LABEL[s.filters.g], remove: () => this.toggleFilter('g', s.filters.g) });
+    if (s.filters.c) chips.push({ label: this.COLLECTION_SLUG[s.filters.c], remove: () => this.setState({ filters: { ...this.state.filters, c: null } }) });
     (s.filters.colours || []).forEach(c => chips.push({ label: c, remove: () => this.toggleFilter('colours', c) }));
     (s.filters.sizes || []).forEach(sz => chips.push({ label: sz, remove: () => this.toggleFilter('sizes', sz) }));
 
     // Facet sizes: union of all sizes across catalogue, ordered
-    const allSizesOrdered = ['UK 6','UK 8','UK 10','UK 12','UK 14','Small','Medium','Large','X-Large'];
+    const allSizesOrdered = ['UK 6','UK 8','UK 10','UK 12','UK 14','X-Small','Small','Medium','Large','X-Large'];
     const catSizes = new Set(this.CATALOGUE.flatMap(p => p.sizes));
     const facetSizes = allSizesOrdered.filter(sz => catSizes.has(sz)).map(sz => {
       const on = (s.filters.sizes || []).includes(sz);
@@ -1981,25 +2472,33 @@ class Component extends DCLogic {
     const countMen = this.CATALOGUE.filter(p => p.gender === 'men').length;
 
     // Shop header title
-    let shopTitle = 'Shop all', shopIntro = 'Every Flow State piece, one place.';
+    let shopTitle = 'Shop all', shopIntro = 'Every LOWFF piece, Flow State and Flow State 2.0, in one place.';
     let shopHero = { show: false, img: '', alt: '' };
     if (s.filters.g === 'women') {
-      shopTitle = "Women's";
-      shopIntro = "Pieces from the Flow State collection, cut for training that shifts between sports.";
-      shopHero = { show: true, img: 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_1074-819x1024.jpg', alt: 'Athlete wearing the Flow State Dress' };
+      shopTitle = 'Woman';
+      shopIntro = "Bold colour, made to move. The Flow State dress, tank top and skort, with the new Flow State 2.0 sports bra and shorts.";
+      shopHero = { show: true, img: 'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9620.jpg', alt: 'Athlete wearing the Flow State Shorts', pos: '' };
     }
     if (s.filters.g === 'men') {
-      shopTitle = "Men's";
-      shopIntro = "Flow State for men, one piece, made to move.";
-      shopHero = { show: true, img: 'https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0941-819x1024.jpg', alt: "The Flow State Men's T-Shirt" };
+      shopTitle = 'Men';
+      shopIntro = "Bold colour, made to move. The Flow State Men's T-Shirt and the new Flow State 2.0 Men's Shorts.";
+      shopHero = { show: true, img: 'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9942.jpg', alt: "Athlete wearing the Flow State Men's T-Shirt", pos: '', tri: [
+        { src: 'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9942-683x1024.jpg', alt: "Athlete wearing the Flow State Men's T-Shirt" },
+        { src: 'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_9384-683x1024.jpg', alt: "Athlete wearing the Flow State Men's Shorts" },
+        { src: 'https://lowff.co.uk/wp-content/uploads/2025/12/IMG_0920-819x1024.jpg', alt: "Flow State Men's T-Shirt" },
+      ] };
     }
-    // Men's single-product feature (only when Men's-only filter yields the tee)
-    const menFeatOn = s.filters.g === 'men' && shopResults.length === 1;
-    const menFeatProduct = menFeatOn ? (() => {
+    if (s.filters.c && !s.filters.g) {
+      if (s.filters.c === 'flow-state-2') { shopTitle = 'Flow State 2.0'; shopIntro = "The new collection: sports bra, shorts and men's shorts in Blue, Purple and Green."; shopHero = { show: true, img: 'https://lowff.co.uk/wp-content/uploads/2026/09/IMG_8531.jpg', alt: 'Athlete wearing the Flow State Sports Bra' }; }
+      else { shopTitle = 'Flow State'; shopIntro = "The original collection: dress, tank top, skort and men's T-shirt."; shopHero = { show: true, img: 'https://lowff.co.uk/wp-content/uploads/2025/10/IMG_9895-819x1024.jpg', alt: 'Athlete wearing the Flow State Dress' }; }
+    }
+    // Single-result feature: whenever filters leave exactly one product, show THAT product's own image + description
+    const featOn = shopResults.length === 1;
+    const featProduct = featOn ? (() => {
       const p = this.CATALOGUE.find(x => x.slug === shopResults[0].slug);
       return {
         slug: p.slug, name: p.name, img: p.imgs[0], priceLabel: this.fmt(p.price),
-        desc: 'Flow State cut for men, stretchy, supportive fabric with the collection\'s dynamic pattern. One piece, made to move.',
+        desc: p.desc, sw: this._sw(p), collection: p.collection, eyebrow: this.GENDER_LABEL[p.gender] + ' · ' + p.collection,
         colourLabel: (p.colours || []).length + ' colour' + ((p.colours || []).length === 1 ? '' : 's'),
       };
     })() : null;
@@ -2011,7 +2510,7 @@ class Component extends DCLogic {
     const pdpThumbs = pdp ? pdp.product.imgs.map((src, i) => ({ img: src, onClass: i === pdp.img ? 'on' : '', pressed: i === pdp.img ? 'true' : 'false', pick: () => this._pdpSet(pdp.product.slug, { img: i }) })) : [];
     const pdpColours = pdp ? pdp.product.colours.map(c => ({ label: c, hex: this.COLOUR_HEX[c] || '#999', onClass: c === pdp.colour ? 'on' : '', pressed: c === pdp.colour ? 'true' : 'false', pick: () => this._pdpSet(pdp.product.slug, { colour: c }) })) : [];
     const pdpSizes = pdp ? pdp.product.sizes.map(sz => ({ label: sz, onClass: sz === pdp.size ? 'on' : '', pressed: sz === pdp.size ? 'true' : 'false', pick: () => this._pdpSet(pdp.product.slug, { size: sz, err: false }) })) : [];
-    const pdpRelated = pdp ? this.CATALOGUE.filter(p => p.slug !== pdp.product.slug).slice(0, 3).map(p => ({ slug: p.slug, name: p.name, img: p.imgs[0], priceLabel: this.fmt(p.price) })) : [];
+    const pdpRelated = pdp ? this.CATALOGUE.filter(p => p.slug !== pdp.product.slug).sort((a, b) => (b.gender === pdp.product.gender) - (a.gender === pdp.product.gender)).slice(0, 3).map(p => ({ slug: p.slug, name: p.name, img: p.imgs[0], priceLabel: this.fmt(p.price) })) : [];
 
     // Search page
     const searchPageResults = this.matches(s.searchPageQ).map(p => ({ slug: p.slug, name: p.name, img: p.imgs[0], priceLabel: this.fmt(p.price) }));
@@ -2022,7 +2521,7 @@ class Component extends DCLogic {
     const contactAlertShown = cAlert === 'ok' || cAlert === 'err';
     const contactAlertClass = cAlert === 'ok' ? 'ok' : 'err';
     const contactAlertText = cAlert === 'ok'
-      ? "Prototype submission captured, this form is not connected to email yet. To reach LOWFF now, please email lowri@lowff.co.uk directly."
+      ? "Prototype check passed. Your message has not been sent, this form is not connected to LOWFF yet."
       : (cAlert === 'err' ? "Please fix the highlighted fields." : '');
 
     return {
@@ -2055,7 +2554,7 @@ class Component extends DCLogic {
       navWomen: (s.route === 'shop' && s.filters.g === 'women') ? 'on' : '',
       navMen: (s.route === 'shop' && s.filters.g === 'men') ? 'on' : '',
       navShop: (s.route === 'shop' && !s.filters.g) ? 'on' : '',
-      navCollections: s.route === 'collections' ? 'on' : '',
+      navCollections: (s.route === 'collections' || s.route === 'accessories') ? 'on' : '',
       navFollow: s.route === 'follow' ? 'on' : '',
       navContact: (s.route === 'contact') ? 'on' : '',
       navAbout: (s.route === 'about') ? 'on' : '',
@@ -2069,7 +2568,15 @@ class Component extends DCLogic {
       showHome: s.route === 'home',
       showShop: s.route === 'shop',
       showCollections: s.route === 'collections',
+      showAccessories: s.route === 'accessories',
+      colFs2: this.CATALOGUE.filter(p => p.collection === 'Flow State 2.0').map(p => ({ ...this._card(p), img: p.imgs[0], href: '#/product/' + p.slug })),
+      colFs1: this.CATALOGUE.filter(p => p.collection === 'Flow State').map(p => ({ ...this._card(p), img: p.imgs[0], href: '#/product/' + p.slug })),
+      jumpFs2: (e) => { e && e.preventDefault && e.preventDefault(); const el = document.getElementById('col-fs2'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' }); },
+      jumpFs1: (e) => { e && e.preventDefault && e.preventDefault(); const el = document.getElementById('col-fs1'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' }); },
       showFollow: s.route === 'follow',
+      // Upcoming events: hidden until LOWFF supplies real event content
+      events: [],
+      eventsShow: false,
       showProduct: s.route === 'product' && !!pdp,
       showBag: s.route === 'bag',
       showAbout: s.route === 'about',
@@ -2078,18 +2585,29 @@ class Component extends DCLogic {
       showSearch: s.route === 'search',
 
       // home rails
-      shopFsRow: ['flow-state-tank','flow-state-skort','flow-state-tee','flow-state-dress'].map(slug => { const p = this.CATALOGUE.find(x => x.slug === slug); return { slug, name: p.name, img: this.HOME_IMG[slug] || p.imgs[0], priceLabel: this.fmt(p.price), variedLabel: 'Varied' }; }),
+      shopFsRow: this.CATALOGUE.filter(p => p.collection === 'Flow State 2.0').map(p => this._card(p)),
+      collectionCards: ['flow-state-dress','flow-state-tank','flow-state-skort','flow-state-tee','flow-state-sports-bra','flow-state-shorts','flow-state-mens-shorts'].map(slug => { const p = this.CATALOGUE.find(x => x.slug === slug); return { ...this._card(p), img: p.imgs[0] }; }),
+      catalogueCount: this.CATALOGUE.length,
+      catalogueCountWord: ['Zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten'][this.CATALOGUE.length] || String(this.CATALOGUE.length),
       // Meet-the-collection rundown
       rundownTabs: this.RUNDOWN.map(r => ({ slug: r.slug, label: r.label, on: (s.rundown === r.slug) ? 'on' : '', selected: (s.rundown === r.slug) ? 'true' : 'false', select: (e) => { if (e) { e.preventDefault(); e.stopPropagation(); } this.setState({ rundown: r.slug }); } })),
       rundown: (() => { const active = this.RUNDOWN.find(r => r.slug === s.rundown) || this.RUNDOWN[0]; const pad2 = (i) => (i < 9 ? '0' + (i + 1) : String(i + 1)); return { slug: active.slug, name: active.name, img: active.img, imgAlt: active.imgAlt, detailImg: active.detailImg || '', detailAlt: active.detailAlt || '', benefits: active.benefits.map((b, i) => ({ n: pad2(i), title: b.title, text: b.text })), ctaLabel: 'Shop the ' + active.label.toLowerCase() }; })(),
-      homeWomen: this.CATALOGUE.filter(p => p.gender === 'women').map(p => ({ slug: p.slug, name: p.name, img: p.imgs[0], homeImg: this.HOME_IMG[p.slug] || p.imgs[0], priceLabel: this.fmt(p.price) })),
-      homeMen: this.CATALOGUE.filter(p => p.gender === 'men').map(p => ({ slug: p.slug, name: p.name, img: p.imgs[0], homeImg: this.HOME_IMG[p.slug] || p.imgs[0], priceLabel: this.fmt(p.price) })),
+      homeWomen: this.CATALOGUE.filter(p => p.gender === 'women').map(p => this._card(p)),
+      homeMen: this.CATALOGUE.filter(p => p.gender === 'men').map(p => this._card(p)),
+      colourTiles: this.COLOUR_ORDER.map(c => { const tile = this.COLOUR_TILE[c] || null; const n = this.CATALOGUE.filter(p => p.colours.includes(c)).length; const on = c === s.colourPick; return { label: c, img: tile ? tile.src : '', alt: tile ? tile.alt : '', hasImg: !!tile, noImg: !tile, hex: this.COLOUR_HEX[c], ink: c === 'Beige' ? '#0B0B0C' : '#FFFFFF', countLabel: n + (n === 1 ? ' product' : ' products'), on: on ? 'on' : '', pressed: on ? 'true' : 'false' }; }),
+      colourPick: s.colourPick,
+      colourShopLabel: 'Shop all ' + s.colourPick + ' →',
+      colourProducts: this.CATALOGUE.filter(p => p.colours.includes(s.colourPick)).map(p => this._cardIn(p, s.colourPick)),
+      colourPickCountLabel: (() => { const n = this.CATALOGUE.filter(p => p.colours.includes(s.colourPick)).length; return n + (n === 1 ? ' product' : ' products'); })(),
 
       // shop
       shopTitle, shopIntro,
-      shopHeroShow: shopHero.show, shopHeroImg: shopHero.img, shopHeroAlt: shopHero.alt,
-      menFeatOn, menFeatOff: !menFeatOn && shopResults.length > 0,
-      menFeat: menFeatProduct || { slug: '', name: '', img: '', priceLabel: '', desc: '', colourLabel: '' },
+      shopHeroShow: shopHero.show, shopHeroTri: shopHero.tri || [],
+      shopHeroHasTri: !!(shopHero.tri && shopHero.tri.length),
+      shopHeroTriClass: (shopHero.tri && shopHero.tri.length) ? 'has-tri' : '',
+      shopHeroImg: shopHero.img, shopHeroAlt: shopHero.alt, shopHeroPos: shopHero.pos || '',
+      featOn, featOff: !featOn && shopResults.length > 0,
+      feat: featProduct || { slug: '', name: '', img: '', priceLabel: '', desc: '', colourLabel: '', sw: [], collection: '', eyebrow: '' },
       resultsCount: shopResults.length,
       resultsWord: shopResults.length === 1 ? 'result' : 'results',
       hasResults: shopResults.length > 0,
@@ -2116,7 +2634,7 @@ class Component extends DCLogic {
       toggleColBlue: () => this.toggleFilter('colours', 'Blue'),
       toggleColBlack: () => this.toggleFilter('colours', 'Black'),
       toggleColBeige: () => this.toggleFilter('colours', 'Beige'),
-      facetSizes,
+      facetSizes, facetColours,
       countWomen, countMen,
       sortVal: s.sort,
       onSortChange: (e) => this.setState({ sort: e.target.value }),
@@ -2125,17 +2643,28 @@ class Component extends DCLogic {
       pdpName: pdp ? pdp.product.name : '',
       pdpPriceLabel: pdp ? this.fmt(pdp.product.price) : '',
       pdpMainImg: pdp ? pdp.product.imgs[pdp.img] : '',
+      pdpIllus: !!(pdp && !(pdp.product.colourImg && pdp.product.colourImg[pdp.colour])),
+      pdpColourIllus: pdp ? pdp.colour : '',
       pdpImgIndexLabel: pdp ? (pdp.img + 1) + ' of ' + pdp.product.imgs.length : '',
       pdpThumbs,
       pdpColours, pdpSizes,
       pdpColourLabel: pdp ? pdp.colour : '',
       pdpSizeLabel: pdp ? (pdp.size || 'Choose a size') : '',
       pdpSizeErr: pdp ? pdp.err : false,
-      pdpCollectionLabel: pdp ? (pdp.product.gender === 'women' ? "Women's · Flow State" : "Men's · Flow State") : '',
+      pdpCollectionLabel: pdp ? (this.GENDER_LABEL[pdp.product.gender] + ' · ' + pdp.product.collection) : '',
       pdpGenderSlug: pdp ? pdp.product.gender : 'women',
-      pdpGenderLabel: pdp ? (pdp.product.gender === 'women' ? "Women's" : "Men's") : '',
+      pdpGenderLabel: pdp ? this.GENDER_LABEL[pdp.product.gender] : '',
       pdpDesc: pdp ? pdp.product.desc : '',
       pdpFit: pdp ? pdp.product.fit : '',
+      pdpComp: pdp && pdp.product.composition ? pdp.product.composition : [],
+      pdpHasComp: !!(pdp && pdp.product.composition && pdp.product.composition.length),
+      pdpQty: pdp ? pdp.qty : 1,
+      nlEmail: s.nl.email,
+      nlSubmit: (e) => { e && e.preventDefault && e.preventDefault(); this._nlSubmit(); },
+      setNlEmail: (e) => this.setState({ nl: { email: e.target.value, state: 'default' } }),
+      nlInvalid: (s.nl.state === 'empty' || s.nl.state === 'invalid') ? 'true' : 'false',
+      nlBorder: (s.nl.state === 'empty' || s.nl.state === 'invalid') ? '#D6FF3B' : '#FFFFFF',
+      nlMsg: s.nl.state === 'empty' ? 'Please enter your email address.' : s.nl.state === 'invalid' ? 'Please enter a valid email address, for example name@example.com.' : s.nl.state === 'ok' ? 'Prototype check passed. No subscription has been created, this form is not connected to a newsletter yet.' : '',
       pdpUrl: pdp ? pdp.product.url : '#',
       pdpRelated,
       pdpAdding: pdp ? pdp.adding : false,
@@ -2180,12 +2709,9 @@ class Component extends DCLogic {
       setContactName: (e) => this.setState({ contact: { ...s.contact, name: e.target.value, state: 'default' } }),
       setContactEmail: (e) => this.setState({ contact: { ...s.contact, email: e.target.value, state: 'default' } }),
       setContactMsg: (e) => this.setState({ contact: { ...s.contact, msg: e.target.value, state: 'default' } }),
-      contactSubmit: (e) => {
-        e && e.preventDefault && e.preventDefault();
-        const errs = this._contactValidate();
-        if (errs.name || errs.email || errs.msg) { this.setState({ contact: { ...s.contact, state: 'err' } }); return; }
-        this.setState({ contact: { name: '', email: '', msg: '', state: 'ok' } });
-      },
+      contactSubject: s.contact.subject || 'General enquiry',
+      setContactSubject: (e) => this.setState({ contact: { ...s.contact, subject: e.target.value, state: 'default' } }),
+      contactSubmit: (e) => { e && e.preventDefault && e.preventDefault(); this._contactSubmit(); },
       contactNameErrClass: cAlert === 'err' && cErrs.name ? 'err' : '',
       contactEmailErrClass: cAlert === 'err' && cErrs.email ? 'err' : '',
       contactMsgErrClass: cAlert === 'err' && cErrs.msg ? 'err' : '',
